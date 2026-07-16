@@ -1,0 +1,197 @@
+.skills-section {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  background: var(--bg-default);
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Force 2 columns for wider boxes */
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.skills-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.skills-group:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.skills-group-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.75rem;
+  word-wrap: break-word;
+  line-height: 1.4;
+}
+
+.skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ===== TERMINAL LIST STYLES ===== */
+.terminal-skill-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.35rem 0;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+  flex-wrap: wrap; /* allow wrapping on small screens */
+  line-height: 1.4;
+}
+
+.hidden-skill {
+  visibility: hidden;
+  height: 24px;
+}
+
+.ts-prefix {
+  display: none; /* Hidden by default in Light Mode */
+}
+
+.ts-name {
+  color: var(--text-primary);
+  font-weight: 500;
+  /* removed white-space: nowrap to allow wrapping */
+}
+
+.ts-dots {
+  flex-grow: 1;
+  border-bottom: 1px dotted var(--border);
+  opacity: 0.5;
+  height: 0;
+  min-width: 20px;
+}
+
+.ts-badge {
+  font-weight: 600;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+
+/* Light mode specific badge colors */
+.ts-beginner { color: var(--text-muted); }
+.ts-intermediate { color: var(--accent); }
+.ts-advanced { color: #10b981; }
+
+/* ===== HACKER MODE SPECIFIC OVERRIDES ===== */
+[data-theme="dark"] .skills-group-title {
+  font-family: 'Fira Code', 'Courier New', Courier, monospace;
+  font-size: 0.85rem;
+  color: #a9a9a9;
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.5px;
+  word-break: break-all; /* Force wrap long terminal commands */
+}
+
+[data-theme="dark"] .terminal-skill-line {
+  font-family: 'Fira Code', 'Courier New', Courier, monospace;
+  font-size: 0.8rem;
+  color: #00ff41;
+  cursor: default;
+}
+
+[data-theme="dark"] .ts-prefix {
+  display: inline;
+  color: #00aa2b; /* Darker green */
+}
+
+[data-theme="dark"] .ts-name {
+  color: #00ff41;
+  font-weight: 400;
+}
+
+[data-theme="dark"] .ts-dots {
+  border-bottom: 1px dotted #005515;
+  opacity: 1;
+}
+
+/* Hacker Mode Badge Colors */
+[data-theme="dark"] .ts-beginner { color: #888; }
+[data-theme="dark"] .ts-intermediate { color: #ffbd2e; }
+[data-theme="dark"] .ts-advanced { color: #27c93f; }
+
+/* Glitch effects on hover */
+.ts-name-glitch {
+  color: #fff !important;
+}
+
+.ts-glitch {
+  color: #ff5f56 !important;
+  animation: badgeGlitch 0.15s infinite;
+  text-shadow: 2px 0 red, -2px 0 blue;
+}
+
+@keyframes badgeGlitch {
+  0% { transform: translate(1px, 1px) skewX(5deg); }
+  33% { transform: translate(-1px, 0) skewX(-5deg); }
+  66% { transform: translate(0, -1px) skewX(2deg); }
+  100% { transform: translate(-1px, 1px) skewX(0); }
+}
+
+/* Break Animation */
+.ts-breaking {
+  animation: breakFlash 0.6s ease-out forwards;
+}
+
+@keyframes breakFlash {
+  0% { background: rgba(0, 255, 65, 0.3); padding-left: 10px; }
+  50% { background: rgba(0, 255, 65, 0.1); padding-left: 0px; }
+  100% { background: transparent; padding-left: 0px; }
+}
+
+.badge-secured-anim {
+  color: #00ff41;
+  text-shadow: 0 0 8px #00ff41;
+  font-weight: 800;
+  animation: popText 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  display: inline-block;
+}
+
+@keyframes popText {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Secured Hover Effect */
+[data-theme="dark"] .terminal-skill-line.ts-secured:hover .ts-name {
+  color: #fff;
+  text-shadow: 0 0 6px #00ff41;
+}
+
+[data-theme="dark"] .terminal-skill-line.ts-secured:hover .ts-badge {
+  text-shadow: 0 0 6px currentColor;
+}
+
+@media (max-width: 900px) {
+  .skills-grid {
+    grid-template-columns: 1fr; /* Switch to 1 column on smaller screens */
+  }
+}
+
+@media (max-width: 600px) {
+  .terminal-skill-line {
+    font-size: 0.75rem;
+  }
+}

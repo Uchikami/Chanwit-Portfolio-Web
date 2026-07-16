@@ -1,0 +1,121 @@
+import { GraduationCap, Briefcase } from 'lucide-react';
+import './About.css';
+
+const About = ({ isDark }) => {
+  const education = [
+    {
+      degree: 'Bachelor of Science, Computer Science',
+      school: 'Your University Name',
+      period: '2022 – Present',
+      detail: 'Focus on Software Engineering, Networking, and Cybersecurity fundamentals.',
+    },
+  ];
+
+  const experience = [
+    {
+      title: 'Internship / Part-time (Placeholder)',
+      company: 'Company Name',
+      period: '2024',
+      detail: 'Replace this with your actual work experience.',
+    },
+  ];
+
+  return (
+    <section id="about" style={{ position: 'relative', overflow: 'hidden' }}>
+      {isDark && (
+        <div className="about-hacker-bg">
+          <div className="circuit-nodes"></div>
+          <div className="scrolling-logs">
+            [SYS] Initialization sequence complete...<br/>
+            [SYS] Scanning network interfaces...<br/>
+            [OK] eth0: 192.168.1.100<br/>
+            [WARN] Unauthorized access attempt detected on port 22...<br/>
+            [INFO] Firewall rule updated...<br/>
+            [SYS] Analyzing traffic patterns...<br/>
+            [OK] Connection secure...<br/>
+            [SYS] Loading profile: Chanwit Loeyos...<br/>
+            [OK] Profile loaded successfully.<br/>
+            [SYS] Initialization sequence complete...<br/>
+            [SYS] Scanning network interfaces...<br/>
+            [OK] eth0: 192.168.1.100<br/>
+            [WARN] Unauthorized access attempt detected on port 22...<br/>
+            [INFO] Firewall rule updated...<br/>
+            [SYS] Analyzing traffic patterns...<br/>
+            [OK] Connection secure...<br/>
+            [SYS] Loading profile: Chanwit Loeyos...<br/>
+            [OK] Profile loaded successfully.<br/>
+          </div>
+        </div>
+      )}
+      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+        <div className="section-header">
+          <span className="section-label">Background</span>
+          <h2 className="section-title">About Me</h2>
+          <div className="section-divider" />
+        </div>
+
+        <div className="about-layout">
+          {/* Bio paragraph */}
+          <div className="about-bio card">
+            <p>
+              Hi! I'm <strong>Chanwit Loeyos</strong>, a Computer Science student passionate about
+              cybersecurity and building robust digital systems. I enjoy understanding
+              how systems work — and how they can be made more secure.
+            </p>
+            <p>
+              My current focus is on network security, penetration testing fundamentals,
+              and secure application development. I'm always looking for opportunities
+              to apply what I learn through real projects and competitions.
+            </p>
+            <p>
+              Outside of coding, I enjoy reading about the latest cyber threats,
+              participating in CTF challenges, and contributing to team projects.
+            </p>
+          </div>
+
+          {/* Education */}
+          <div className="about-section">
+            <div className="about-section-title">
+              <GraduationCap size={18} />
+              <h3>Education</h3>
+            </div>
+            <div className="timeline">
+              {education.map((item, i) => (
+                <div key={i} className="timeline-item card">
+                  <div className="timeline-period">{item.period}</div>
+                  <div className="timeline-body">
+                    <h4 className="timeline-title">{item.degree}</h4>
+                    <p className="timeline-sub">{item.school}</p>
+                    {item.detail && <p className="timeline-detail">{item.detail}</p>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Experience */}
+          <div className="about-section">
+            <div className="about-section-title">
+              <Briefcase size={18} />
+              <h3>Experience</h3>
+            </div>
+            <div className="timeline">
+              {experience.map((item, i) => (
+                <div key={i} className="timeline-item card">
+                  <div className="timeline-period">{item.period}</div>
+                  <div className="timeline-body">
+                    <h4 className="timeline-title">{item.title}</h4>
+                    <p className="timeline-sub">{item.company}</p>
+                    {item.detail && <p className="timeline-detail">{item.detail}</p>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default About;
