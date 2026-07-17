@@ -132,6 +132,14 @@
   pointer-events: none;
 }
 
+@keyframes rgbSplit {
+  0% { transform: translate(0, 0); filter: drop-shadow(-5px 0 0 red) drop-shadow(5px 0 0 blue); }
+  25% { transform: translate(-2px, 2px); filter: drop-shadow(5px 0 0 red) drop-shadow(-5px 0 0 blue); }
+  50% { transform: translate(2px, -2px); filter: drop-shadow(-5px 0 0 red) drop-shadow(5px 0 0 blue); }
+  75% { transform: translate(-2px, -2px); filter: drop-shadow(5px 0 0 red) drop-shadow(-5px 0 0 blue); }
+  100% { transform: translate(2px, 2px); filter: drop-shadow(-5px 0 0 red) drop-shadow(5px 0 0 blue); }
+}
+
 @keyframes thanosSnap {
   0% { 
     opacity: 1; 
