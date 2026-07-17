@@ -7,6 +7,7 @@ import Projects from './components/Projects';
 import Activities from './components/Activities';
 import Certifications from './components/Certifications';
 import Contact from './components/Contact';
+import HackerCursor from './components/HackerCursor';
 import './App.css';
 
 function HackerPortfolio({ onToggleTheme }) {
@@ -41,6 +42,7 @@ function HackerPortfolio({ onToggleTheme }) {
         <filter id="glitch-tear-2"><feTurbulence type="fractalNoise" baseFrequency="0 0.3" numOctaves="1" result="warp" /><feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="50" in="SourceGraphic" in2="warp" /></filter>
       </svg>
       <div className="crt-glitch-overlay" />
+      <HackerCursor />
       <Navbar isDark onToggleTheme={onToggleTheme} isLoggingOut={isLoggingOut} setIsLoggingOut={setIsLoggingOut} />
       <main className={`${isLoggingOut ? 'logging-out' : ''} ${isAFK ? 'afk-glitch' : ''}`}>
         <Hero isDark isLoggingOut={isLoggingOut} />
