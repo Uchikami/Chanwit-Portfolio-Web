@@ -56,20 +56,38 @@ const About = ({ isDark }) => {
 
         <div className="about-layout">
           {/* Bio paragraph */}
-          <div className="about-bio card">
-            <p>
-              สวัสดีครับ ผม <strong>ชาญวิทย์ เลยยศ (Chanwit Loeyos)</strong> นักศึกษาที่หลงใหลในด้าน Cybersecurity และการพัฒนาระบบป้องกัน 
-              ปัจจุบันกำลังทำโปรเจกต์จบเกี่ยวกับการใช้ AI ตรวจจับโดรนด้วยคลื่นเสียง เพื่อวิเคราะห์และระบุตัวตนของภัยคุกคามทางอากาศ
-            </p>
-            <p>
-              ผมมีความสนใจและเชี่ยวชาญในการวิเคราะห์เครือข่าย (Network Analysis) และการทดสอบเจาะระบบ (Penetration Testing) 
-              ผ่านเครื่องมือเช่น Kali Linux, Wireshark, และ Burp Suite
-            </p>
-            <p>
-              ตอนนี้ผมกำลังมองหา <strong>โอกาสในการฝึกงาน (Internship)</strong> ด้าน Cyber Security เพื่อนำความรู้ที่เรียนมา
-              ประยุกต์ใช้ในสภาพแวดล้อมการทำงานจริง และพัฒนาทักษะด้าน Offensive/Defensive Security ให้แข็งแกร่งยิ่งขึ้น
-            </p>
-          </div>
+          {isDark ? (
+            <div className="about-bio card">
+              <p>
+                Hello, I am <strong>Chanwit Loeyos</strong>, a student passionate about Cybersecurity and defense system development. I am currently working on my senior project involving AI-based acoustic drone detection to analyze and identify aerial threats.
+              </p>
+              <p>
+                I have a strong interest in Network Analysis and Penetration Testing, with proficiency in tools such as Kali Linux, Wireshark, and Burp Suite.
+              </p>
+              <p>
+                I am currently seeking a <strong>Cyber Security Internship</strong> opportunity to apply my theoretical knowledge in a real-world environment and am eager to deeply learn new techniques in Offensive and Defensive Security.
+              </p>
+            </div>
+          ) : (
+            <div className="light-about-container">
+              <div className="dossier-content about-bio card">
+                <div className="dossier-section">
+                  <h4 className="dossier-header">[SUBJECT_PROFILE]</h4>
+                  <p>&gt; Hello, I am <strong>Chanwit Loeyos</strong>, a student passionate about <span className="keyword-badge">Cybersecurity</span> and defense system development.</p>
+                </div>
+                <div className="dossier-section">
+                  <h4 className="dossier-header">[CURRENT_OPERATION]</h4>
+                  <p>&gt; Currently working on my senior project involving <span className="keyword-badge">AI Drone Detection</span> using acoustic signatures to analyze and identify aerial threats.</p>
+                  <p>&gt; Strong interest in <span className="keyword-badge">Network Analysis</span> and <span className="keyword-badge">Penetration Testing</span>, with proficiency in tools such as <span className="keyword-badge">Kali Linux</span>, <span className="keyword-badge">Wireshark</span>, and <span className="keyword-badge">Burp Suite</span>.</p>
+                </div>
+                <div className="dossier-section">
+                  <h4 className="dossier-header">[OBJECTIVE]</h4>
+                  <p>&gt; Seeking a <strong>Cyber Security Internship</strong> opportunity to apply theoretical knowledge in a real-world environment.</p>
+                  <p>&gt; Eager to deeply learn new techniques in Offensive and Defensive Security.</p>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Education */}
           <div className="about-section">

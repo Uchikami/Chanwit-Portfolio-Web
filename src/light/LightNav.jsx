@@ -56,7 +56,7 @@ const LightNav = ({ onToggleTheme }) => {
           <button
             type="button"
             onClick={() => scrollToSection('contact')}
-            className={`text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-bold rounded-lg text-center mx-3 md:mr-0 transition-all duration-300 ${
+            className={`text-white bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:outline-none focus:ring-sky-300 font-bold rounded-lg text-center mx-3 md:mr-0 transition-all duration-300 ${
               isScrolled ? 'text-sm px-3 py-1.5' : 'text-base px-4 py-2'
             }`}
           >
@@ -75,11 +75,11 @@ const LightNav = ({ onToggleTheme }) => {
         {/* Links */}
         <div className={`${isOpen ? 'block' : 'hidden'} w-full md:block md:w-auto md:order-1`}>
           <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 md:flex-row md:mt-0 md:border-0 md:bg-transparent">
-            {['home', 'services', 'about', 'contact'].map((section) => (
+            {['home', 'about', 'skills', 'projects', 'certifications', 'activities'].map((section) => (
               <li key={section}>
                 <button 
                   onClick={() => scrollToSection(section)}
-                  className="block w-full text-left py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-green-700 md:p-0 font-bold transition-colors"
+                  className="block w-full text-left py-2 pl-3 pr-4 text-slate-700 rounded hover:bg-slate-100 md:hover:bg-transparent md:hover:text-sky-600 md:p-0 font-bold transition-colors"
                 >
                   {section.charAt(0).toUpperCase() + section.slice(1)}
                 </button>

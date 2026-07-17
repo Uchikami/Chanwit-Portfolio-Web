@@ -44,7 +44,7 @@ const Contact = () => {
 
         <div className="contact-grid">
           {/* Left: Active Nodes */}
-          <div className="contact-nodes-panel card">
+          <div className="contact-nodes-panel card" data-light-title="root@chanwit:~# ping server">
             <div className="panel-header">
               <Terminal size={18} />
               <span>ACTIVE_NODES.log</span>
@@ -93,7 +93,7 @@ const Contact = () => {
           </div>
 
           {/* Right: Secure Transmission Form */}
-          <div className="secure-form-panel card">
+          <div className="secure-form-panel card" data-light-title="root@chanwit:~# ./send_msg">
             <div className="panel-header">
               <Terminal size={18} />
               <span>TRANSMISSION_PROTOCOL.exe</span>

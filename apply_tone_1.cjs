@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400;700&display=swap');
-@import './particles.css';
+const fs = require('fs');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+let css = fs.readFileSync('src/ProfessionalPortfolio.css', 'utf8');
 
-.professional-layout {
+// Replace everything from .professional-layout to the end
+const startIdx = css.indexOf('.professional-layout {');
+if (startIdx !== -1) {
+    const newCss = `.professional-layout {
   /* Tone 1: Corporate Defense */
   min-height: 100vh;
   background-color: #F1F5F9; /* Soft Blue-Gray background */
@@ -47,58 +47,8 @@
 .professional-layout .skills-group-title {
   color: #0284C7 !important;
 }
-
-/* =========================================
-   Hybrid About Me Design (Light Mode Only)
-   ========================================= */
-.light-about-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  grid-column: 1 / -1;
-}
-@media (min-width: 768px) {
-  .light-about-container {
-    flex-direction: row;
-    align-items: flex-start;
-  }
-}
-
-
-
-.dossier-content {
-  width: 100%;
-}
-
-
-.dossier-section {
-  margin-bottom: 1.5rem;
-}
-.dossier-section:last-child {
-  margin-bottom: 0;
-}
-
-.dossier-header {
-  font-family: 'Fira Code', 'Courier New', Courier, monospace;
-  font-size: 0.9rem;
-  color: #1E293B;
-  margin-bottom: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.dossier-section p {
-  margin-bottom: 0.5rem;
-  line-height: 1.7;
-}
-
-.keyword-badge {
-  background-color: #F1F5F9;
-  color: #059669;
-  padding: 0.15rem 0.4rem;
-  border-radius: 4px;
-  font-family: 'Fira Code', 'Courier New', Courier, monospace;
-  font-size: 0.85em;
-  font-weight: 600;
-  border: 1px solid #E2E8F0;
+`;
+    css = css.substring(0, startIdx) + newCss;
+    fs.writeFileSync('src/ProfessionalPortfolio.css', css);
+    console.log("Applied Tone 1 to ProfessionalPortfolio.css");
 }

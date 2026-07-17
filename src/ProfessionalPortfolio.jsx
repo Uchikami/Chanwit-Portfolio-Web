@@ -32,7 +32,7 @@ const ProfessionalPortfolio = ({ onToggleTheme }) => {
  
  {/* #### HERO SECTION #### */}
  
- <section className="pt-20 md:pt-0">
+ <section className="min-h-screen w-full flex items-center justify-center pt-20 md:pt-0 relative">
 
  <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-32 lg:grid-cols-12 relative z-10">
  <div className="mr-auto place-self-center lg:col-span-7">
@@ -52,7 +52,7 @@ const ProfessionalPortfolio = ({ onToggleTheme }) => {
  </p>
  <a
  href="#about"
- className="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text:3xl text-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 :ring-primary-900"
+ className="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:ring-sky-300 rounded-md"
  >
  More About Me
  <svg
@@ -70,7 +70,7 @@ const ProfessionalPortfolio = ({ onToggleTheme }) => {
  </a>
  <a
  href="#contact"
- className="inline-flex items-center justify-center px-5 py-4 text-base font-medium text:3xl text-center text-gray-900 border-4 border-green-300 hover:bg-green-100 focus:ring-4 focus:ring-gray-100 :bg-green-700 :ring-gray-800"
+ className="inline-flex items-center justify-center px-5 py-4 text-base font-medium text-center text-slate-800 border-2 border-slate-300 hover:bg-slate-100 focus:ring-4 focus:ring-slate-100 rounded-md"
  >
  Contact Me!
  </a>
@@ -85,7 +85,15 @@ const ProfessionalPortfolio = ({ onToggleTheme }) => {
  />
  </div>
  </div>
- </section>
+ 
+        {/* Scroll Down Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce text-slate-500 cursor-pointer" onClick={() => document.getElementById('about').scrollIntoView({behavior: 'smooth'})}>
+          <span className="text-sm font-bold mb-2">Scroll Down</span>
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+          </svg>
+        </div>
+      </section>
 
       <About isDark={false} />
       <Skills isDark={false} />

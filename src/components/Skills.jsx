@@ -181,6 +181,7 @@ const Skills = ({ isDark }) => {
               key={i}
               className="skills-group card"
               data-title={isDark ? group.category : undefined}
+              data-light-title={group.category}
             >
               {!isDark && (
                 <h3 className="skills-group-title">

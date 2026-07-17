@@ -124,7 +124,7 @@ const Projects = ({ isDark = true }) => {
 
         <div className="projects-tree-container">
           {!effectivelyBreached ? (
-            <div className={`encrypted-archive card ${isBreaching ? 'breaching' : ''}`} data-title="root@chanwit:~# ./crack_archive">
+            <div className={`encrypted-archive card ${isBreaching ? 'breaching' : ''}`} data-title="root@chanwit:~# ./crack_archive" data-light-title="root@chanwit:~# ./crack_archive">
               <div className="archive-inner">
                 <ShieldAlert size={64} className="archive-icon" />
                 <h3 className="archive-title">[ RESTRICTED_ARCHIVE.tar.gz ]</h3>
@@ -150,7 +150,7 @@ const Projects = ({ isDark = true }) => {
               </div>
             </div>
           ) : (
-            <div className="directory-view card" data-title="root@chanwit:~# tree ./projects">
+            <div className="directory-view card" data-title="root@chanwit:~# tree ./projects" data-light-title="root@chanwit:~# tree ./projects">
               <div className="tree-container">
                 <div className="tree-root">
                   <Terminal size={18} className="tree-icon root-icon" />
