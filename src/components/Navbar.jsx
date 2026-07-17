@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Sun, Moon, Menu, X } from 'lucide-react';
+import { Briefcase, Sun, Moon, Menu, X } from 'lucide-react';
 import './Navbar.css';
 
 const navLinks = [
@@ -133,7 +133,7 @@ const Navbar = ({ isDark, onToggleTheme, isLoggingOut, setIsLoggingOut }) => {
             {decryptText ? (
               <span className="decrypt-text">{decryptText}</span>
             ) : (
-              isDark ? <Sun size={18} /> : <Moon size={18} />
+              isDark ? <Briefcase size={18} /> : <Moon size={18} />
             )}
           </button>
 
