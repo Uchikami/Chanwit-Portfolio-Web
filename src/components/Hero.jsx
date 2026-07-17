@@ -105,8 +105,8 @@ const Hero = ({ isDark, isLoggingOut }) => {
           </div>
 
           <div className="hero-cta">
-            <a href="#projects" className="btn btn-primary">View Projects</a>
-            <a href="#contact" className="btn btn-outline">Contact Me</a>
+            <a href="#projects" onClick={(e) => { e.preventDefault(); document.getElementById('projects').scrollIntoView({ behavior: 'smooth' }); }} className="btn btn-primary">View Projects</a>
+            <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById('contact').scrollIntoView({ behavior: 'smooth' }); }} className="btn btn-outline">Contact Me</a>
           </div>
         </div>
 
@@ -126,7 +126,7 @@ const Hero = ({ isDark, isLoggingOut }) => {
 
       </div>
 
-      <a href="#about" className="scroll-hint">
+      <a href="#about" onClick={(e) => { e.preventDefault(); document.getElementById('about').scrollIntoView({ behavior: 'smooth' }); }} className="scroll-hint">
         <ArrowDown size={16} />
         <span>Scroll down</span>
       </a>
