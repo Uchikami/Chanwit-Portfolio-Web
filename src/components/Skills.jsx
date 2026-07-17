@@ -1,45 +1,45 @@
 import { useState, useEffect, useRef } from 'react';
 import './Skills.css';
 
-// Level: 'Beginner' | 'Intermediate' | 'Advanced'
 const skillData = [
   {
-    category: 'Cybersecurity',
+    category: 'Offensive Security',
     items: [
-      { name: 'Network Security', level: 'Intermediate' },
-      { name: 'Linux / Kali Linux', level: 'Intermediate' },
-      { name: 'CTF Challenges', level: 'Beginner' },
-      { name: 'Wireshark', level: 'Beginner' },
-      { name: 'OWASP Top 10', level: 'Beginner' },
+      { name: 'Kali Linux', level: 'Advanced' },
+      { name: 'Burp Suite', level: 'Intermediate' },
+      { name: 'Penetration Testing', level: 'Intermediate' },
+      { name: 'CTF Challenges', level: 'Intermediate' },
+      { name: 'OWASP Top 10', level: 'Intermediate' },
     ],
   },
   {
-    category: 'Programming Languages',
+    category: 'Network & Defense',
     items: [
-      { name: 'Python', level: 'Intermediate' },
-      { name: 'JavaScript', level: 'Intermediate' },
+      { name: 'Wireshark', level: 'Advanced' },
+      { name: 'Nmap', level: 'Advanced' },
+      { name: 'Network Traffic Analysis', level: 'Advanced' },
+      { name: 'Firewall Configuration', level: 'Beginner' },
+      { name: 'Intrusion Detection', level: 'Beginner' },
+    ],
+  },
+  {
+    category: 'Development & AI',
+    items: [
+      { name: 'Python', level: 'Advanced' },
+      { name: 'Machine Learning Concepts', level: 'Intermediate' },
+      { name: 'JavaScript / React', level: 'Intermediate' },
+      { name: 'Audio Processing', level: 'Beginner' },
       { name: 'C / C++', level: 'Intermediate' },
-      { name: 'Bash Scripting', level: 'Beginner' },
-      { name: 'SQL', level: 'Intermediate' },
-    ],
-  },
-  {
-    category: 'Web Development',
-    items: [
-      { name: 'React', level: 'Intermediate' },
-      { name: 'Node.js / Express', level: 'Beginner' },
-      { name: 'HTML & CSS', level: 'Advanced' },
-      { name: 'REST APIs', level: 'Intermediate' },
     ],
   },
   {
     category: 'Tools & Platforms',
     items: [
       { name: 'Git & GitHub', level: 'Intermediate' },
+      { name: 'Linux Administration', level: 'Advanced' },
       { name: 'VS Code', level: 'Advanced' },
-      { name: 'Docker (basics)', level: 'Beginner' },
-      { name: 'Figma', level: 'Intermediate' },
-      { name: 'MySQL / PostgreSQL', level: 'Intermediate' },
+      { name: 'Docker', level: 'Beginner' },
+      { name: 'SQL', level: 'Intermediate' },
     ],
   },
 ];
@@ -108,8 +108,8 @@ const SkillItem = ({ skill, isDark, isRevealed }) => {
       className={`terminal-skill-line ${isSecured ? 'ts-secured' : ''} ${isBreaking ? 'ts-breaking' : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={handleFix}
-      style={{ cursor: isHovered && !isSecured && !isBreaking ? 'crosshair' : 'default' }}
+      onClick={isDark ? handleFix : undefined}
+      style={{ cursor: isHovered && isDark && !isSecured && !isBreaking ? 'crosshair' : 'default' }}
     >
       {isDark && <span className="ts-prefix">[+] Installing: </span>}
       <span className={`ts-name ${isHovered && isDark && !isSecured && !isBreaking ? 'ts-name-glitch' : ''}`}>

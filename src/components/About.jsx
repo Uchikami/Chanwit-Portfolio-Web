@@ -58,18 +58,16 @@ const About = ({ isDark }) => {
           {/* Bio paragraph */}
           <div className="about-bio card">
             <p>
-              Hi! I'm <strong>Chanwit Loeyos</strong>, a Computer Science student passionate about
-              cybersecurity and building robust digital systems. I enjoy understanding
-              how systems work — and how they can be made more secure.
+              สวัสดีครับ ผม <strong>ชาญวิทย์ เลยยศ (Chanwit Loeyos)</strong> นักศึกษาที่หลงใหลในด้าน Cybersecurity และการพัฒนาระบบป้องกัน 
+              ปัจจุบันกำลังทำโปรเจกต์จบเกี่ยวกับการใช้ AI ตรวจจับโดรนด้วยคลื่นเสียง เพื่อวิเคราะห์และระบุตัวตนของภัยคุกคามทางอากาศ
             </p>
             <p>
-              My current focus is on network security, penetration testing fundamentals,
-              and secure application development. I'm always looking for opportunities
-              to apply what I learn through real projects and competitions.
+              ผมมีความสนใจและเชี่ยวชาญในการวิเคราะห์เครือข่าย (Network Analysis) และการทดสอบเจาะระบบ (Penetration Testing) 
+              ผ่านเครื่องมือเช่น Kali Linux, Wireshark, และ Burp Suite
             </p>
             <p>
-              Outside of coding, I enjoy reading about the latest cyber threats,
-              participating in CTF challenges, and contributing to team projects.
+              ตอนนี้ผมกำลังมองหา <strong>โอกาสในการฝึกงาน (Internship)</strong> ด้าน Cyber Security เพื่อนำความรู้ที่เรียนมา
+              ประยุกต์ใช้ในสภาพแวดล้อมการทำงานจริง และพัฒนาทักษะด้าน Offensive/Defensive Security ให้แข็งแกร่งยิ่งขึ้น
             </p>
           </div>
 

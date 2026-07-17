@@ -44,7 +44,7 @@ function HackerPortfolio({ onToggleTheme }) {
       <Navbar isDark onToggleTheme={onToggleTheme} isLoggingOut={isLoggingOut} setIsLoggingOut={setIsLoggingOut} />
       <main className={`${isLoggingOut ? 'logging-out' : ''} ${isAFK ? 'afk-glitch' : ''}`}>
         <Hero isDark isLoggingOut={isLoggingOut} />
-        <About isDark /><Skills isDark /><Projects /><Activities /><Certifications /><Contact />
+        <About isDark /><Skills isDark /><Projects isDark={true} /><Activities isDark={true} /><Certifications isDark={true} /><Contact isDark={true} />
       </main>
       <footer className="footer"><div className="container"><p>Designed & Built by Chanwit Loeyos &middot; {new Date().getFullYear()}</p></div></footer>
     </>

@@ -6,11 +6,11 @@ import './Projects.css';
 const projects = [
   {
     id: 1,
-    title: 'Network Packet Analyzer',
+    title: 'AI Acoustic Drone Detection',
     description:
-      'A Python-based tool for capturing and analyzing network traffic. Built to understand packet structure and detect anomalies in local network environments.',
-    tags: ['Python', 'Scapy', 'Wireshark', 'Networking'],
-    role: 'Solo Developer — designed architecture, wrote all capture/analysis modules.',
+      'พัฒนาระบบปัญญาประดิษฐ์ (AI) เพื่อตรวจจับและระบุตัวตนของอากาศยานไร้คนขับ (Drone) โดยใช้ข้อมูลทางวิเคราะห์เสียง (Acoustic Signatures) เพื่อเพิ่มศักยภาพด้านความปลอดภัยและป้องกันการบุกรุกพื้นที่',
+    tags: ['Python', 'Machine Learning', 'Audio Processing', 'Security'],
+    role: 'AI & Security Researcher — ออกแบบและพัฒนาโมเดล AI',
     githubUrl: '#',
     liveUrl: null,
     type: 'Cybersecurity',
@@ -54,8 +54,9 @@ const projects = [
   },
 ];
 
-const Projects = () => {
+const Projects = ({ isDark = true }) => {
   const [isBreached, setIsBreached] = useState(false);
+  const effectivelyBreached = !isDark || isBreached;
   const [isBreaching, setIsBreaching] = useState(false);
   const [breachProgress, setBreachProgress] = useState(0);
   const [breachLogs, setBreachLogs] = useState([]);
@@ -122,7 +123,7 @@ const Projects = () => {
         </div>
 
         <div className="projects-tree-container">
-          {!isBreached ? (
+          {!effectivelyBreached ? (
             <div className={`encrypted-archive card ${isBreaching ? 'breaching' : ''}`} data-title="root@chanwit:~# ./crack_archive">
               <div className="archive-inner">
                 <ShieldAlert size={64} className="archive-icon" />

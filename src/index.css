@@ -4,11 +4,11 @@
   --bg-secondary: #ffffff;
   --bg-card: #ffffff;
   --bg-sidebar: #1a1f2e;
-  --text-primary: #111827;
-  --text-secondary: #6b7280;
-  --text-muted: #9ca3af;
-  --accent: #0f62fe;
-  --accent-hover: #0043ce;
+  --text-primary: #0F172A; /* High contrast Slate 900 */
+  --text-secondary: #334155; /* High contrast Slate 700 */
+  --text-muted: #475569; /* High contrast Slate 600 */
+  --accent: #059669; /* Professional Hacker Green (Emerald 600) */
+  --accent-hover: #047857; /* Emerald 700 */
   --accent-subtle: rgba(15, 98, 254, 0.08);
   --border: #e5e7eb;
   --border-soft: #f3f4f6;

@@ -5,8 +5,8 @@ import MatrixRain from './MatrixRain';
 import './Hero.css';
 
 const Hero = ({ isDark, isLoggingOut }) => {
-  const fullBio = "Computer Science student with a passion for cybersecurity and building secure, reliable systems. Currently exploring network security, ethical hacking, and secure software development.";
-  const fullName = "Chanwit Loeyos";
+  const fullBio = "> ./initialize_internship_protocol.sh\nExploiting vulnerabilities today to secure tomorrow's networks. Specialized in Kali Linux, Wireshark, and Burp Suite.";
+  const fullName = "CHANWIT LOEYOS";
 
   const [typedName, setTypedName] = useState(fullName);
   const [typedBio, setTypedBio] = useState(fullBio);
@@ -119,7 +119,7 @@ const Hero = ({ isDark, isLoggingOut }) => {
             <div className="hero-card-info">
               <strong>Chanwit Loeyos</strong>
               <span>CS Student &middot; Cybersecurity</span>
-              <span className="university-label">Your University Name</span>
+              <span className="university-label">Seeking Internship Opportunity</span>
             </div>
           </div>
         </div>

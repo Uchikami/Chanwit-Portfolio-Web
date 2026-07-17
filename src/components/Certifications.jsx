@@ -113,7 +113,7 @@ const ScrambleText = ({ targetText, isHovered, delay = 0 }) => {
   return <span>{text || ' '}</span>;
 };
 
-const CertCard = ({ cert }) => {
+const CertCard = ({ cert, isDark }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -132,17 +132,19 @@ const CertCard = ({ cert }) => {
 
         <div className="cyber-image-container">
           <img src={cert.image} alt={cert.name} className="cyber-image" />
-          <div className="cyber-overlay">
-            <div className="light-glow"></div>
-            <div className="light-sweep"></div>
+          {isDark && (
+            <div className="cyber-overlay">
+              <div className="light-glow"></div>
+              <div className="light-sweep"></div>
 
-            <div className="fetch-sequence">
-              <ScrambleText targetText="> DECRYPTING_FILE" isHovered={isHovered} delay={0} />
-              <ScrambleText targetText="> BYPASSING_SEC_PROTOCOLS" isHovered={isHovered} delay={400} />
-              <ScrambleText targetText="> PAYLOAD_EXTRACTED" isHovered={isHovered} delay={800} />
-              {isHovered && <span className="blink-text" style={{ animationDelay: '1.2s' }}>&gt; [ CLICK_TO_EXECUTE ]</span>}
+              <div className="fetch-sequence">
+                <ScrambleText targetText="> DECRYPTING_FILE" isHovered={isHovered} delay={0} />
+                <ScrambleText targetText="> BYPASSING_SEC_PROTOCOLS" isHovered={isHovered} delay={400} />
+                <ScrambleText targetText="> PAYLOAD_EXTRACTED" isHovered={isHovered} delay={800} />
+                {isHovered && <span className="blink-text" style={{ animationDelay: '1.2s' }}>&gt; [ CLICK_TO_EXECUTE ]</span>}
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <div className="cyber-data">
@@ -153,7 +155,7 @@ const CertCard = ({ cert }) => {
   );
 };
 
-const Certifications = () => {
+const Certifications = ({ isDark = true }) => {
   return (
     <section id="certifications" className="certifications-section">
       <div className="container">
@@ -165,7 +167,7 @@ const Certifications = () => {
 
         <div className="certs-grid">
           {certifications.map((cert) => (
-            <CertCard key={cert.id} cert={cert} />
+            <CertCard key={cert.id} cert={cert} isDark={isDark} />
           ))}
         </div>
       </div>
