@@ -91,15 +91,22 @@ const Navbar = ({ isDark, onToggleTheme, isLoggingOut, setIsLoggingOut }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavClick = (href) => {
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
     setMobileOpen(false);
     setActiveSection(href);
+    
+    const id = href.substring(1);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
     <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
       <div className="container navbar-inner">
-        <a href="#home" className="navbar-logo">
+        <a href="#home" className="navbar-logo" onClick={(e) => handleNavClick(e, '#home')}>
           Chanwit<span className="logo-dot">.</span>
         </a>
 
@@ -109,7 +116,7 @@ const Navbar = ({ isDark, onToggleTheme, isLoggingOut, setIsLoggingOut }) => {
               key={link.href}
               href={link.href}
               className={`navbar-link ${activeSection === link.href ? 'navbar-link--active' : ''}`}
-              onClick={() => handleNavClick(link.href)}
+              onClick={(e) => handleNavClick(e, link.href)}
             >
               {link.label}
             </a>
@@ -148,7 +155,7 @@ const Navbar = ({ isDark, onToggleTheme, isLoggingOut, setIsLoggingOut }) => {
               key={link.href}
               href={link.href}
               className="mobile-menu-link"
-              onClick={() => handleNavClick(link.href)}
+              onClick={(e) => handleNavClick(e, link.href)}
             >
               {link.label}
             </a>
