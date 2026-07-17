@@ -18,16 +18,16 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsEncrypting(true);
-    
+
     // Simulate encryption / transmit delay
     setTimeout(() => {
       setIsEncrypting(false);
-      
+
       const subject = encodeURIComponent(`Secure Comms from: ${formData.alias}`);
       const body = encodeURIComponent(`SENDER ALIAS: ${formData.alias}\nRETURN ADDRESS: ${formData.address}\n\nPAYLOAD:\n${formData.payload}`);
-      
+
       window.location.href = `mailto:chanwit.loeyos@gmail.com?subject=${subject}&body=${body}`;
-      
+
       // Reset form
       setFormData({ alias: '', address: '', payload: '' });
     }, 1500);
@@ -51,8 +51,8 @@ const Contact = () => {
             </div>
             <div className="panel-body">
               <p className="contact-intro">
-                &gt; SYSTEM STATUS: READY<br/>
-                &gt; Open to internship opportunities and security operations.<br/>
+                &gt; SYSTEM STATUS: READY<br />
+                &gt; Open to internship opportunities and security operations.<br />
                 &gt; Select a node below or initiate secure transmission.
               </p>
 
@@ -73,7 +73,7 @@ const Contact = () => {
                   </div>
                 </div>
 
-                <a href="https://github.com/YOUR_USERNAME" target="_blank" rel="noopener noreferrer" className="node-item">
+                <a href="https://github.com/chanwit-loeyos" target="_blank" rel="noopener noreferrer" className="node-item">
                   <div className="node-icon"><FaGithub size={20} /></div>
                   <div className="node-info">
                     <span className="node-id">NODE_03 // GITHUB</span>
@@ -100,14 +100,14 @@ const Contact = () => {
             </div>
             <div className="panel-body">
               <form onSubmit={handleSubmit} className="cyber-form">
-                
+
                 <div className="form-group">
                   <label htmlFor="alias">&gt; ENTER_SENDER_ALIAS:</label>
-                  <input 
-                    type="text" 
-                    id="alias" 
-                    name="alias" 
-                    required 
+                  <input
+                    type="text"
+                    id="alias"
+                    name="alias"
+                    required
                     autoComplete="off"
                     value={formData.alias}
                     onChange={handleChange}
@@ -118,11 +118,11 @@ const Contact = () => {
 
                 <div className="form-group">
                   <label htmlFor="address">&gt; ENTER_RETURN_ADDRESS:</label>
-                  <input 
-                    type="email" 
-                    id="address" 
-                    name="address" 
-                    required 
+                  <input
+                    type="email"
+                    id="address"
+                    name="address"
+                    required
                     autoComplete="off"
                     value={formData.address}
                     onChange={handleChange}
@@ -133,11 +133,11 @@ const Contact = () => {
 
                 <div className="form-group">
                   <label htmlFor="payload">&gt; INPUT_PAYLOAD:</label>
-                  <textarea 
-                    id="payload" 
-                    name="payload" 
-                    rows="5" 
-                    required 
+                  <textarea
+                    id="payload"
+                    name="payload"
+                    rows="5"
+                    required
                     value={formData.payload}
                     onChange={handleChange}
                     placeholder="Enter your message..."
@@ -145,8 +145,8 @@ const Contact = () => {
                   <div className="input-line"></div>
                 </div>
 
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className={`cyber-submit-btn ${isEncrypting ? 'encrypting' : ''}`}
                   disabled={isEncrypting}
                 >

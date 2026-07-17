@@ -15,7 +15,7 @@ function LightHero() {
           <a className="prof-button prof-button-quiet" href="mailto:chanwit.loeyos@gmail.com">Get in touch</a>
         </div>
         <div className="prof-socials">
-          <a href="https://github.com/YOUR_USERNAME" target="_blank" rel="noreferrer"><FaGithub size={17} /> GitHub</a>
+          <a href="https://github.com/chanwit-loeyos" target="_blank" rel="noreferrer"><FaGithub size={17} /> GitHub</a>
           <a href="https://www.linkedin.com/in/chanwit-loeyos-b54a202a0/" target="_blank" rel="noreferrer"><FaLinkedin size={17} /> LinkedIn</a>
         </div>
       </div>

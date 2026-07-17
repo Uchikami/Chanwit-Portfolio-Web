@@ -64,7 +64,7 @@ const SkillItem = ({ skill, isDark, isRevealed }) => {
 
   useEffect(() => {
     if (!isRevealed) return;
-    
+
     // Scramble if hovered, dark mode, not secured, and not currently breaking
     if (isHovered && isDark && !isSecured && !isBreaking) {
       let iterations = 0;
@@ -84,7 +84,7 @@ const SkillItem = ({ skill, isDark, isRevealed }) => {
     } else {
       setDisplayText(skill.name);
     }
-  }, [isHovered, isDark, skill.name, isRevealed, isSecured]);
+  }, [isHovered, isDark, skill.name, isRevealed, isSecured, isBreaking]);
 
   if (!isRevealed) {
     return <div className="terminal-skill-line hidden-skill"></div>;
@@ -94,7 +94,7 @@ const SkillItem = ({ skill, isDark, isRevealed }) => {
     if (isDark && isHovered && !isSecured && !isBreaking) {
       setIsBreaking(true);
       setDisplayText(skill.name); // Stop scrambling text immediately
-      
+
       // After animation finishes, mark as secured
       setTimeout(() => {
         setIsBreaking(false);
@@ -104,9 +104,9 @@ const SkillItem = ({ skill, isDark, isRevealed }) => {
   };
 
   return (
-    <div 
-      className={`terminal-skill-line ${isSecured ? 'ts-secured' : ''} ${isBreaking ? 'ts-breaking' : ''}`} 
-      onMouseEnter={() => setIsHovered(true)} 
+    <div
+      className={`terminal-skill-line ${isSecured ? 'ts-secured' : ''} ${isBreaking ? 'ts-breaking' : ''}`}
+      onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleFix}
       style={{ cursor: isHovered && !isSecured && !isBreaking ? 'crosshair' : 'default' }}
@@ -177,8 +177,8 @@ const Skills = ({ isDark }) => {
 
         <div className="skills-grid">
           {processedSkillData.map((group, i) => (
-            <div 
-              key={i} 
+            <div
+              key={i}
               className="skills-group card"
               data-title={isDark ? group.category : undefined}
             >
@@ -189,11 +189,11 @@ const Skills = ({ isDark }) => {
               )}
               <div className="skills-list terminal-list">
                 {group.items.map((skill, j) => (
-                  <SkillItem 
-                    key={j} 
-                    skill={skill} 
-                    isDark={isDark} 
-                    isRevealed={skill.globalIndex < revealedCount} 
+                  <SkillItem
+                    key={j}
+                    skill={skill}
+                    isDark={isDark}
+                    isRevealed={skill.globalIndex < revealedCount}
                   />
                 ))}
               </div>

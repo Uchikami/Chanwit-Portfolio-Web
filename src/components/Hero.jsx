@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
-import { ArrowDown, Shield } from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
 import MatrixRain from './MatrixRain';
 import './Hero.css';
 
 const Hero = ({ isDark, isLoggingOut }) => {
   const fullBio = "Computer Science student with a passion for cybersecurity and building secure, reliable systems. Currently exploring network security, ethical hacking, and secure software development.";
   const fullName = "Chanwit Loeyos";
-  
+
   const [typedName, setTypedName] = useState(fullName);
   const [typedBio, setTypedBio] = useState(fullBio);
 
@@ -17,7 +17,7 @@ const Hero = ({ isDark, isLoggingOut }) => {
       setTypedBio("");
       let i = 0;
       const totalLen = fullName.length + fullBio.length;
-      
+
       const interval = setInterval(() => {
         if (i <= fullName.length) {
           setTypedName(fullName.slice(0, i));
@@ -30,7 +30,7 @@ const Hero = ({ isDark, isLoggingOut }) => {
         }
         i += 3; // Fast script speed
       }, 10);
-      
+
       return () => clearInterval(interval);
     } else if (!isDark) {
       setTypedName(fullName);
@@ -42,10 +42,10 @@ const Hero = ({ isDark, isLoggingOut }) => {
     if (isLoggingOut && isDark) {
       // Start backspacing from full length
       let currentTotalLength = fullName.length + fullBio.length;
-      
+
       const interval = setInterval(() => {
         currentTotalLength -= 8; // Very fast delete
-        
+
         if (currentTotalLength > fullName.length) {
           const bioIndex = currentTotalLength - fullName.length;
           setTypedBio(fullBio.slice(0, bioIndex));
@@ -58,7 +58,7 @@ const Hero = ({ isDark, isLoggingOut }) => {
           clearInterval(interval);
         }
       }, 15);
-      
+
       return () => clearInterval(interval);
     }
   }, [isLoggingOut, isDark]);
@@ -79,7 +79,7 @@ const Hero = ({ isDark, isLoggingOut }) => {
     <section id="home" className="hero">
       <MatrixRain isDark={isDark} />
       <div className="container hero-container" style={{ position: 'relative', zIndex: 1 }}>
-        
+
         {/* LEFT: Text content */}
         <div className="hero-content">
 
@@ -94,7 +94,7 @@ const Hero = ({ isDark, isLoggingOut }) => {
           </p>
 
           <div className="hero-links">
-            <a href="https://github.com/YOUR_USERNAME" target="_blank" rel="noopener noreferrer" className="hero-social-link">
+            <a href="https://github.com/chanwit-loeyos" target="_blank" rel="noopener noreferrer" className="hero-social-link">
               <FaGithub size={18} />
               GitHub
             </a>

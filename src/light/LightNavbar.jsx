@@ -13,7 +13,7 @@ function LightNavbar({ onToggleTheme }) {
         {links.map(([label, href]) => <a href={href} key={href} onClick={() => setOpen(false)}>{label}</a>)}
       </nav>
       <div className="prof-nav-actions">
-        <a className="prof-github-button" href="https://github.com/YOUR_USERNAME" target="_blank" rel="noreferrer" aria-label="GitHub"><FaGithub size={17} /></a>
+        <a className="prof-github-button" href="https://github.com/chanwit-loeyos" target="_blank" rel="noreferrer" aria-label="GitHub"><FaGithub size={17} /></a>
         <button className="prof-theme-button" onClick={onToggleTheme} aria-label="Switch to hacker theme"><Moon size={16} /> <span>Dark</span></button>
         <button className="prof-menu-button" onClick={() => setOpen(!open)} aria-label="Toggle menu">{open ? <X size={20} /> : <Menu size={20} />}</button>
       </div>

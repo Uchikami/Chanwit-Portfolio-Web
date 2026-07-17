@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ExternalLink, X, Unlock, ShieldAlert, Folder, FileCode2, Terminal } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 import './Projects.css';
@@ -54,12 +54,12 @@ const projects = [
   },
 ];
 
-const Projects = ({ isDark }) => {
+const Projects = () => {
   const [isBreached, setIsBreached] = useState(false);
   const [isBreaching, setIsBreaching] = useState(false);
   const [breachProgress, setBreachProgress] = useState(0);
   const [breachLogs, setBreachLogs] = useState([]);
-  
+
   const [selectedProject, setSelectedProject] = useState(null);
   const [isClosingPanel, setIsClosingPanel] = useState(false);
 
@@ -73,7 +73,7 @@ const Projects = ({ isDark }) => {
   const handleBreach = () => {
     setIsBreaching(true);
     let progress = 0;
-    
+
     const logs = [
       "> INITIATING BRUTE FORCE...",
       "> BYPASSING FIREWALL...",
@@ -86,9 +86,9 @@ const Projects = ({ isDark }) => {
     const interval = setInterval(() => {
       progress += Math.random() * 20;
       if (progress >= 100) progress = 100;
-      
+
       setBreachProgress(progress);
-      
+
       if (progress > (logIndex + 1) * 18 && logIndex < logs.length) {
         setBreachLogs(prev => [...prev, logs[logIndex]]);
         logIndex++;
@@ -128,7 +128,7 @@ const Projects = ({ isDark }) => {
                 <ShieldAlert size={64} className="archive-icon" />
                 <h3 className="archive-title">[ RESTRICTED_ARCHIVE.tar.gz ]</h3>
                 <p className="archive-status">STATUS: ENCRYPTED (AES-256)</p>
-                
+
                 {!isBreaching ? (
                   <button className="breach-btn" onClick={handleBreach}>
                     <Unlock size={18} /> INITIATE BREACH
@@ -155,7 +155,7 @@ const Projects = ({ isDark }) => {
                   <Terminal size={18} className="tree-icon root-icon" />
                   <span>/root/projects/archive</span>
                 </div>
-                
+
                 {Object.entries(groupedProjects).map(([type, projs], groupIndex, groupArray) => {
                   const isLastGroup = groupIndex === groupArray.length - 1;
                   const groupPrefix = isLastGroup ? '└── ' : '├── ';
@@ -168,16 +168,16 @@ const Projects = ({ isDark }) => {
                         <Folder size={16} className="tree-icon folder-icon" />
                         <span className="folder-name">{type}/</span>
                       </div>
-                      
+
                       <div className="tree-children">
                         {projs.map((proj, projIndex) => {
                           const isLastProj = projIndex === projs.length - 1;
                           const projPrefix = isLastProj ? '└── ' : '├── ';
                           const isSelected = selectedProject?.id === proj.id;
-                          
+
                           return (
-                            <div 
-                              key={proj.id} 
+                            <div
+                              key={proj.id}
                               className={`tree-node file-node ${isSelected ? 'selected' : ''}`}
                               onClick={() => {
                                 setIsClosingPanel(false);
@@ -196,7 +196,7 @@ const Projects = ({ isDark }) => {
                   );
                 })}
               </div>
-              
+
               {/* SIDE PANEL */}
               {selectedProject && (
                 <div className={`project-side-panel card ${isClosingPanel ? 'closing' : ''}`} key={selectedProject.id}>
@@ -206,20 +206,20 @@ const Projects = ({ isDark }) => {
                       <X size={18} />
                     </button>
                   </div>
-                  
+
                   <div className="panel-content">
                     <div className="panel-image-wrapper">
                       <div className="panel-image-container">
-                         <img src={selectedProject.image} alt={selectedProject.title} className="panel-image" />
+                        <img src={selectedProject.image} alt={selectedProject.title} className="panel-image" />
                       </div>
                     </div>
-                    
+
                     <div className="panel-data">
                       <div className="data-row">
                         <span className="data-label">TYPE:</span>
                         <span className="data-value highlight">{selectedProject.type}</span>
                       </div>
-                      
+
                       <div className="data-row">
                         <span className="data-label">TITLE:</span>
                         <h3 className="data-value title">{selectedProject.title}</h3>
@@ -243,7 +243,7 @@ const Projects = ({ isDark }) => {
                           ))}
                         </div>
                       </div>
-                      
+
                       <div className="data-row block">
                         <span className="data-label">EXECUTE:</span>
                         <div className="panel-actions">

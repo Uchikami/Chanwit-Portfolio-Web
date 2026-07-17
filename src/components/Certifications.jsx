@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { ShieldCheck, Fingerprint, ScanBarcode, Maximize } from 'lucide-react';
 import './Certifications.css';
 
 const certifications = [
@@ -80,10 +79,10 @@ const ScrambleText = ({ targetText, isHovered, delay = 0 }) => {
       setText('');
       return;
     }
-    
+
     let iteration = 0;
     let interval = null;
-    
+
     const timeout = setTimeout(() => {
       interval = setInterval(() => {
         setText(targetText
@@ -96,11 +95,11 @@ const ScrambleText = ({ targetText, isHovered, delay = 0 }) => {
           })
           .join('')
         );
-        
+
         if (iteration >= targetText.length) {
           clearInterval(interval);
         }
-        
+
         iteration += 1 / 2;
       }, 30);
     }, delay);
@@ -118,10 +117,10 @@ const CertCard = ({ cert }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <a 
-      href={cert.link || cert.image} 
-      target="_blank" 
-      rel="noopener noreferrer" 
+    <a
+      href={cert.link || cert.image}
+      target="_blank"
+      rel="noopener noreferrer"
       className="cert-cyber-frame"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -134,15 +133,15 @@ const CertCard = ({ cert }) => {
         <div className="cyber-image-container">
           <img src={cert.image} alt={cert.name} className="cyber-image" />
           <div className="cyber-overlay">
-             <div className="light-glow"></div>
-             <div className="light-sweep"></div>
-             
-             <div className="fetch-sequence">
-               <ScrambleText targetText="> DECRYPTING_FILE" isHovered={isHovered} delay={0} />
-               <ScrambleText targetText="> BYPASSING_SEC_PROTOCOLS" isHovered={isHovered} delay={400} />
-               <ScrambleText targetText="> PAYLOAD_EXTRACTED" isHovered={isHovered} delay={800} />
-               {isHovered && <span className="blink-text" style={{animationDelay: '1.2s'}}>&gt; [ CLICK_TO_EXECUTE ]</span>}
-             </div>
+            <div className="light-glow"></div>
+            <div className="light-sweep"></div>
+
+            <div className="fetch-sequence">
+              <ScrambleText targetText="> DECRYPTING_FILE" isHovered={isHovered} delay={0} />
+              <ScrambleText targetText="> BYPASSING_SEC_PROTOCOLS" isHovered={isHovered} delay={400} />
+              <ScrambleText targetText="> PAYLOAD_EXTRACTED" isHovered={isHovered} delay={800} />
+              {isHovered && <span className="blink-text" style={{ animationDelay: '1.2s' }}>&gt; [ CLICK_TO_EXECUTE ]</span>}
+            </div>
           </div>
         </div>
 
