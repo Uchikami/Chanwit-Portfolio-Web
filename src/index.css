@@ -321,6 +321,12 @@ hr {
   color: var(--accent);
 }
 
+[data-theme='dark'] ::selection {
+  background: rgba(255, 0, 0, 0.3);
+  color: #ff003c;
+  text-shadow: 0 0 8px #ff003c;
+}
+
 /* ===== RESPONSIVE GLOBALS ===== */
 @media (max-width: 768px) {
   section {

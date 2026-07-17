@@ -81,10 +81,23 @@ const LightNav = ({ onToggleTheme }) => {
         <div className="flex md:order-2 items-center">
           <button 
             onClick={() => setIsTransitioning(true)}
-            className="p-2 mr-3 text-slate-500 rounded-lg hover:bg-emerald-50 hover:text-emerald-600 transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-emerald-100"
+            className="relative p-2 mr-3 text-slate-500 rounded-lg hover:bg-emerald-50 hover:text-emerald-600 transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-emerald-100 group"
             title="Access Secret Hacker Mode"
           >
-            <Terminal size={22} />
+            {/* Pulsing Hint Dot */}
+            <span className="absolute top-1 right-1 flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600"></span>
+            </span>
+            <img 
+              src="/assets/images/hacker-icon.png" 
+              alt="Hacker Mode" 
+              className="w-[28px] h-[28px] object-contain opacity-70 group-hover:opacity-100 transition-opacity"
+              onError={(e) => {
+                // Fallback to the existing hacker.png if hacker-icon.png is not found
+                e.target.src = "/assets/images/hacker.png";
+              }}
+            />
           </button>
           
           <button

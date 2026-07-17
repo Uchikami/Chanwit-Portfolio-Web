@@ -233,25 +233,59 @@
 .cyber-data {
   padding: 1.5rem;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
   flex: 1;
+  background: var(--bg-tertiary);
 }
 
 .cyber-title {
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--text-primary);
-  margin: 0;
+  margin: 0 0 0.5rem 0;
   line-height: 1.4;
   font-family: 'Fira Code', monospace;
 }
 
+.cyber-meta {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.cyber-verify-btn {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  margin-top: auto;
+  transition: color 0.3s;
+}
+
+/* Light mode specific colors */
+[data-theme='light'] .cyber-verify-btn {
+  color: #10b981;
+}
+[data-theme='light'] .cert-cyber-frame:hover .cyber-verify-btn {
+  color: #059669;
+}
+
+/* Dark mode specific colors */
 [data-theme="dark"] .cyber-title {
   color: #a9a9a9;
 }
 
-[data-theme="dark"] .cert-cyber-frame:hover .cyber-title {
+[data-theme="dark"] .cert-cyber-frame:hover .cyber-title,
+[data-theme="dark"] .cert-cyber-frame:hover .cyber-verify-btn {
   color: #00ff41;
 }
