@@ -94,19 +94,39 @@ const Hero = ({ isDark, isLoggingOut }) => {
           </p>
 
           <div className="hero-links">
-            <a href="https://github.com/chanwit-loeyos" target="_blank" rel="noopener noreferrer" className="hero-social-link">
+            <a href="https://github.com/chanwit-loeyos" target="_blank" rel="noopener noreferrer" className="hero-social-link" onClick={() => {
+              const audio = new Audio('/assets/sound/comm_btn.mp3');
+              audio.volume = 0.5;
+              audio.play().catch(e => console.log(e));
+            }}>
               <FaGithub size={18} />
               GitHub
             </a>
-            <a href="https://www.linkedin.com/in/chanwit-loeyos-b54a202a0/" target="_blank" rel="noopener noreferrer" className="hero-social-link">
+            <a href="https://www.linkedin.com/in/chanwit-loeyos-b54a202a0/" target="_blank" rel="noopener noreferrer" className="hero-social-link" onClick={() => {
+              const audio = new Audio('/assets/sound/comm_btn.mp3');
+              audio.volume = 0.5;
+              audio.play().catch(e => console.log(e));
+            }}>
               <FaLinkedin size={18} />
               LinkedIn
             </a>
           </div>
 
           <div className="hero-cta">
-            <a href="#projects" onClick={(e) => { e.preventDefault(); document.getElementById('projects').scrollIntoView({ behavior: 'smooth' }); }} className="btn btn-primary">View Projects</a>
-            <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById('contact').scrollIntoView({ behavior: 'smooth' }); }} className="btn btn-outline">Contact Me</a>
+            <a href="#projects" onClick={(e) => { 
+              e.preventDefault(); 
+              const audio = new Audio('/assets/sound/comm_btn.mp3');
+              audio.volume = 0.5;
+              audio.play().catch(err => console.log(err));
+              document.getElementById('projects').scrollIntoView({ behavior: 'smooth' }); 
+            }} className="btn btn-primary">View Projects</a>
+            <a href="#contact" onClick={(e) => { 
+              e.preventDefault(); 
+              const audio = new Audio('/assets/sound/comm_btn.mp3');
+              audio.volume = 0.5;
+              audio.play().catch(err => console.log(err));
+              document.getElementById('contact').scrollIntoView({ behavior: 'smooth' }); 
+            }} className="btn btn-outline">Contact Me</a>
           </div>
         </div>
 

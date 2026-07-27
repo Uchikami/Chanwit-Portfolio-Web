@@ -10,10 +10,12 @@ const HackerTransition = ({ onComplete }) => {
     const sfxAlert = new Audio('/assets/sound/red_alert.mp3');
     const sfxSnap = new Audio('/assets/sound/thanos_snap.mp3');
     const sfxHackscene = new Audio('/assets/sound/hackscene.mp3');
+    const sfxAccess = new Audio("/assets/sound/i'm_in.mp3");
     
     sfxAlert.volume = 0.5;
     sfxSnap.volume = 0.8;
     sfxHackscene.volume = 0.4;
+    sfxAccess.volume = 0.7;
 
     const playSound = (audioObj) => {
       audioObj.currentTime = 0;
@@ -36,6 +38,7 @@ const HackerTransition = ({ onComplete }) => {
     const t3 = setTimeout(() => setLines(1), 2500);
     const t4 = setTimeout(() => setLines(2), 3100);
     const t5 = setTimeout(() => setLines(3), 3700);
+    const t5_5 = setTimeout(() => playSound(sfxAccess), 4350); // Play voice exactly 150ms before entry glitch
     const t6 = setTimeout(() => onComplete(), 4500);
 
     return () => {
@@ -44,6 +47,7 @@ const HackerTransition = ({ onComplete }) => {
       clearTimeout(t3);
       clearTimeout(t4);
       clearTimeout(t5);
+      clearTimeout(t5_5);
       clearTimeout(t6);
 
       sfxAlert.pause();

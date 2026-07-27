@@ -10,10 +10,10 @@ import Contact from './components/Contact';
 import HackerCursor from './components/HackerCursor';
 import './App.css';
 
-function HackerPortfolio({ onToggleTheme }) {
+function HackerPortfolio({ onToggleTheme, playInitSound }) {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isAFK, setIsAFK] = useState(false);
-  const [glitchClass, setGlitchClass] = useState('');
+  const [glitchClass, setGlitchClass] = useState('js-glitch-active');
 
   useEffect(() => {
     // We keep isAFK state in case we want other AFK behaviors later
@@ -44,34 +44,52 @@ function HackerPortfolio({ onToggleTheme }) {
     sfxGlitch1.volume = 0.15;
     sfxGlitch2.volume = 0.15;
     sfxGlitch3.volume = 0.15;
-    const sfxAccess = new Audio("/assets/sound/i'm_in.mp3");
-    sfxAccess.volume = 0.7;
     const glitches = [sfxGlitch1, sfxGlitch2, sfxGlitch3];
 
     let timerId;
-    const playRandomGlitch = (isFirstEntry = false) => {
+    let initialTimerId;
+    let tearTimerId;
+
+    const playRandomGlitch = () => {
       const isAlt = Math.random() > 0.5;
       setGlitchClass(isAlt ? 'js-glitch-active-2' : 'js-glitch-active');
       
       const audio = glitches[Math.floor(Math.random() * glitches.length)];
       audio.currentTime = 0;
       audio.play().catch(e => {});
-
-      if (isFirstEntry) {
-        sfxAccess.currentTime = 0;
-        sfxAccess.play().catch(e => {});
-      }
       
-      setTimeout(() => setGlitchClass(''), 150); // Glitch effect duration matches typical quick tear
+      tearTimerId = setTimeout(() => setGlitchClass(''), 150); // Normal quick tear duration
 
       const nextDelay = 4000 + Math.random() * 6000;
       timerId = setTimeout(playRandomGlitch, nextDelay);
     };
 
-    // Trigger immediately on mount with the I'm In sound
-    playRandomGlitch(true);
+    // Just a quick 150ms entrance glitch with sound
+    sfxGlitch1.play().catch(e => {});
+
+    if (playInitSound) {
+      const sfxAccess = new Audio("/assets/sound/i'm_in.mp3");
+      sfxAccess.volume = 0.7;
+      sfxAccess.play().catch(() => {
+        // Autoplay fallback
+        const playOnInteract = () => {
+          sfxAccess.play().catch(e => {});
+          window.removeEventListener('click', playOnInteract);
+          window.removeEventListener('keydown', playOnInteract);
+        };
+        window.addEventListener('click', playOnInteract);
+        window.addEventListener('keydown', playOnInteract);
+      });
+    }
+    
+    initialTimerId = setTimeout(() => {
+      setGlitchClass('');
+      timerId = setTimeout(playRandomGlitch, 3000);
+    }, 150);
 
     return () => {
+      clearTimeout(initialTimerId);
+      clearTimeout(tearTimerId);
       clearTimeout(timerId);
       glitches.forEach(a => a.pause());
     };

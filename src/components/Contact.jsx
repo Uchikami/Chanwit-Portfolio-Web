@@ -18,6 +18,10 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsEncrypting(true);
+    
+    const audio = new Audio('/assets/sound/comm_btn.mp3');
+    audio.volume = 0.5;
+    audio.play().catch(err => console.log(err));
 
     // Simulate encryption / transmit delay
     setTimeout(() => {
@@ -73,7 +77,11 @@ const Contact = () => {
                   </div>
                 </div>
 
-                <a href="https://github.com/chanwit-loeyos" target="_blank" rel="noopener noreferrer" className="node-item">
+                <a href="https://github.com/chanwit-loeyos" target="_blank" rel="noopener noreferrer" className="node-item" onClick={() => {
+                  const audio = new Audio('/assets/sound/comm_btn.mp3');
+                  audio.volume = 0.5;
+                  audio.play().catch(e => console.log(e));
+                }}>
                   <div className="node-icon"><FaGithub size={20} /></div>
                   <div className="node-info">
                     <span className="node-id">NODE_03 // GITHUB</span>
@@ -81,7 +89,11 @@ const Contact = () => {
                   </div>
                 </a>
 
-                <a href="https://www.linkedin.com/in/chanwit-loeyos-b54a202a0/" target="_blank" rel="noopener noreferrer" className="node-item">
+                <a href="https://www.linkedin.com/in/chanwit-loeyos-b54a202a0/" target="_blank" rel="noopener noreferrer" className="node-item" onClick={() => {
+                  const audio = new Audio('/assets/sound/comm_btn.mp3');
+                  audio.volume = 0.5;
+                  audio.play().catch(e => console.log(e));
+                }}>
                   <div className="node-icon"><FaLinkedin size={20} /></div>
                   <div className="node-info">
                     <span className="node-id">NODE_04 // LINKEDIN</span>

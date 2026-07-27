@@ -9,6 +9,12 @@ const LightNav = ({ onToggleTheme }) => {
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0, opacity: 0 });
   const [isTransitioning, setIsTransitioning] = useState(false);
   const navRefs = useRef({});
+  const audioBtnRef = useRef(null);
+
+  useEffect(() => {
+    audioBtnRef.current = new Audio('/assets/sound/lightmode_btn.mp3');
+    audioBtnRef.current.volume = 0.5;
+  }, []);
 
   useEffect(() => {
     const currentElement = navRefs.current[activeSection];
@@ -81,7 +87,10 @@ const LightNav = ({ onToggleTheme }) => {
         <div className="flex md:order-2 items-center">
           <button 
             onClick={() => {
-              new Audio('/assets/sound/lightmode_btn.mp3').play().catch(e => console.log(e));
+              if (audioBtnRef.current) {
+                audioBtnRef.current.currentTime = 0;
+                audioBtnRef.current.play().catch(e => console.log(e));
+              }
               setIsTransitioning(true);
             }}
             className="relative p-2 mr-3 text-slate-500 rounded-lg hover:bg-emerald-50 hover:text-emerald-600 transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-emerald-100 group"
