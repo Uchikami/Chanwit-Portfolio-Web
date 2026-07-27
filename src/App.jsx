@@ -15,7 +15,7 @@ function App() {
   }, [isDark]);
 
   return isDark
-    ? <HackerPortfolio onToggleTheme={() => { setIsDark(false); setIsInitialLoad(false); }} playInitSound={isInitialLoad} />
+    ? <HackerPortfolio onToggleTheme={() => { setIsDark(false); setIsInitialLoad(false); }} />
     : <ProfessionalPortfolio onToggleTheme={() => { setIsDark(true); setIsInitialLoad(false); }} />;
 }
 

@@ -10,7 +10,7 @@ import Contact from './components/Contact';
 import HackerCursor from './components/HackerCursor';
 import './App.css';
 
-function HackerPortfolio({ onToggleTheme, playInitSound }) {
+function HackerPortfolio({ onToggleTheme }) {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isAFK, setIsAFK] = useState(false);
   const [glitchClass, setGlitchClass] = useState('js-glitch-active');
@@ -64,24 +64,8 @@ function HackerPortfolio({ onToggleTheme, playInitSound }) {
       timerId = setTimeout(playRandomGlitch, nextDelay);
     };
 
-    // Just a quick 150ms entrance glitch with sound
-    sfxGlitch1.play().catch(e => {});
+    // Just a quick 150ms entrance visual glitch (no sound)
 
-    if (playInitSound) {
-      const sfxAccess = new Audio("/assets/sound/i'm_in.mp3");
-      sfxAccess.volume = 0.7;
-      sfxAccess.play().catch(() => {
-        // Autoplay fallback
-        const playOnInteract = () => {
-          sfxAccess.play().catch(e => {});
-          window.removeEventListener('click', playOnInteract);
-          window.removeEventListener('keydown', playOnInteract);
-        };
-        window.addEventListener('click', playOnInteract);
-        window.addEventListener('keydown', playOnInteract);
-      });
-    }
-    
     initialTimerId = setTimeout(() => {
       setGlitchClass('');
       timerId = setTimeout(playRandomGlitch, 3000);

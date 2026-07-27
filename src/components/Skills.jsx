@@ -223,6 +223,14 @@ const Skills = ({ isDark }) => {
       const interval = setInterval(() => {
         count++;
         setRevealedCount(count);
+        
+        if (count <= totalSkills) {
+          const popAudio = new Audio('/assets/sound/skill_pop.mp3');
+          popAudio.volume = 0.3;
+          popAudio.playbackRate = 0.9 + Math.random() * 0.2;
+          popAudio.play().catch(e => console.log(e));
+        }
+
         if (count >= totalSkills) clearInterval(interval);
       }, 80); // Speed of packet install
       return () => clearInterval(interval);
