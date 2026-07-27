@@ -73,10 +73,9 @@ const LightNav = ({ onToggleTheme }) => {
         {/* Brand */}
         <a href="/" className="flex items-center">
           <img 
-            src="/assets/images/hacker.png" 
-            className={`mr-3 transition-all duration-300 ${isScrolled ? 'h-6' : 'h-8'}`} 
-            alt="Logo" 
-            style={{ filter: 'invert(1)' }}
+            src="/profile_pic.jpg" 
+            className={`mr-3 rounded-full object-cover border border-slate-200 transition-all duration-300 ${isScrolled ? 'h-8 w-8' : 'h-10 w-10'}`} 
+            alt="Chanwit Logo" 
           />
           <span className={`self-center whitespace-nowrap font-bold text-black transition-all duration-300 ${isScrolled ? 'text-lg' : 'text-2xl'}`}>
             CHANWIT

@@ -5,41 +5,42 @@ const skillData = [
   {
     category: 'Offensive Security',
     items: [
-      { name: 'Kali Linux', level: 'Advanced' },
-      { name: 'Burp Suite', level: 'Intermediate' },
-      { name: 'Penetration Testing', level: 'Intermediate' },
-      { name: 'CTF Challenges', level: 'Intermediate' },
-      { name: 'OWASP Top 10', level: 'Intermediate' },
+      { name: 'Kali Linux', level: 'Intermediate' },
+      { name: 'Web Penetration Testing', level: 'Beginner' },
+      { name: 'Privilege Escalation', level: 'Beginner' },
+      { name: 'Gobuster', level: 'Beginner' },
     ],
   },
   {
     category: 'Network & Defense',
     items: [
-      { name: 'Wireshark', level: 'Advanced' },
-      { name: 'Nmap', level: 'Advanced' },
-      { name: 'Network Traffic Analysis', level: 'Advanced' },
-      { name: 'Firewall Configuration', level: 'Beginner' },
-      { name: 'Intrusion Detection', level: 'Beginner' },
+      { name: 'Wireshark', level: 'Beginner' },
+      { name: 'Nmap', level: 'Intermediate' },
+      { name: 'Burpsuite', level: 'Beginner' },
+      { name: 'Nessus', level: 'Beginner' },
     ],
   },
   {
     category: 'Development & AI',
     items: [
-      { name: 'Python', level: 'Advanced' },
-      { name: 'Machine Learning Concepts', level: 'Intermediate' },
+      { name: 'Python', level: 'Intermediate' },
       { name: 'JavaScript / React', level: 'Intermediate' },
-      { name: 'Audio Processing', level: 'Beginner' },
-      { name: 'C / C++', level: 'Intermediate' },
+      { name: 'VSCode', level: 'Intermediate' },
     ],
   },
   {
-    category: 'Tools & Platforms',
+    category: 'Audio & Media Production',
     items: [
-      { name: 'Git & GitHub', level: 'Intermediate' },
-      { name: 'Linux Administration', level: 'Advanced' },
-      { name: 'VS Code', level: 'Advanced' },
-      { name: 'Docker', level: 'Beginner' },
-      { name: 'SQL', level: 'Intermediate' },
+      { name: 'Izotope RX 12', level: 'Intermediate' },
+      { name: 'DaVinci Fairlight', level: 'Advanced' },
+      { name: 'Film Sound Post-Production', level: 'Advanced' },
+      { name: 'Film Sound On Set', level: 'Intermediate' },
+    ],
+  },
+  {
+    category: 'Language',
+    items: [
+      { name: 'English (B1 SPEXX)', level: 'Intermediate' },
     ],
   },
 ];

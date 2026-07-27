@@ -4,19 +4,10 @@ import './About.css';
 const About = ({ isDark }) => {
   const education = [
     {
-      degree: 'Bachelor of Science, Computer Science',
-      school: 'Your University Name',
-      period: '2022 – Present',
-      detail: 'Focus on Software Engineering, Networking, and Cybersecurity fundamentals.',
-    },
-  ];
-
-  const experience = [
-    {
-      title: 'Internship / Part-time (Placeholder)',
-      company: 'Company Name',
-      period: '2024',
-      detail: 'Replace this with your actual work experience.',
+      degree: 'B.S. in Computer Science',
+      school: 'Bangkok University (School of Information Technology and Innovation)',
+      period: 'Expected Graduation: 2027',
+      detail: 'Current GPA: 3.91',
     },
   ];
 
@@ -59,13 +50,13 @@ const About = ({ isDark }) => {
           {isDark ? (
             <div className="about-bio card">
               <p>
-                Hello, I am <strong>Chanwit Loeyos</strong>, a student passionate about Cybersecurity and defense system development. I am currently working on my senior project involving AI-based acoustic drone detection to analyze and identify aerial threats.
+                I am a 4th year Computer Science student with a strong passion and dedication for Cybersecurity. My journey began when I participated in a CTF (Capture The Flag) competition, which opened my eyes and greatly challenged my problem-solving skills.
               </p>
               <p>
-                I have a strong interest in Network Analysis and Penetration Testing, with proficiency in tools such as Kali Linux, Wireshark, and Burp Suite.
+                The thrill of solving those challenges inspired me to seriously study and develop my security skills, ranging from Web Exploitation to Network Analysis.
               </p>
               <p>
-                I am currently seeking a <strong>Cyber Security Internship</strong> opportunity to apply my theoretical knowledge in a real-world environment and am eager to deeply learn new techniques in Offensive and Defensive Security.
+                My ultimate goal is to apply my knowledge in a real-world working environment and grow into a Cybersecurity expert in the future.
               </p>
             </div>
           ) : (
@@ -73,17 +64,16 @@ const About = ({ isDark }) => {
               <div className="dossier-content about-bio card">
                 <div className="dossier-section">
                   <h4 className="dossier-header">[SUBJECT_PROFILE]</h4>
-                  <p>&gt; Hello, I am <strong>Chanwit Loeyos</strong>, a student passionate about <span className="keyword-badge">Cybersecurity</span> and defense system development.</p>
+                  <p>&gt; I am a 4th year Computer Science student with a strong passion and dedication for <span className="keyword-badge">Cybersecurity</span>.</p>
                 </div>
                 <div className="dossier-section">
-                  <h4 className="dossier-header">[CURRENT_OPERATION]</h4>
-                  <p>&gt; Currently working on my senior project involving <span className="keyword-badge">AI Drone Detection</span> using acoustic signatures to analyze and identify aerial threats.</p>
-                  <p>&gt; Strong interest in <span className="keyword-badge">Network Analysis</span> and <span className="keyword-badge">Penetration Testing</span>, with proficiency in tools such as <span className="keyword-badge">Kali Linux</span>, <span className="keyword-badge">Wireshark</span>, and <span className="keyword-badge">Burp Suite</span>.</p>
+                  <h4 className="dossier-header">[ORIGIN_STORY]</h4>
+                  <p>&gt; My journey began when I participated in a <span className="keyword-badge">CTF (Capture The Flag)</span> competition, which opened my eyes and greatly challenged my problem-solving skills.</p>
+                  <p>&gt; The thrill of solving those challenges inspired me to seriously study and develop my security skills, ranging from <span className="keyword-badge">Web Exploitation</span> to <span className="keyword-badge">Network Analysis</span>.</p>
                 </div>
                 <div className="dossier-section">
                   <h4 className="dossier-header">[OBJECTIVE]</h4>
-                  <p>&gt; Seeking a <strong>Cyber Security Internship</strong> opportunity to apply theoretical knowledge in a real-world environment.</p>
-                  <p>&gt; Eager to deeply learn new techniques in Offensive and Defensive Security.</p>
+                  <p>&gt; My ultimate goal is to apply my knowledge in a real-world working environment and grow into a Cybersecurity expert in the future.</p>
                 </div>
               </div>
             </div>
@@ -109,25 +99,6 @@ const About = ({ isDark }) => {
             </div>
           </div>
 
-          {/* Experience */}
-          <div className="about-section">
-            <div className="about-section-title">
-              <Briefcase size={18} />
-              <h3>Experience</h3>
-            </div>
-            <div className="timeline">
-              {experience.map((item, i) => (
-                <div key={i} className="timeline-item card">
-                  <div className="timeline-period">{item.period}</div>
-                  <div className="timeline-body">
-                    <h4 className="timeline-title">{item.title}</h4>
-                    <p className="timeline-sub">{item.company}</p>
-                    {item.detail && <p className="timeline-detail">{item.detail}</p>}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </section>

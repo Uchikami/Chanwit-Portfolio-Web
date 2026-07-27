@@ -164,9 +164,14 @@
 .log-image-wrapper {
   position: relative;
   width: 100%;
-  height: 180px;
+  max-height: 250px;
   overflow: hidden;
   border-bottom: 1px solid var(--border);
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-in;
 }
 
 [data-theme="dark"] .log-image-wrapper {
@@ -175,8 +180,14 @@
 
 .log-image {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  max-height: 250px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.log-image-wrapper:hover .log-image {
+  transform: scale(1.02);
 }
 
 [data-theme="dark"] .log-image {
@@ -284,5 +295,99 @@
     margin-left: 0;
     margin-right: 0;
     max-width: 100%;
+  }
+}
+
+/* Image Modal */
+.image-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(5px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  cursor: zoom-out;
+  opacity: 0;
+  animation: fadeInModal 0.3s forwards ease-out;
+}
+
+.image-modal-overlay.closing {
+  animation: fadeOutModal 0.3s forwards ease-in;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOutModal {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.image-modal-content {
+  position: relative;
+  max-width: 800px;
+  width: 90%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.95);
+  animation: scaleInModal 0.3s forwards ease-out;
+}
+
+.image-modal-overlay.closing .image-modal-content {
+  animation: scaleOutModal 0.3s forwards ease-in;
+}
+
+@keyframes scaleInModal {
+  from { transform: scale(0.95); }
+  to { transform: scale(1); }
+}
+
+@keyframes scaleOutModal {
+  from { transform: scale(1); }
+  to { transform: scale(0.95); }
+}
+
+.image-modal-img {
+  width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border: 1px solid var(--border);
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  background: #111;
+}
+
+[data-theme="dark"] .image-modal-img {
+  border-color: #333;
+}
+
+.image-modal-close {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.image-modal-close:hover {
+  color: var(--accent);
+}
+
+[data-theme="dark"] .image-modal-close:hover {
+  color: #ff007f;
+}
+
+@media (max-width: 768px) {
+  .image-modal-close {
+    top: -40px;
+    right: 0;
   }
 }

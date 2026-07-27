@@ -5,7 +5,7 @@ import MatrixRain from './MatrixRain';
 import './Hero.css';
 
 const Hero = ({ isDark, isLoggingOut }) => {
-  const fullBio = "> ./initialize_internship_protocol.sh\nExploiting vulnerabilities today to secure tomorrow's networks. Specialized in Kali Linux, Wireshark, and Burp Suite.";
+  const fullBio = "> ./initialize_internship_protocol.sh";
   const fullName = "CHANWIT LOEYOS";
 
   const [typedName, setTypedName] = useState(fullName);
@@ -94,7 +94,7 @@ const Hero = ({ isDark, isLoggingOut }) => {
           </p>
 
           <div className="hero-links">
-            <a href="https://github.com/chanwit-loeyos" target="_blank" rel="noopener noreferrer" className="hero-social-link" onClick={() => {
+            <a href="https://github.com/Uchikami" target="_blank" rel="noopener noreferrer" className="hero-social-link" onClick={() => {
               const audio = new Audio('/assets/sound/comm_btn.mp3');
               audio.volume = 0.5;
               audio.play().catch(e => console.log(e));
@@ -133,8 +133,8 @@ const Hero = ({ isDark, isLoggingOut }) => {
         {/* RIGHT: Avatar card */}
         <div className="hero-card-wrapper">
           <div className="hero-card">
-            <div className="hero-avatar">
-              <span>CL</span>
+            <div className="hero-avatar" style={{ padding: 0, overflow: 'hidden' }}>
+              <img src="/profile_pic.jpg" alt="Chanwit Loeyos" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
             </div>
             <div className="hero-card-info">
               <strong>Chanwit Loeyos</strong>

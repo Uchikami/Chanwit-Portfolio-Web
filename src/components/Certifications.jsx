@@ -2,71 +2,13 @@ import { useState, useEffect, useRef } from 'react';
 import './Certifications.css';
 
 const certifications = [
-  // The 3 Verified Links
   {
     id: 1,
-    name: 'Cyber Security 101 (SEC1) Certificate',
-    issuer: 'TryHackMe',
-    date: '2024',
-    image: '/certs/Cyber Security 101 (SEC1) Certificate.jpg',
-    link: 'https://assets.tryhackme.com/certification-certificate/69974832a981bfe768a733a4.pdf'
-  },
-  {
-    id: 2,
-    name: 'Pre Security Certificate',
-    issuer: 'TryHackMe',
-    date: '2024',
-    image: '/certs/Pre Security Certificate.png',
-    link: 'https://tryhackme.com/certificate/THM-FC1YEUACMM'
-  },
-  {
-    id: 3,
-    name: 'Cyber Security 101 Certificate',
-    issuer: 'TryHackMe',
-    date: '2024',
-    image: '/certs/Cyber Security 101 Certificate.png',
-    link: 'https://tryhackme.com/certificate/THM-KBAFHETJ7S'
-  },
-  // The 5 Pictures
-  {
-    id: 4,
-    name: 'Linux 100 Fundamentals',
-    issuer: 'Organization',
-    date: '2024',
-    image: '/certs/Linux 100 Fundamentals.jpg',
-    link: null
-  },
-  {
-    id: 5,
-    name: 'BU MINI CTF COMPETITION 2026',
-    issuer: 'Organization',
+    name: 'Cyber Security 101 (SEC1)',
+    issuer: 'TRY HACK ME',
     date: '2026',
-    image: '/certs/BU MINI CTF COMPETITION 2026.jpg',
-    link: null
-  },
-  {
-    id: 6,
-    name: 'Cyber Security Forensics (Online + Workshop)',
-    issuer: 'Organization',
-    date: '2024',
-    image: '/certs/Cyber Security Forensics (Online + Workshop).jpg',
-    link: null
-  },
-  {
-    id: 7,
-    name: 'Thailand Cyber Top Talent 2023',
-    issuer: 'Organization',
-    date: '2023',
-    image: '/certs/Thailand Cyber Top Talent 2023.jpg',
-    link: null
-  },
-  {
-    id: 8,
-    name: 'Thailand Cyber Top Talent 2025',
-    issuer: 'Organization',
-    date: '2025',
-    image: '/certs/Thailand Cyber Top Talent 2025.jpg',
-    link: null
+    image: '/certs/Cyber Security 101 Certificate.png',
+    link: 'https://assets.tryhackme.com/certification-certificate/69974832a981bfe768a733a4.pdf'
   }
 ];
 

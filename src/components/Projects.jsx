@@ -6,52 +6,28 @@ import './Projects.css';
 const projects = [
   {
     id: 1,
-    title: 'AI Acoustic Drone Detection',
+    title: 'OffSec Penetration Testing Report',
     description:
-      'พัฒนาระบบปัญญาประดิษฐ์ (AI) เพื่อตรวจจับและระบุตัวตนของอากาศยานไร้คนขับ (Drone) โดยใช้ข้อมูลทางวิเคราะห์เสียง (Acoustic Signatures) เพื่อเพิ่มศักยภาพด้านความปลอดภัยและป้องกันการบุกรุกพื้นที่',
-    tags: ['Python', 'Machine Learning', 'Audio Processing', 'Security'],
-    role: 'AI & Security Researcher — ออกแบบและพัฒนาโมเดล AI',
-    githubUrl: '#',
-    liveUrl: null,
-    type: 'Cybersecurity',
-    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=800&auto=format&fit=crop'
-  },
-  {
-    id: 2,
-    title: 'CTF Challenge Write-ups',
-    description:
-      'A collection of write-ups and solutions from Capture The Flag competitions. Covers categories including web exploitation, cryptography, and forensics.',
-    tags: ['CTF', 'Security', 'Python', 'Cryptography'],
-    role: 'Individual — competed and documented solutions independently.',
-    githubUrl: '#',
-    liveUrl: null,
+      'Conducted comprehensive penetration testing on three Offensive Security (OffSec) vulnerable machines: BBSCute, SunsetNoontide, and Blogger. The project involved deep enumeration, vulnerability assessment, exploitation, and privilege escalation. Documented the entire cyber kill chain—from initial access to root compromise—along with actionable remediation recommendations in a professional penetration testing report.',
+    tags: ['Nmap', 'Burp Suite', 'Metasploit', 'Nessus', 'Privilege Escalation', 'Report Writing'],
+    role: 'Penetration Tester — Executed full kill chain and documented findings.',
+    githubUrl: null,
+    liveUrl: 'https://drive.google.com/file/d/11-z53PYcdhGCRaq2h0yzqlhFl6aD4_7o/view?usp=sharing',
     type: 'Cybersecurity',
     image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop'
   },
   {
-    id: 3,
-    title: 'Secure Task Manager',
+    id: 2,
+    title: 'COSI Skywarden Acoustic Anti-drone',
     description:
-      'A web application for managing tasks with role-based access control and JWT authentication. Designed with security best practices in mind.',
-    tags: ['React', 'Node.js', 'JWT', 'MongoDB'],
-    role: 'Full-stack Developer — handled both frontend UI and backend API.',
-    githubUrl: '#',
-    liveUrl: '#',
-    type: 'Web Development',
-    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop'
-  },
-  {
-    id: 4,
-    title: 'University Course Project',
-    description:
-      'Replace this with a real course project. Include tools used, your specific role, and any outcomes. Capture screenshots if possible.',
-    tags: ['Course Project'],
-    role: 'Replace with your actual role.',
-    githubUrl: '#',
+      'An industrial collaboration project with the Royal Thai Army focused on developing an advanced AI-powered acoustic drone detection system. Engineered a deep learning pipeline utilizing ResNet-50 CNN combined with Bi-directional LSTM to accurately isolate and classify drone audio signatures from environmental noise. Currently developing spatial audio processing to implement omnidirectional sound reception and real-time trajectory prediction of incoming drones.',
+    tags: ['Python', 'ResNet-50', 'Bi-directional LSTM', 'Deep Learning', 'Audio Processing'],
+    role: 'Project Developer / Researcher — Developed deep learning models for acoustic detection.',
+    githubUrl: null,
     liveUrl: null,
-    type: 'Academic',
-    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800&auto=format&fit=crop'
-  },
+    type: 'AI & Defense Tech',
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=800&auto=format&fit=crop'
+  }
 ];
 
 const Projects = ({ isDark = true }) => {
@@ -298,7 +274,7 @@ const Projects = ({ isDark = true }) => {
                           )}
                           {selectedProject.liveUrl && (
                             <a href={selectedProject.liveUrl} target="_blank" rel="noopener noreferrer" className="panel-action-btn" aria-label="Live Demo">
-                              <ExternalLink size={16} /> <span>DEPLOY</span>
+                              <ExternalLink size={16} /> <span>VIEW_DATA</span>
                             </a>
                           )}
                         </div>

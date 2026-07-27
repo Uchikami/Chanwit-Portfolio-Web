@@ -68,23 +68,15 @@ const ProfessionalPortfolio = ({ onToggleTheme }) => {
  />
  </svg>
  </a>
- <a
- href="/assets/Resume.pdf"
- target="_blank"
- rel="noopener noreferrer"
- className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-slate-800 border-2 border-slate-300 hover:bg-slate-100 focus:ring-4 focus:ring-slate-100 rounded-md transition-colors"
- >
- <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
- Download Resume
- </a>
  </div>
  <div 
  id="hacker-logo" 
- className="lg:mt-0 lg:col-span-5 lg:flex relative z-10"
+ className="lg:mt-0 lg:col-span-5 lg:flex relative z-10 justify-center items-center"
  >
  <img
- src="/assets/images/hacker.png"
- alt="hacker"
+ src="/profile_pic.jpg"
+ alt="Chanwit Loeyos"
+ className="rounded-full shadow-2xl object-cover w-64 h-64 md:w-80 md:h-80 border-4 border-slate-200"
  />
  </div>
  </div>

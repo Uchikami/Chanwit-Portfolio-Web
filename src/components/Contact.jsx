@@ -77,7 +77,7 @@ const Contact = () => {
                   </div>
                 </div>
 
-                <a href="https://github.com/chanwit-loeyos" target="_blank" rel="noopener noreferrer" className="node-item" onClick={() => {
+                <a href="https://github.com/Uchikami" target="_blank" rel="noopener noreferrer" className="node-item" onClick={() => {
                   const audio = new Audio('/assets/sound/comm_btn.mp3');
                   audio.volume = 0.5;
                   audio.play().catch(e => console.log(e));
@@ -85,7 +85,7 @@ const Contact = () => {
                   <div className="node-icon"><FaGithub size={20} /></div>
                   <div className="node-info">
                     <span className="node-id">NODE_03 // GITHUB</span>
-                    <span className="node-val">/chanwit-loeyos</span>
+                    <span className="node-val">/Uchikami</span>
                   </div>
                 </a>
 

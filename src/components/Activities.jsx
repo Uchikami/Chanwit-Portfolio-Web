@@ -1,43 +1,102 @@
 import { useEffect, useRef, useState } from 'react';
-import { Crosshair } from 'lucide-react';
+import { Crosshair, ExternalLink, X } from 'lucide-react';
 import './Activities.css';
 
 const activities = [
   {
     id: 1,
-    type: 'COMPETITION',
-    title: 'Hackathon / CTF Competition',
-    date: '2024.11',
-    status: 'MISSION ACCOMPLISHED',
-    description:
-      'Participated in [Hackathon Name]. Our team developed [brief description of solution]. My role: [your specific contribution]. Result: [award/ranking if any].',
-    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop'
+    type: 'AWARD',
+    title: 'IT Empowering Day Award',
+    date: '2026',
+    status: 'ACHIEVED',
+    description: 'Received an award at the university\'s IT Empowering Day for the "COSI: Skywarden Acoustic Anti-Drone" project. Successfully presented the deep learning-based acoustic detection model to academic panels and industry professionals, demonstrating its real-world application in defense technology.',
+    image: '/activities/IMG_3373.jpg'
   },
   {
     id: 2,
-    type: 'COMMUNITY',
-    title: 'CS / Cybersecurity Club',
-    date: '2022.08 - PRESENT',
-    status: 'ACTIVE OPERATION',
-    description:
-      'Active member of [Club Name] at university. Organized workshops on network fundamentals and participated in group security research sessions.',
-    image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop'
+    type: 'COMPETITION',
+    title: 'BU Mini CTF',
+    date: '2026',
+    status: 'COMPLETED',
+    description: 'Participated in the BU Mini CTF competition organized by the faculty. Engaged in solving practical cybersecurity challenges, applying analytical thinking to tackle various categories such as web exploitation, cryptography, and reverse engineering. This hands-on experience sparked a deep interest and served as the starting point for my journey into the cybersecurity field.',
+    image: '/activities/bu_mini_ctf.jpg'
   },
   {
     id: 3,
-    type: 'SEMINAR',
-    title: 'Tech Seminar & Training',
-    date: '2023.05',
-    status: 'DATA ACQUIRED',
-    description:
-      'Attended [Seminar Name] covering topics in modern cybersecurity trends, cloud security, and zero-trust architecture.',
-    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=800&auto=format&fit=crop'
+    type: 'CERTIFICATION',
+    title: 'Pre Security Certificate',
+    date: '2026',
+    status: 'ACQUIRED',
+    description: 'Successfully completed the TryHackMe Pre Security learning path, gaining foundational knowledge in cybersecurity, networking, and web mechanics.',
+    image: '/certs/Pre Security Certificate.png',
+    verifyLink: 'https://tryhackme.com/certificate/THM-FC1YEUACMM'
   },
+  {
+    id: 4,
+    type: 'CERTIFICATION',
+    title: 'Cyber Security 101',
+    date: '2026',
+    status: 'ACQUIRED',
+    description: 'Completed the Cyber Security 101 certification, mastering core security concepts and threat landscape fundamentals.',
+    image: '/certs/Cyber Security 101 Certificate.png',
+    verifyLink: 'https://tryhackme.com/certificate/THM-KBAFHETJ7S'
+  },
+  {
+    id: 5,
+    type: 'CERTIFICATION',
+    title: 'Linux 100 Fundamentals',
+    date: '2025',
+    status: 'ACQUIRED',
+    description: 'Achieved proficiency in Linux operating system operations, including command-line navigation, file permissions, and system administration.',
+    image: '/certs/Linux 100 Fundamentals.jpg'
+  },
+  {
+    id: 6,
+    type: 'COMPETITION',
+    title: 'Thailand Cyber Top Talent 2023',
+    date: '2023',
+    status: 'COMPLETED',
+    description: 'Competed against top cybersecurity talents across Thailand in a rigorous national CTF competition, solving complex security challenges.',
+    image: '/certs/Thailand Cyber Top Talent 2023.jpg'
+  },
+  {
+    id: 7,
+    type: 'COMPETITION',
+    title: 'Thailand Cyber Top Talent 2025',
+    date: '2025',
+    status: 'COMPLETED',
+    description: 'Returned to compete in the national-level Thailand Cyber Top Talent CTF, applying advanced offensive and defensive techniques under pressure.',
+    image: '/certs/Thailand Cyber Top Talent 2025.jpg'
+  },
+  {
+    id: 8,
+    type: 'TRAINING',
+    title: 'Cyber Security Forensics',
+    date: '2026',
+    status: 'COMPLETED',
+    description: 'Participated in an intensive digital forensics workshop, learning how to analyze cyber incidents, acquire evidence, and trace malicious activities.',
+    image: '/certs/Cyber Security Forensics (Online + Workshop).jpg'
+  }
 ];
 
 const Activities = ({ isDark = true }) => {
   const [visibleItems, setVisibleItems] = useState(new Set());
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [isClosingModal, setIsClosingModal] = useState(false);
   const timelineRef = useRef(null);
+
+  const handleOpenImage = (img) => {
+    setSelectedImage(img);
+    setIsClosingModal(false);
+  };
+
+  const handleCloseImage = () => {
+    setIsClosingModal(true);
+    setTimeout(() => {
+      setSelectedImage(null);
+      setIsClosingModal(false);
+    }, 280); // match css animation duration
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -109,7 +168,7 @@ const Activities = ({ isDark = true }) => {
                     <span className="log-date">[{act.date}]</span>
                   </div>
                   
-                  <div className="log-image-wrapper">
+                  <div className="log-image-wrapper" onClick={() => handleOpenImage(act.image)}>
                     <img src={act.image} alt={act.title} className="log-image" />
                     <div className="scanline-overlay"></div>
                   </div>
@@ -134,6 +193,14 @@ const Activities = ({ isDark = true }) => {
                       <span className="field-label">STATUS:</span>
                       <span className="field-value status">{act.status}</span>
                     </div>
+
+                    {act.verifyLink && (
+                      <div className="data-field" style={{ marginTop: '10px' }}>
+                        <a href={act.verifyLink} target="_blank" rel="noopener noreferrer" className="btn btn-outline" style={{ padding: '4px 12px', fontSize: '0.8rem', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                          <ExternalLink size={14} /> VERIFY RECORD
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -141,6 +208,17 @@ const Activities = ({ isDark = true }) => {
           })}
         </div>
       </div>
+
+      {selectedImage && (
+        <div className={`image-modal-overlay ${isClosingModal ? 'closing' : ''}`} onClick={handleCloseImage}>
+          <div className="image-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="image-modal-close" onClick={handleCloseImage}>
+              <X size={24} />
+            </button>
+            <img src={selectedImage} alt="Full Size Preview" className="image-modal-img" />
+          </div>
+        </div>
+      )}
     </section>
   );
 };

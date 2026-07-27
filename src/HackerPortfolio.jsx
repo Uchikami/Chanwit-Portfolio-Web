@@ -38,6 +38,11 @@ function HackerPortfolio({ onToggleTheme }) {
   }, []);
 
   useEffect(() => {
+    if (!isAFK) {
+      setGlitchClass('');
+      return;
+    }
+
     const sfxGlitch1 = new Audio('/assets/sound/glitch_1.mp3');
     const sfxGlitch2 = new Audio('/assets/sound/glitch_2.mp3');
     const sfxGlitch3 = new Audio('/assets/sound/glitch_3.mp3');
@@ -51,6 +56,12 @@ function HackerPortfolio({ onToggleTheme }) {
     let tearTimerId;
 
     const playRandomGlitch = () => {
+      // Don't glitch if the user is viewing an image modal
+      if (document.querySelector('.image-modal-overlay')) {
+        timerId = setTimeout(playRandomGlitch, 5000);
+        return;
+      }
+
       const isAlt = Math.random() > 0.5;
       setGlitchClass(isAlt ? 'js-glitch-active-2' : 'js-glitch-active');
       
@@ -60,24 +71,25 @@ function HackerPortfolio({ onToggleTheme }) {
       
       tearTimerId = setTimeout(() => setGlitchClass(''), 150); // Normal quick tear duration
 
-      const nextDelay = 4000 + Math.random() * 6000;
+      const nextDelay = 5000 + Math.random() * 5000;
       timerId = setTimeout(playRandomGlitch, nextDelay);
     };
 
-    // Just a quick 150ms entrance visual glitch (no sound)
-
+    // start the first glitch soon after going AFK
     initialTimerId = setTimeout(() => {
-      setGlitchClass('');
-      timerId = setTimeout(playRandomGlitch, 3000);
-    }, 150);
+      timerId = setTimeout(playRandomGlitch, 1000 + Math.random() * 2000);
+    }, 100);
 
     return () => {
       clearTimeout(initialTimerId);
       clearTimeout(tearTimerId);
       clearTimeout(timerId);
-      glitches.forEach(a => a.pause());
+      glitches.forEach(a => {
+        a.pause();
+        a.currentTime = 0;
+      });
     };
-  }, []);
+  }, [isAFK]);
 
   return (
     <>
