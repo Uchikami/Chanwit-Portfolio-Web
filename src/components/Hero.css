@@ -101,7 +101,7 @@
   border-radius: 16px;
   padding: 2.5rem 2rem;
   width: 100%;
-  max-width: 380px;
+  max-width: 420px;
   box-shadow: var(--shadow-lg);
   display: flex;
   flex-direction: column;
@@ -110,8 +110,8 @@
 }
 
 .hero-avatar {
-  width: 140px;
-  height: 140px;
+  width: 256px;
+  height: 256px;
   border-radius: 50%;
   background: var(--accent-subtle);
   border: 3px solid var(--accent);
@@ -122,6 +122,13 @@
   font-weight: 700;
   color: var(--accent);
   letter-spacing: -0.02em;
+}
+
+@media (min-width: 768px) {
+  .hero-avatar {
+    width: 320px;
+    height: 320px;
+  }
 }
 
 .hero-card-info {

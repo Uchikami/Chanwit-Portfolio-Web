@@ -27,6 +27,18 @@ const projects = [
     liveUrl: null,
     type: 'AI & Defense Tech',
     image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=800&auto=format&fit=crop'
+  },
+  {
+    id: 3,
+    title: 'Volunteer Hub',
+    description:
+      'A comprehensive volunteering web application developed as a 2nd-year final project. The platform facilitates event management, participant tracking, and precise location mapping. It incorporates gamification elements, including activity competitions, leaderboards, and a point-based reward redemption system to encourage user engagement.',
+    tags: ['React', 'TypeScript', 'Tailwind CSS', 'Supabase', 'Leaflet', 'Lucide React'],
+    role: 'Developer — 2nd-year final project.',
+    githubUrl: null,
+    liveUrl: 'https://volunteer-hub-eight.vercel.app/',
+    type: 'Web Development',
+    image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?q=80&w=800&auto=format&fit=crop'
   }
 ];
 
