@@ -27,6 +27,16 @@
   color: #ef4444;
   text-align: center;
   min-width: 300px;
+  animation: violentShake 0.15s infinite;
+}
+
+@keyframes violentShake {
+  0% { transform: translate(2px, 1px) rotate(0deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  40% { transform: translate(1px, -2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 3px) rotate(0deg); }
+  80% { transform: translate(2px, -1px) rotate(1deg); }
+  100% { transform: translate(-1px, 2px) rotate(-1deg); }
 }
 
 .breach-title {

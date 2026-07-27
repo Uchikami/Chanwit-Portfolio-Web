@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { ExternalLink, X, Unlock, ShieldAlert, Folder, FileCode2, Terminal } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 import './Projects.css';
@@ -51,6 +52,14 @@ const Projects = ({ isDark = true }) => {
 
   const [selectedProject, setSelectedProject] = useState(null);
   const [isClosingPanel, setIsClosingPanel] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Group projects by type
   const groupedProjects = projects.reduce((acc, proj) => {
@@ -58,6 +67,18 @@ const Projects = ({ isDark = true }) => {
     acc[proj.type].push(proj);
     return acc;
   }, {});
+
+  // Handle body scroll lock on mobile when modal is open
+  useEffect(() => {
+    if (selectedProject && window.innerWidth <= 768) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [selectedProject]);
 
   const handleBreach = () => {
     setIsBreaching(true);
@@ -229,8 +250,8 @@ const Projects = ({ isDark = true }) => {
                 })}
               </div>
 
-              {/* SIDE PANEL */}
-              {selectedProject && (
+              {/* SIDE PANEL (Desktop: inline, Mobile: portal) */}
+              {!isMobile && selectedProject && (
                 <div className={`project-side-panel card ${isClosingPanel ? 'closing' : ''}`} key={selectedProject.id}>
                   <div className="panel-header">
                     <span className="panel-header-title">root@chanwit:~# cat {selectedProject.title.replace(/\s+/g, '_')}.info</span>
@@ -299,6 +320,76 @@ const Projects = ({ isDark = true }) => {
           )}
         </div>
       </div>
+      
+      {/* Mobile Portal for Side Panel */}
+      {isMobile && selectedProject && createPortal(
+        <div className="mobile-modal-overlay" onClick={handleClosePanel}>
+          <div className={`project-side-panel card ${isClosingPanel ? 'closing' : ''}`} key={selectedProject.id} onClick={(e) => e.stopPropagation()}>
+            <div className="panel-header">
+              <span className="panel-header-title">root@chanwit:~# cat {selectedProject.title.replace(/\s+/g, '_')}.info</span>
+              <button className="close-panel-btn" onClick={handleClosePanel}>
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="panel-content">
+              <div className="panel-image-wrapper">
+                <div className="panel-image-container">
+                  <img src={selectedProject.image} alt={selectedProject.title} className="panel-image" />
+                </div>
+              </div>
+
+              <div className="panel-data">
+                <div className="data-row">
+                  <span className="data-label">TYPE:</span>
+                  <span className="data-value highlight">{selectedProject.type}</span>
+                </div>
+
+                <div className="data-row">
+                  <span className="data-label">TITLE:</span>
+                  <h3 className="data-value title">{selectedProject.title}</h3>
+                </div>
+
+                <div className="data-row block">
+                  <span className="data-label">DESC:</span>
+                  <p className="data-value desc">{selectedProject.description}</p>
+                </div>
+
+                <div className="data-row block">
+                  <span className="data-label">ROLE:</span>
+                  <span className="data-value">{selectedProject.role}</span>
+                </div>
+
+                <div className="data-row block">
+                  <span className="data-label">MODULES:</span>
+                  <div className="panel-tags">
+                    {selectedProject.tags.map((tag, i) => (
+                      <span key={i} className="panel-tag">[{tag}]</span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="data-row block">
+                  <span className="data-label">EXECUTE:</span>
+                  <div className="panel-actions">
+                    {selectedProject.githubUrl && (
+                      <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer" className="panel-action-btn" aria-label="GitHub">
+                        <FaGithub size={16} /> <span>SOURCE</span>
+                      </a>
+                    )}
+                    {selectedProject.liveUrl && (
+                      <a href={selectedProject.liveUrl} target="_blank" rel="noopener noreferrer" className="panel-action-btn" aria-label="Live Demo">
+                        <ExternalLink size={16} /> <span>VIEW_DATA</span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </section>
   );
 };

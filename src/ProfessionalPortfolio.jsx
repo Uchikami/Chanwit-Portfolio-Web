@@ -32,9 +32,9 @@ const ProfessionalPortfolio = ({ onToggleTheme }) => {
  
  {/* #### HERO SECTION #### */}
  
- <section className="min-h-screen w-full flex items-center justify-center pt-20 md:pt-0 relative">
+  <section className="min-h-screen w-full flex flex-col items-center justify-center pt-24 pb-28 md:pt-0 md:pb-0 relative">
 
- <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-32 lg:grid-cols-12 relative z-10">
+ <div className="grid max-w-screen-xl px-4 py-8 mx-auto gap-12 lg:gap-16 xl:gap-20 lg:py-32 lg:grid-cols-12 relative z-10">
  <div className="mr-auto place-self-center lg:col-span-7">
  <h1
  id="dynamicHeadline"
@@ -71,22 +71,24 @@ const ProfessionalPortfolio = ({ onToggleTheme }) => {
  </div>
  <div 
  id="hacker-logo" 
- className="lg:mt-0 lg:col-span-5 lg:flex relative z-10 justify-center items-center"
+ className="lg:col-span-5 flex relative z-10 justify-center lg:justify-end items-center"
  >
  <img
  src="/profile_pic.jpg"
  alt="Chanwit Loeyos"
- className="rounded-full shadow-2xl object-cover w-64 h-64 md:w-80 md:h-80 border-4 border-slate-200"
+ className="rounded-full shadow-2xl object-cover w-full max-w-[260px] sm:max-w-[320px] lg:max-w-[380px] aspect-square border-4 border-slate-200 transition-all duration-300"
  />
  </div>
  </div>
  
         {/* Scroll Down Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce text-slate-500 cursor-pointer" onClick={() => document.getElementById('about').scrollIntoView({behavior: 'smooth'})}>
-          <span className="text-sm font-bold mb-2">Scroll Down</span>
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-          </svg>
+        <div className="absolute bottom-8 w-full flex justify-center pointer-events-none">
+          <div className="flex flex-col items-center animate-bounce text-slate-500 cursor-pointer pointer-events-auto" onClick={() => document.getElementById('about').scrollIntoView({behavior: 'smooth'})}>
+            <span className="text-sm font-bold mb-2">Scroll Down</span>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+          </div>
         </div>
       </section>
 
