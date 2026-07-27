@@ -84,9 +84,11 @@ const CertCard = ({ cert, isDark }) => {
       rel="noopener noreferrer"
       className="cert-cyber-frame"
       onClick={() => {
-        const clickAudio = new Audio('/assets/sound/cert_click.mp3');
-        clickAudio.volume = 0.6;
-        clickAudio.play().catch(err => console.log(err));
+        if (isDark) {
+          const clickAudio = new Audio('/assets/sound/cert_click.mp3');
+          clickAudio.volume = 0.6;
+          clickAudio.play().catch(err => console.log(err));
+        }
       }}
       onMouseEnter={() => {
         setIsHovered(true);

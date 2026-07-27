@@ -1,5 +1,5 @@
 // src/App.tsx
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Nav from '../components/layout/LightNav';
 import Footer from '../components/layout/LightFooter';
 
@@ -14,7 +14,38 @@ import '../particles.css';
 import '../ProfessionalPortfolio.css';
 
 const ProfessionalPortfolio = ({ onToggleTheme }) => {
- return (
+  const fullHeadline = "Securing the Future with ";
+  const fullKeyword = "Cybersecurity & AI";
+  const fullBio = "Computer Science Student passionate about Offensive Security, Network Analysis, and AI-driven defense systems. Looking for an internship opportunity in Cyber Security.";
+
+  const [typedHeadline, setTypedHeadline] = useState("");
+  const [typedKeyword, setTypedKeyword] = useState("");
+  const [typedBio, setTypedBio] = useState("");
+
+  useEffect(() => {
+    let currentLength = 0;
+    const totalHeadlineLength = fullHeadline.length;
+    const totalKeywordLength = fullKeyword.length;
+    const totalBioLength = fullBio.length;
+
+    const interval = setInterval(() => {
+      currentLength++;
+
+      if (currentLength <= totalHeadlineLength) {
+        setTypedHeadline(fullHeadline.slice(0, currentLength));
+      } else if (currentLength <= totalHeadlineLength + totalKeywordLength) {
+        setTypedKeyword(fullKeyword.slice(0, currentLength - totalHeadlineLength));
+      } else if (currentLength <= totalHeadlineLength + totalKeywordLength + totalBioLength) {
+        setTypedBio(fullBio.slice(0, currentLength - totalHeadlineLength - totalKeywordLength));
+      } else {
+        clearInterval(interval);
+      }
+    }, 15); // Typing speed in milliseconds
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
  <div className="professional-layout">
  <Nav onToggleTheme={onToggleTheme} />
  <main id="home" className="w-full">
@@ -36,20 +67,42 @@ const ProfessionalPortfolio = ({ onToggleTheme }) => {
 
  <div className="grid max-w-screen-xl px-4 py-8 mx-auto gap-12 lg:gap-16 xl:gap-20 lg:py-32 lg:grid-cols-12 relative z-10">
  <div className="mr-auto place-self-center lg:col-span-7">
- <h1
- id="dynamicHeadline"
- className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl "
- >
- Securing the Future with{" "}
- <span id="dynamicWords" className="text-emerald-600 font-bold">
- Cybersecurity & AI
- </span>
- </h1>
+  <div className="relative">
+    {/* Invisible placeholder to reserve exact space across all screen sizes */}
+    <h1
+      className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl opacity-0 select-none pointer-events-none"
+      aria-hidden="true"
+    >
+      Securing the Future with{" "}
+      <span className="font-bold">Cybersecurity & AI</span>
+    </h1>
+    
+    {/* Animated visible text */}
+    <h1
+      id="dynamicHeadline"
+      className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl absolute top-0 left-0 w-full h-full"
+    >
+      {typedHeadline}
+      <span id="dynamicWords" className="text-emerald-600 font-bold">
+      {typedKeyword}
+      </span>
+    </h1>
+  </div>
 
- <p className="max-w-2xl mb-6 font-bold text-slate-600 lg:mb-8 text-3xl ">
- Computer Science Student passionate about Offensive Security, Network Analysis, and AI-driven defense systems. Looking for an internship opportunity in Cyber Security.
+  <div className="relative">
+    {/* Invisible placeholder */}
+    <p 
+      className="max-w-2xl mb-6 font-bold text-slate-600 lg:mb-8 text-3xl opacity-0 select-none pointer-events-none"
+      aria-hidden="true"
+    >
+      Computer Science Student passionate about Offensive Security, Network Analysis, and AI-driven defense systems. Looking for an internship opportunity in Cyber Security.
+    </p>
 
- </p>
+    {/* Animated visible text */}
+    <p className="max-w-2xl mb-6 font-bold text-slate-600 lg:mb-8 text-3xl absolute top-0 left-0 w-full h-full">
+    {typedBio}
+    </p>
+  </div>
  <a
  href="#about"
  className="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:ring-sky-300 rounded-md"

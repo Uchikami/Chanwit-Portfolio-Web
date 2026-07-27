@@ -28,8 +28,8 @@ const Hero = ({ isDark, isLoggingOut }) => {
         } else {
           clearInterval(interval);
         }
-        i += 3; // Fast script speed
-      }, 10);
+        i += 1; // Smooth character by character typing
+      }, 10); // Adjust speed
 
       return () => clearInterval(interval);
     } else if (!isDark) {

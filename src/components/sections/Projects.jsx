@@ -86,7 +86,10 @@ const Projects = ({ isDark = true }) => {
     
     const audioBreaching = new Audio('/assets/sound/breaching.mp3');
     audioBreaching.volume = 0.5;
-    audioBreaching.play().catch(e => console.log(e));
+    
+    if (isDark) {
+      audioBreaching.play().catch(e => console.log(e));
+    }
 
     const logs = [
       "> INITIATING BRUTE FORCE...",
@@ -124,7 +127,10 @@ const Projects = ({ isDark = true }) => {
           audioBreaching.pause();
           const audioDone = new Audio('/assets/sound/breaching_done.mp3');
           audioDone.volume = 0.6;
-          audioDone.play().catch(e => console.log(e));
+          
+          if (isDark) {
+            audioDone.play().catch(e => console.log(e));
+          }
           setIsBreaching(false);
           setIsBreached(true);
         }, 100);
@@ -133,9 +139,11 @@ const Projects = ({ isDark = true }) => {
   };
 
   const handleClosePanel = () => {
-    const audioClose = new Audio('/assets/sound/windows_close.mp3');
-    audioClose.volume = 0.5;
-    audioClose.play().catch(e => console.log(e));
+    if (isDark) {
+      const audioClose = new Audio('/assets/sound/windows_close.mp3');
+      audioClose.volume = 0.5;
+      audioClose.play().catch(e => console.log(e));
+    }
 
     setIsClosingPanel(true);
     setTimeout(() => {
@@ -230,9 +238,11 @@ const Projects = ({ isDark = true }) => {
                               key={proj.id}
                               className={`tree-node file-node ${isSelected ? 'selected' : ''}`}
                               onClick={() => {
-                                const audioPop = new Audio('/assets/sound/windows_pop.mp3');
-                                audioPop.volume = 0.5;
-                                audioPop.play().catch(e => console.log(e));
+                                if (isDark) {
+                                  const audioPop = new Audio('/assets/sound/windows_pop.mp3');
+                                  audioPop.volume = 0.5;
+                                  audioPop.play().catch(e => console.log(e));
+                                }
 
                                 setIsClosingPanel(false);
                                 setSelectedProject(proj);
