@@ -58,17 +58,17 @@ Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
 
 2. **Install dependencies:**
    ```bash
-   npm install
+   bun install
    ```
 
 3. **Run the development server:**
    ```bash
-   npm run dev
+   bun dev
    ```
 
 4. **Build for production:**
    ```bash
-   npm run build
+   bun run build
    ```
 
 ## 👨‍💻 Author
