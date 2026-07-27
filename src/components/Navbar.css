@@ -38,6 +38,17 @@
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  position: relative;
+}
+
+.nav-sliding-cursor {
+  position: absolute;
+  bottom: 0px;
+  height: 2px;
+  background-color: var(--accent);
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+  z-index: -1;
 }
 
 .navbar-link {
@@ -67,8 +78,7 @@
   color: var(--accent);
 }
 
-.navbar-link:hover::after,
-.navbar-link--active::after {
+.navbar-link:hover::after {
   width: 100%;
 }
 
@@ -141,21 +151,27 @@
   display: none;
 }
 
-[data-theme="dark"] .navbar-link::after {
-  position: static;
-  width: auto;
-  height: auto;
+
+
+[data-theme="dark"] .nav-sliding-cursor {
+  top: 0;
+  bottom: auto;
+  transform: none;
+  height: 100%;
   background-color: transparent;
-  content: " █";
-  color: transparent;
-  transition: color 0.1s ease;
-  font-size: 0.9em;
+  color: var(--accent);
+  animation: termBlink 1.5s infinite;
 }
 
-[data-theme="dark"] .navbar-link:hover::after,
-[data-theme="dark"] .navbar-link--active::after {
-  width: auto;
-  color: var(--accent);
+[data-theme="dark"] .nav-sliding-cursor::after {
+  content: "█";
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 0px;
+  font-size: 0.9em;
+  line-height: 1;
 }
 
 /* ===== THEME TOGGLE ANIMATIONS ===== */

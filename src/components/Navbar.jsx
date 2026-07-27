@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Briefcase, Sun, Moon, Menu, X } from 'lucide-react';
 import './Navbar.css';
 
@@ -18,6 +18,8 @@ const Navbar = ({ isDark, onToggleTheme, isLoggingOut, setIsLoggingOut }) => {
   const [decryptText, setDecryptText] = useState(null);
   const [isGlitching, setIsGlitching] = useState(false);
   const [isHackingIn, setIsHackingIn] = useState(false);
+  const navRef = useRef(null);
+  const [cursorStyle, setCursorStyle] = useState({ opacity: 0 });
 
   const handleToggle = () => {
     if (!isDark) {
@@ -110,6 +112,29 @@ const Navbar = ({ isDark, onToggleTheme, isLoggingOut, setIsLoggingOut }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const updateCursor = () => {
+      if (navRef.current) {
+        const activeLink = navRef.current.querySelector('.navbar-link--active');
+        if (activeLink) {
+          setCursorStyle({
+            left: `${activeLink.offsetLeft}px`,
+            width: `${activeLink.offsetWidth}px`,
+            opacity: 1
+          });
+        }
+      }
+    };
+    
+    const timer = setTimeout(updateCursor, 50);
+    window.addEventListener('resize', updateCursor);
+    
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', updateCursor);
+    };
+  }, [activeSection, isDark, scrolled]);
+
   const handleNavClick = (e, href) => {
     e.preventDefault();
     setMobileOpen(false);
@@ -133,7 +158,8 @@ const Navbar = ({ isDark, onToggleTheme, isLoggingOut, setIsLoggingOut }) => {
           {isDark ? "root@chanwit:~#" : <>Chanwit<span className="logo-dot">.</span></>}
         </a>
 
-        <nav className="navbar-nav" aria-label="Main navigation">
+        <nav className="navbar-nav" aria-label="Main navigation" ref={navRef}>
+          <div className="nav-sliding-cursor" style={cursorStyle}></div>
           {navLinks.map((link) => (
             <a
               key={link.href}

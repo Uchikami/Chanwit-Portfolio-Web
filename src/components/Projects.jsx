@@ -11,7 +11,7 @@ const projects = [
     description:
       'Conducted comprehensive penetration testing on three Offensive Security (OffSec) vulnerable machines: BBSCute, SunsetNoontide, and Blogger. The project involved deep enumeration, vulnerability assessment, exploitation, and privilege escalation. Documented the entire cyber kill chain—from initial access to root compromise—along with actionable remediation recommendations in a professional penetration testing report.',
     tags: ['Nmap', 'Burp Suite', 'Metasploit', 'Nessus', 'Privilege Escalation', 'Report Writing'],
-    role: 'Penetration Tester — Executed full kill chain and documented findings.',
+    role: 'Penetration Tester and document.',
     githubUrl: null,
     liveUrl: 'https://drive.google.com/file/d/11-z53PYcdhGCRaq2h0yzqlhFl6aD4_7o/view?usp=sharing',
     type: 'Cybersecurity',
@@ -23,7 +23,8 @@ const projects = [
     description:
       'An industrial collaboration project with the Royal Thai Army focused on developing an advanced AI-powered acoustic drone detection system. Engineered a deep learning pipeline utilizing ResNet-50 CNN combined with Bi-directional LSTM to accurately isolate and classify drone audio signatures from environmental noise. Currently developing spatial audio processing to implement omnidirectional sound reception and real-time trajectory prediction of incoming drones.',
     tags: ['Python', 'ResNet-50', 'Bi-directional LSTM', 'Deep Learning', 'Audio Processing'],
-    role: 'Project Developer / Researcher — Developed deep learning models for acoustic detection.',
+    role: 'Project Developer and Researcher',
+    status: 'IN_DEVELOPMENT',
     githubUrl: null,
     liveUrl: null,
     type: 'AI & Defense Tech',
@@ -35,7 +36,7 @@ const projects = [
     description:
       'A comprehensive volunteering web application developed as a 2nd-year final project. The platform facilitates event management, participant tracking, and precise location mapping. It incorporates gamification elements, including activity competitions, leaderboards, and a point-based reward redemption system to encourage user engagement.',
     tags: ['React', 'TypeScript', 'Tailwind CSS', 'Supabase', 'Leaflet', 'Lucide React'],
-    role: 'Developer — 2nd-year final project.',
+    role: 'Developer',
     githubUrl: null,
     liveUrl: 'https://volunteer-hub-eight.vercel.app/',
     type: 'Web Development',
@@ -237,9 +238,11 @@ const Projects = ({ isDark = true }) => {
                                 setSelectedProject(proj);
                               }}
                             >
-                              <span className="tree-line">{childIndent}{projPrefix}</span>
-                              <FileCode2 size={16} className="tree-icon file-icon" />
-                              <span className="file-name">{proj.title.replace(/\s+/g, '_')}.exe</span>
+                              <div className="file-node-main">
+                                <span className="tree-line">{childIndent}{projPrefix}</span>
+                                <FileCode2 size={16} className="tree-icon file-icon" />
+                                <span className="file-name">{proj.title.replace(/\s+/g, '_')}.exe</span>
+                              </div>
                               {isSelected && <span className="file-status">[ ACTIVE ]</span>}
                             </div>
                           );
@@ -273,6 +276,13 @@ const Projects = ({ isDark = true }) => {
                         <span className="data-value highlight">{selectedProject.type}</span>
                       </div>
 
+                      {selectedProject.status && (
+                        <div className="data-row">
+                          <span className="data-label">STATUS:</span>
+                          <span className="data-value highlight blink-text" style={{ color: '#fbbf24', textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }}>[{selectedProject.status}]</span>
+                        </div>
+                      )}
+
                       <div className="data-row">
                         <span className="data-label">TITLE:</span>
                         <h3 className="data-value title">{selectedProject.title}</h3>
@@ -285,16 +295,16 @@ const Projects = ({ isDark = true }) => {
 
                       <div className="data-row block">
                         <span className="data-label">ROLE:</span>
-                        <span className="data-value">{selectedProject.role}</span>
+                        <span className="data-value role-value">{selectedProject.role}</span>
                       </div>
 
                       <div className="data-row block">
-                        <span className="data-label">MODULES:</span>
-                        <div className="panel-tags">
+                        <span className="data-label">TECH STACK:</span>
+                        <ul className="panel-tech-list">
                           {selectedProject.tags.map((tag, i) => (
-                            <span key={i} className="panel-tag">[{tag}]</span>
+                            <li key={i} className="panel-tech-item">&gt; {tag}</li>
                           ))}
-                        </div>
+                        </ul>
                       </div>
 
                       <div className="data-row block">
@@ -345,6 +355,13 @@ const Projects = ({ isDark = true }) => {
                   <span className="data-value highlight">{selectedProject.type}</span>
                 </div>
 
+                {selectedProject.status && (
+                  <div className="data-row">
+                    <span className="data-label">STATUS:</span>
+                    <span className="data-value highlight blink-text" style={{ color: '#fbbf24', textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }}>[{selectedProject.status}]</span>
+                  </div>
+                )}
+
                 <div className="data-row">
                   <span className="data-label">TITLE:</span>
                   <h3 className="data-value title">{selectedProject.title}</h3>
@@ -357,16 +374,16 @@ const Projects = ({ isDark = true }) => {
 
                 <div className="data-row block">
                   <span className="data-label">ROLE:</span>
-                  <span className="data-value">{selectedProject.role}</span>
+                  <span className="data-value role-value">{selectedProject.role}</span>
                 </div>
 
                 <div className="data-row block">
-                  <span className="data-label">MODULES:</span>
-                  <div className="panel-tags">
+                  <span className="data-label">TECH STACK:</span>
+                  <ul className="panel-tech-list">
                     {selectedProject.tags.map((tag, i) => (
-                      <span key={i} className="panel-tag">[{tag}]</span>
+                      <li key={i} className="panel-tech-item">&gt; {tag}</li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
 
                 <div className="data-row block">
