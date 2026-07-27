@@ -71,6 +71,12 @@ Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
    bun run build
    ```
 
+## 🤝 Credits / Acknowledgements
+
+This project's Professional/Light theme design was inspired by and built upon the foundational work of **Dan-Duran**. 
+- Original Template: [Dan-Duran/hak3r](https://github.com/Dan-Duran/hak3r) 
+- License: MIT License
+
 ## 👨‍💻 Author
 
 **Chanwit Loeyos**
