@@ -115,10 +115,14 @@ const Navbar = ({ isDark, onToggleTheme, isLoggingOut, setIsLoggingOut }) => {
     setMobileOpen(false);
     setActiveSection(href);
     
-    const id = href.substring(1);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (window.lenis) {
+      window.lenis.scrollTo(href);
+    } else {
+      const id = href.substring(1);
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -126,7 +130,7 @@ const Navbar = ({ isDark, onToggleTheme, isLoggingOut, setIsLoggingOut }) => {
     <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
       <div className="container navbar-inner">
         <a href="#home" className="navbar-logo" onClick={(e) => handleNavClick(e, '#home')}>
-          Chanwit<span className="logo-dot">.</span>
+          {isDark ? "root@chanwit:~#" : <>Chanwit<span className="logo-dot">.</span></>}
         </a>
 
         <nav className="navbar-nav" aria-label="Main navigation">

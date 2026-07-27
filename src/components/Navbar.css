@@ -136,16 +136,6 @@
 }
 
 /* ===== HACKER DARK THEME OVERRIDES ===== */
-[data-theme="dark"] .navbar-logo {
-  font-size: 0; /* Hide original text */
-}
-
-[data-theme="dark"] .navbar-logo::after {
-  content: "root@chanwit:~#";
-  font-size: 1.15rem;
-  color: var(--text-primary);
-  font-family: inherit;
-}
 
 [data-theme="dark"] .logo-dot {
   display: none;

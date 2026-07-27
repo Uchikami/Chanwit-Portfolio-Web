@@ -54,9 +54,13 @@ const LightNav = ({ onToggleTheme }) => {
   }, []);
 
   const scrollToSection = (elementId) => {
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (window.lenis) {
+      window.lenis.scrollTo('#' + elementId);
+    } else {
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
     setIsOpen(false);
   };
@@ -71,7 +75,7 @@ const LightNav = ({ onToggleTheme }) => {
     >
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         {/* Brand */}
-        <a href="/" className="flex items-center">
+        <a href="#home" onClick={(e) => { e.preventDefault(); scrollToSection('home'); }} className="flex items-center">
           <img 
             src="/profile_pic.jpg" 
             className={`mr-3 rounded-full object-cover border border-slate-200 transition-all duration-300 ${isScrolled ? 'h-8 w-8' : 'h-10 w-10'}`} 

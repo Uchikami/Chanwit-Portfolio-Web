@@ -22,6 +22,7 @@ function App() {
       wheelMultiplier: 1.1, // Slightly faster scroll distance
       smoothTouch: false,
     });
+    window.lenis = lenis;
 
     function raf(time) {
       lenis.raf(time);
@@ -31,6 +32,7 @@ function App() {
     requestAnimationFrame(raf);
 
     return () => {
+      window.lenis = null;
       lenis.destroy();
     };
   }, []);

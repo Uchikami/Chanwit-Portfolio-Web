@@ -7,7 +7,7 @@ const certifications = [
     name: 'Cyber Security 101 (SEC1)',
     issuer: 'TRY HACK ME',
     date: '2026',
-    image: '/certs/Cyber Security 101 Certificate.png',
+    image: '/certs/Cyber Security 101 (SEC1) Certificate.jpg',
     link: 'https://assets.tryhackme.com/certification-certificate/69974832a981bfe768a733a4.pdf'
   }
 ];

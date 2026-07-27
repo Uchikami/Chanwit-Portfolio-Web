@@ -8,7 +8,10 @@ function LightNavbar({ onToggleTheme }) {
   const [open, setOpen] = useState(false);
   return <header className="prof-navbar">
     <div className="prof-container prof-nav-inner">
-      <a className="prof-logo" href="#home"><span className="prof-logo-mark">&gt;_</span> CHANWIT</a>
+      <a className="prof-logo" href="#" onClick={(e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }}><span className="prof-logo-mark">&gt;_</span> CHANWIT</a>
       <nav className={`prof-nav-links ${open ? 'is-open' : ''}`} aria-label="Main navigation">
         {links.map(([label, href]) => <a href={href} key={href} onClick={() => setOpen(false)}>{label}</a>)}
       </nav>

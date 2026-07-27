@@ -10,13 +10,38 @@ const Contact = () => {
     address: '',
     payload: ''
   });
+  const [formErrors, setFormErrors] = useState({});
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (formErrors[e.target.name]) {
+      setFormErrors({ ...formErrors, [e.target.name]: null });
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Custom Validation
+    let errors = {};
+    if (!formData.alias.trim()) errors.alias = "ERROR: REQUIRED_FIELD";
+    
+    if (!formData.address.trim()) {
+      errors.address = "ERROR: REQUIRED_FIELD";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.address)) {
+      errors.address = "ERROR: INVALID_FORMAT";
+    }
+    
+    if (!formData.payload.trim()) errors.payload = "ERROR: REQUIRED_FIELD";
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      const audioError = new Audio('/assets/sound/error.mp3');
+      audioError.volume = 0.5;
+      audioError.play().catch(err => console.log(err));
+      return;
+    }
+
     setIsEncrypting(true);
     
     const audio = new Audio('/assets/sound/comm_btn.mp3');
@@ -111,9 +136,9 @@ const Contact = () => {
               <span>TRANSMISSION_PROTOCOL.exe</span>
             </div>
             <div className="panel-body">
-              <form onSubmit={handleSubmit} className="cyber-form">
+              <form onSubmit={handleSubmit} className="cyber-form" noValidate>
 
-                <div className="form-group">
+                <div className={`form-group ${formErrors.alias ? 'has-error' : ''}`}>
                   <label htmlFor="alias">&gt; ENTER_SENDER_ALIAS:</label>
                   <input
                     type="text"
@@ -126,9 +151,10 @@ const Contact = () => {
                     placeholder="e.g. Neo"
                   />
                   <div className="input-line"></div>
+                  {formErrors.alias && <span className="cyber-error-text">&gt; {formErrors.alias}</span>}
                 </div>
 
-                <div className="form-group">
+                <div className={`form-group ${formErrors.address ? 'has-error' : ''}`}>
                   <label htmlFor="address">&gt; ENTER_RETURN_ADDRESS:</label>
                   <input
                     type="email"
@@ -141,9 +167,10 @@ const Contact = () => {
                     placeholder="e.g. neo@matrix.com"
                   />
                   <div className="input-line"></div>
+                  {formErrors.address && <span className="cyber-error-text">&gt; {formErrors.address}</span>}
                 </div>
 
-                <div className="form-group">
+                <div className={`form-group ${formErrors.payload ? 'has-error' : ''}`}>
                   <label htmlFor="payload">&gt; INPUT_PAYLOAD:</label>
                   <textarea
                     id="payload"
@@ -155,6 +182,7 @@ const Contact = () => {
                     placeholder="Enter your message..."
                   ></textarea>
                   <div className="input-line"></div>
+                  {formErrors.payload && <span className="cyber-error-text">&gt; {formErrors.payload}</span>}
                 </div>
 
                 <button

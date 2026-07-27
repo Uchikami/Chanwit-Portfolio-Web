@@ -199,6 +199,28 @@
   box-shadow: 0 0 15px #00ff41;
 }
 
+/* Error State */
+.form-group.has-error label {
+  color: #ff007f;
+}
+.form-group.has-error .input-line {
+  background: #ff007f;
+  box-shadow: 0 0 10px #ff007f;
+}
+.cyber-error-text {
+  color: #ff007f;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  font-weight: bold;
+  animation: blinkError 1s infinite;
+}
+
+@keyframes blinkError {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 /* Submit Button */
 .cyber-submit-btn {
   margin-top: 1rem;
