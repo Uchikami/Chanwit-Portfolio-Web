@@ -13,8 +13,10 @@ import './App.css';
 function HackerPortfolio({ onToggleTheme }) {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isAFK, setIsAFK] = useState(false);
+  const [glitchClass, setGlitchClass] = useState('');
 
   useEffect(() => {
+    // We keep isAFK state in case we want other AFK behaviors later
     let timeoutId;
     const resetTimer = () => {
       setIsAFK(false);
@@ -35,6 +37,46 @@ function HackerPortfolio({ onToggleTheme }) {
     };
   }, []);
 
+  useEffect(() => {
+    const sfxGlitch1 = new Audio('/assets/sound/glitch_1.mp3');
+    const sfxGlitch2 = new Audio('/assets/sound/glitch_2.mp3');
+    const sfxGlitch3 = new Audio('/assets/sound/glitch_3.mp3');
+    sfxGlitch1.volume = 0.15;
+    sfxGlitch2.volume = 0.15;
+    sfxGlitch3.volume = 0.15;
+    const sfxAccess = new Audio("/assets/sound/i'm_in.mp3");
+    sfxAccess.volume = 0.7;
+    const glitches = [sfxGlitch1, sfxGlitch2, sfxGlitch3];
+
+    let timerId;
+    const playRandomGlitch = (isFirstEntry = false) => {
+      const isAlt = Math.random() > 0.5;
+      setGlitchClass(isAlt ? 'js-glitch-active-2' : 'js-glitch-active');
+      
+      const audio = glitches[Math.floor(Math.random() * glitches.length)];
+      audio.currentTime = 0;
+      audio.play().catch(e => {});
+
+      if (isFirstEntry) {
+        sfxAccess.currentTime = 0;
+        sfxAccess.play().catch(e => {});
+      }
+      
+      setTimeout(() => setGlitchClass(''), 150); // Glitch effect duration matches typical quick tear
+
+      const nextDelay = 4000 + Math.random() * 6000;
+      timerId = setTimeout(playRandomGlitch, nextDelay);
+    };
+
+    // Trigger immediately on mount with the I'm In sound
+    playRandomGlitch(true);
+
+    return () => {
+      clearTimeout(timerId);
+      glitches.forEach(a => a.pause());
+    };
+  }, []);
+
   return (
     <>
       <svg width="0" height="0" style={{ position: 'absolute', pointerEvents: 'none' }}>
@@ -44,7 +86,7 @@ function HackerPortfolio({ onToggleTheme }) {
       <div className="crt-glitch-overlay" />
       <HackerCursor />
       <Navbar isDark onToggleTheme={onToggleTheme} isLoggingOut={isLoggingOut} setIsLoggingOut={setIsLoggingOut} />
-      <main className={`${isLoggingOut ? 'logging-out' : ''} ${isAFK ? 'afk-glitch' : ''}`}>
+      <main className={`${isLoggingOut ? 'logging-out' : ''} ${glitchClass}`}>
         <Hero isDark isLoggingOut={isLoggingOut} />
         <About isDark /><Skills isDark /><Projects isDark={true} /><Activities isDark={true} /><Certifications isDark={true} /><Contact isDark={true} />
       </main>

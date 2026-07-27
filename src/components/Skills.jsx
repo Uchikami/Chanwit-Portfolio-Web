@@ -61,6 +61,57 @@ const SkillItem = ({ skill, isDark, isRevealed }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isSecured, setIsSecured] = useState(false);
   const [isBreaking, setIsBreaking] = useState(false);
+  
+  const audio1Ref = useRef(null);
+  const audio2Ref = useRef(null);
+  const activeAudioRef = useRef(1);
+  const loopTimerRef = useRef(null);
+
+  useEffect(() => {
+    audio1Ref.current = new Audio('/assets/sound/skill_shake.mp3');
+    audio2Ref.current = new Audio('/assets/sound/skill_shake.mp3');
+    audio1Ref.current.volume = 0.4;
+    audio2Ref.current.volume = 0.4;
+    return () => {
+      audio1Ref.current?.pause();
+      audio2Ref.current?.pause();
+      clearInterval(loopTimerRef.current);
+    };
+  }, []);
+
+  const playSeamlessShake = () => {
+    if (!audio1Ref.current || !audio2Ref.current) return;
+    
+    // Play first track
+    audio1Ref.current.currentTime = 0.03;
+    audio1Ref.current.play().catch(e => console.log(e));
+    activeAudioRef.current = 1;
+
+    // Alternate tracks every 1.9 seconds for a gapless loop
+    loopTimerRef.current = setInterval(() => {
+      if (activeAudioRef.current === 1) {
+        audio2Ref.current.currentTime = 0.03;
+        audio2Ref.current.play().catch(e => console.log(e));
+        activeAudioRef.current = 2;
+      } else {
+        audio1Ref.current.currentTime = 0.03;
+        audio1Ref.current.play().catch(e => console.log(e));
+        activeAudioRef.current = 1;
+      }
+    }, 1900); // 1.9s loop time covers the 2s audio seamlessly
+  };
+
+  const stopSeamlessShake = () => {
+    clearInterval(loopTimerRef.current);
+    if (audio1Ref.current) {
+      audio1Ref.current.pause();
+      audio1Ref.current.currentTime = 0;
+    }
+    if (audio2Ref.current) {
+      audio2Ref.current.pause();
+      audio2Ref.current.currentTime = 0;
+    }
+  };
 
   useEffect(() => {
     if (!isRevealed) return;
@@ -92,6 +143,12 @@ const SkillItem = ({ skill, isDark, isRevealed }) => {
 
   const handleFix = () => {
     if (isDark && isHovered && !isSecured && !isBreaking) {
+      stopSeamlessShake();
+
+      const audioPatch = new Audio('/assets/sound/patch_clicked.mp3');
+      audioPatch.volume = 0.6;
+      audioPatch.play().catch(e => console.log(e));
+
       setIsBreaking(true);
       setDisplayText(skill.name); // Stop scrambling text immediately
 
@@ -106,8 +163,16 @@ const SkillItem = ({ skill, isDark, isRevealed }) => {
   return (
     <div
       className={`terminal-skill-line ${isSecured ? 'ts-secured' : ''} ${isBreaking ? 'ts-breaking' : ''}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        if (isDark && !isSecured && !isBreaking) {
+          playSeamlessShake();
+        }
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        stopSeamlessShake();
+      }}
       onClick={isDark ? handleFix : undefined}
       style={{ cursor: isHovered && isDark && !isSecured && !isBreaking ? 'crosshair' : 'default' }}
     >

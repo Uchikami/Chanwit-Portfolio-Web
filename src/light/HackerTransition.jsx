@@ -7,8 +7,32 @@ const HackerTransition = ({ onComplete }) => {
   const [lines, setLines] = useState(0);
 
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase(2), 1500);
-    const t2 = setTimeout(() => setPhase(3), 2500);
+    const sfxAlert = new Audio('/assets/sound/red_alert.mp3');
+    const sfxSnap = new Audio('/assets/sound/thanos_snap.mp3');
+    const sfxHackscene = new Audio('/assets/sound/hackscene.mp3');
+    
+    sfxAlert.volume = 0.5;
+    sfxSnap.volume = 0.8;
+    sfxHackscene.volume = 0.4;
+
+    const playSound = (audioObj) => {
+      audioObj.currentTime = 0;
+      audioObj.play().catch(e => {});
+    };
+
+    playSound(sfxAlert);
+
+    const t1 = setTimeout(() => {
+      setPhase(2);
+      sfxAlert.pause(); // Sync redalert stop with phase end
+      playSound(sfxSnap);
+    }, 1500);
+
+    const t2 = setTimeout(() => {
+      setPhase(3);
+      playSound(sfxHackscene);
+    }, 2500);
+
     const t3 = setTimeout(() => setLines(1), 2500);
     const t4 = setTimeout(() => setLines(2), 3100);
     const t5 = setTimeout(() => setLines(3), 3700);
@@ -21,6 +45,10 @@ const HackerTransition = ({ onComplete }) => {
       clearTimeout(t4);
       clearTimeout(t5);
       clearTimeout(t6);
+
+      sfxAlert.pause();
+      sfxSnap.pause();
+      sfxHackscene.pause();
     };
   }, [onComplete]);
 

@@ -40,12 +40,27 @@ const Navbar = ({ isDark, onToggleTheme, isLoggingOut, setIsLoggingOut }) => {
       }, 30);
     } else {
       setIsLoggingOut(true);
+      
+      const audioBtn = new Audio('/assets/sound/darkmode_btn.mp3');
+      audioBtn.volume = 0.5;
+      audioBtn.play().catch(e => console.log(e));
+
+      const audioOut = new Audio("/assets/sound/i'm_out.mp3");
+      audioOut.volume = 0.6;
+      audioOut.play().catch(e => console.log(e));
+      
       setDecryptText("EXIT");
       
-      setTimeout(() => setDecryptText("EXI"), 200);
-      setTimeout(() => setDecryptText("EX"), 350);
-      setTimeout(() => setDecryptText("E"), 500);
-      setTimeout(() => setDecryptText(""), 650);
+      const playTextRmSound = () => {
+        const audio = new Audio("/assets/sound/darkmode_btn_text_rm.mp3");
+        audio.volume = 0.5;
+        audio.play().catch(e => console.log(e));
+      };
+
+      setTimeout(() => { setDecryptText("EXI"); playTextRmSound(); }, 200);
+      setTimeout(() => { setDecryptText("EX"); playTextRmSound(); }, 350);
+      setTimeout(() => { setDecryptText("E"); playTextRmSound(); }, 500);
+      setTimeout(() => { setDecryptText(""); playTextRmSound(); }, 650);
 
       setTimeout(() => {
         setDecryptText(null);

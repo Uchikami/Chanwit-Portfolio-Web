@@ -35,7 +35,7 @@ const activities = [
   },
 ];
 
-const Activities = () => {
+const Activities = ({ isDark = true }) => {
   const [visibleItems, setVisibleItems] = useState(new Set());
   const timelineRef = useRef(null);
 
@@ -46,6 +46,17 @@ const Activities = () => {
           if (entry.isIntersecting) {
             const id = parseInt(entry.target.getAttribute('data-id'));
             setVisibleItems(prev => {
+              if (prev.has(id)) return prev;
+
+              // Play fade-in sound with random pitch in dark mode
+              if (isDark) {
+                const audio = new Audio('/assets/sound/activis_fade-in.mp3');
+                audio.volume = 0.5;
+                audio.playbackRate = 0.85 + Math.random() * 0.3; // Random pitch between 0.85 and 1.15
+                audio.preservesPitch = false; // Ensures playbackRate changes pitch in modern browsers
+                audio.play().catch(e => console.log(e));
+              }
+
               const newSet = new Set(prev);
               newSet.add(id);
               return newSet;
@@ -60,7 +71,7 @@ const Activities = () => {
     elements.forEach(el => observer.observe(el));
 
     return () => elements.forEach(el => observer.unobserve(el));
-  }, []);
+  }, [isDark]);
 
   return (
     <section id="activities" className="activities-section">

@@ -80,7 +80,10 @@ const LightNav = ({ onToggleTheme }) => {
         {/* Actions (Toggle & Contact) */}
         <div className="flex md:order-2 items-center">
           <button 
-            onClick={() => setIsTransitioning(true)}
+            onClick={() => {
+              new Audio('/assets/sound/lightmode_btn.mp3').play().catch(e => console.log(e));
+              setIsTransitioning(true);
+            }}
             className="relative p-2 mr-3 text-slate-500 rounded-lg hover:bg-emerald-50 hover:text-emerald-600 transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-emerald-100 group"
             title="Access Secret Hacker Mode"
           >

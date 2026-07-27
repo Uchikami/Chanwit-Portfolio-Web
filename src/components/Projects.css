@@ -28,6 +28,16 @@
   transition: all 0.3s ease;
 }
 
+[data-theme="dark"] .encrypted-archive {
+  transition: all 1.5s ease-out; /* Matches hover-out audio duration */
+}
+
+[data-theme="dark"] .encrypted-archive:hover {
+  transition: all 0.3s ease-in; /* Matches hover-on audio duration */
+  border-color: rgba(255, 0, 127, 0.5);
+  box-shadow: 0 0 30px rgba(255, 0, 127, 0.15);
+}
+
 .archive-inner {
   display: flex;
   flex-direction: column;

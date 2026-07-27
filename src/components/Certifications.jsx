@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Certifications.css';
 
 const certifications = [
@@ -115,6 +115,25 @@ const ScrambleText = ({ targetText, isHovered, delay = 0 }) => {
 
 const CertCard = ({ cert, isDark }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const audioHoverRef = useRef(null);
+  const audioLoopRef = useRef(null);
+  const stopLoopTimer = useRef(null);
+
+  useEffect(() => {
+    const hoverAudio = new Audio('/assets/sound/cert_hover.mp3');
+    hoverAudio.volume = 0.4;
+    audioHoverRef.current = hoverAudio;
+
+    const loopAudio = new Audio('/assets/sound/cert_loop.mp3');
+    loopAudio.volume = 0.3; // Slightly quieter for background text effect
+    audioLoopRef.current = loopAudio;
+
+    return () => {
+      hoverAudio.pause();
+      loopAudio.pause();
+      clearTimeout(stopLoopTimer.current);
+    };
+  }, []);
 
   return (
     <a
@@ -122,8 +141,47 @@ const CertCard = ({ cert, isDark }) => {
       target="_blank"
       rel="noopener noreferrer"
       className="cert-cyber-frame"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onClick={(e) => {
+        const clickAudio = new Audio('/assets/sound/cert_click.mp3');
+        clickAudio.volume = 0.6;
+        clickAudio.play().catch(err => console.log(err));
+      }}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        if (isDark) {
+          if (audioHoverRef.current) {
+            audioHoverRef.current.currentTime = 0;
+            audioHoverRef.current.play().catch(e => console.log(e));
+          }
+          if (audioLoopRef.current) {
+            // Play cert_loop from a random position
+            let duration = audioLoopRef.current.duration;
+            if (isNaN(duration) || duration < 3) duration = 15; // Fallback if not loaded
+            const maxStart = Math.max(0, duration - 2.5);
+            audioLoopRef.current.currentTime = Math.random() * maxStart;
+            audioLoopRef.current.play().catch(e => console.log(e));
+
+            // Stop the loop when text scramble animation finishes (~1950ms)
+            clearTimeout(stopLoopTimer.current);
+            stopLoopTimer.current = setTimeout(() => {
+              if (audioLoopRef.current) {
+                audioLoopRef.current.pause();
+              }
+            }, 1950);
+          }
+        }
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        if (audioHoverRef.current) {
+          audioHoverRef.current.pause();
+          audioHoverRef.current.currentTime = 0;
+        }
+        if (audioLoopRef.current) {
+          audioLoopRef.current.pause();
+        }
+        clearTimeout(stopLoopTimer.current);
+      }}
     >
       <div className="cyber-frame-inner">
         {/* Glowing Corner Accents */}

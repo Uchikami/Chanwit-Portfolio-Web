@@ -73,7 +73,10 @@ const Projects = ({ isDark = true }) => {
 
   const handleBreach = () => {
     setIsBreaching(true);
-    let progress = 0;
+    
+    const audioBreaching = new Audio('/assets/sound/breaching.mp3');
+    audioBreaching.volume = 0.5;
+    audioBreaching.play().catch(e => console.log(e));
 
     const logs = [
       "> INITIATING BRUTE FORCE...",
@@ -83,29 +86,47 @@ const Projects = ({ isDark = true }) => {
       "> ACCESS GRANTED."
     ];
     let logIndex = 0;
+    let fallbackProgress = 0;
 
     const interval = setInterval(() => {
-      progress += Math.random() * 20;
-      if (progress >= 100) progress = 100;
+      let currentProgress = 0;
+      
+      if (audioBreaching.duration) {
+        currentProgress = (audioBreaching.currentTime / audioBreaching.duration) * 100;
+      } else {
+        fallbackProgress += 1;
+        currentProgress = fallbackProgress;
+      }
 
-      setBreachProgress(progress);
+      if (currentProgress >= 100) currentProgress = 100;
 
-      if (progress > (logIndex + 1) * 18 && logIndex < logs.length) {
+      setBreachProgress(currentProgress);
+
+      if (currentProgress > (logIndex + 1) * 18 && logIndex < logs.length) {
         setBreachLogs(prev => [...prev, logs[logIndex]]);
         logIndex++;
       }
 
-      if (progress === 100) {
+      if (audioBreaching.ended || currentProgress >= 100) {
         clearInterval(interval);
+        setBreachProgress(100);
         setTimeout(() => {
+          audioBreaching.pause();
+          const audioDone = new Audio('/assets/sound/breaching_done.mp3');
+          audioDone.volume = 0.6;
+          audioDone.play().catch(e => console.log(e));
           setIsBreaching(false);
           setIsBreached(true);
-        }, 800);
+        }, 100);
       }
-    }, 120);
+    }, 50);
   };
 
   const handleClosePanel = () => {
+    const audioClose = new Audio('/assets/sound/windows_close.mp3');
+    audioClose.volume = 0.5;
+    audioClose.play().catch(e => console.log(e));
+
     setIsClosingPanel(true);
     setTimeout(() => {
       setSelectedProject(null);
@@ -124,7 +145,25 @@ const Projects = ({ isDark = true }) => {
 
         <div className="projects-tree-container">
           {!effectivelyBreached ? (
-            <div className={`encrypted-archive card ${isBreaching ? 'breaching' : ''}`} data-title="root@chanwit:~# ./crack_archive" data-light-title="root@chanwit:~# ./crack_archive">
+            <div 
+              className={`encrypted-archive card ${isBreaching ? 'breaching' : ''}`} 
+              data-title="root@chanwit:~# ./crack_archive" 
+              data-light-title="root@chanwit:~# ./crack_archive"
+              onMouseEnter={() => {
+                if (isDark) {
+                  const audioHover = new Audio('/assets/sound/breach_hover_on.mp3');
+                  audioHover.volume = 0.5;
+                  audioHover.play().catch(e => console.log(e));
+                }
+              }}
+              onMouseLeave={() => {
+                if (isDark) {
+                  const audioOut = new Audio('/assets/sound/breach_hover_out.mp3');
+                  audioOut.volume = 0.5;
+                  audioOut.play().catch(e => console.log(e));
+                }
+              }}
+            >
               <div className="archive-inner">
                 <ShieldAlert size={64} className="archive-icon" />
                 <h3 className="archive-title">[ RESTRICTED_ARCHIVE.tar.gz ]</h3>
@@ -181,6 +220,10 @@ const Projects = ({ isDark = true }) => {
                               key={proj.id}
                               className={`tree-node file-node ${isSelected ? 'selected' : ''}`}
                               onClick={() => {
+                                const audioPop = new Audio('/assets/sound/windows_pop.mp3');
+                                audioPop.volume = 0.5;
+                                audioPop.play().catch(e => console.log(e));
+
                                 setIsClosingPanel(false);
                                 setSelectedProject(proj);
                               }}

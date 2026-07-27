@@ -386,6 +386,16 @@ hr {
   }
 }
 
+  .js-glitch-active {
+    filter: url(#glitch-tear-1);
+    transform: translateX(-4px);
+  }
+  
+  .js-glitch-active-2 {
+    filter: url(#glitch-tear-2);
+    transform: translateX(4px);
+  }
+
 /* ===== DATA WIPE ANIMATION ===== */
 .logging-out section:not(#home),
 .logging-out .hero-card-wrapper,
@@ -404,29 +414,5 @@ hr {
     opacity: 0; 
     transform: scale(0.95) translateY(20px); 
     filter: brightness(2) blur(5px); 
-  }
-}
-
-/* ===== RANDOM SCREEN TEAR (AFK HACKER MODE) ===== */
-.afk-glitch {
-  animation: randomScreenTear 4s infinite;
-}
-
-@keyframes randomScreenTear {
-  0%, 94%, 100% {
-    filter: none;
-    transform: none;
-  }
-  95% {
-    filter: url(#glitch-tear-1);
-    transform: translateX(-4px);
-  }
-  97% {
-    filter: url(#glitch-tear-2);
-    transform: translateX(4px);
-  }
-  99% {
-    filter: url(#glitch-tear-1);
-    transform: translateX(-2px);
   }
 }
