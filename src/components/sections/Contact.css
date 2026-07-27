@@ -1,0 +1,330 @@
+.contact-section {
+  padding: 6rem 0;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+@media (min-width: 992px) {
+  .contact-grid {
+    grid-template-columns: 1fr 1.5fr;
+  }
+}
+
+/* Panel Common Styles */
+.contact-nodes-panel, .secure-form-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+[data-theme="dark"] .contact-nodes-panel,
+[data-theme="dark"] .secure-form-panel {
+  border-color: #333;
+  background: rgba(10, 10, 10, 0.7);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  font-family: 'Fira Code', monospace;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .panel-header {
+  background: #111;
+  border-bottom-color: #333;
+}
+
+.panel-body {
+  padding: 2rem;
+  flex: 1;
+}
+
+/* Left Panel - Nodes */
+.contact-intro {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+}
+
+[data-theme="dark"] .contact-intro {
+  color: #a9a9a9;
+}
+
+.nodes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.node-item {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  background: var(--bg-main);
+}
+
+[data-theme="dark"] .node-item {
+  background: #151515;
+  border-color: #333;
+}
+
+.node-item:not(.non-link):hover {
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+  transform: translateX(10px);
+}
+
+[data-theme="dark"] .node-item:not(.non-link):hover {
+  background: rgba(0, 255, 65, 0.05);
+  box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.1);
+}
+
+.node-icon {
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[data-theme="dark"] .node-icon {
+  color: #00ff41;
+}
+
+.node-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.node-id {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.node-val {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+/* Right Panel - Form */
+.cyber-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.form-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.85rem;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+
+[data-theme="dark"] .form-group label {
+  color: #00ff41;
+}
+
+.form-group input,
+.form-group textarea {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-family: 'Fira Code', monospace;
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  resize: none;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.input-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  transition: all 0.3s;
+}
+
+[data-theme="dark"] .input-line {
+  background: #444;
+}
+
+.form-group input:focus ~ .input-line,
+.form-group textarea:focus ~ .input-line {
+  background: var(--accent);
+  height: 2px;
+  box-shadow: 0 0 10px var(--accent);
+}
+
+[data-theme="dark"] .form-group input:focus ~ .input-line,
+[data-theme="dark"] .form-group textarea:focus ~ .input-line {
+  background: #00ff41;
+  box-shadow: 0 0 15px #00ff41;
+}
+
+/* Error State */
+.form-group.has-error label {
+  color: #ff007f;
+}
+.form-group.has-error .input-line {
+  background: #ff007f;
+  box-shadow: 0 0 10px #ff007f;
+}
+.cyber-error-text {
+  color: #ff007f;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  font-weight: bold;
+  animation: blinkError 1s infinite;
+}
+
+@keyframes blinkError {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Submit Button */
+.cyber-submit-btn {
+  margin-top: 1rem;
+  padding: 1rem 2rem;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-family: 'Fira Code', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .cyber-submit-btn {
+  border-color: #00ff41;
+  color: #00ff41;
+}
+
+.cyber-submit-btn:hover:not(:disabled) {
+  background: var(--accent);
+  color: var(--bg-main);
+  box-shadow: 0 0 20px var(--accent);
+}
+
+[data-theme="dark"] .cyber-submit-btn:hover:not(:disabled) {
+  background: #00ff41;
+  color: #000;
+  box-shadow: 0 0 25px #00ff41;
+}
+
+.cyber-submit-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+  border-color: #ff007f;
+  color: #ff007f;
+}
+
+/* Encrypting Animation */
+.encrypting {
+  background: rgba(255, 0, 127, 0.1) !important;
+  box-shadow: inset 0 0 15px rgba(255, 0, 127, 0.2) !important;
+  color: #ff007f !important;
+}
+
+.glitch-text {
+  position: relative;
+  animation: glitchTextAnim 0.3s infinite;
+  display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch-text::before {
+  left: 2px;
+  text-shadow: -1px 0 red;
+  clip: rect(24px, 550px, 90px, 0);
+  animation: glitch-anim-2 0.3s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+  left: -2px;
+  text-shadow: -1px 0 blue;
+  clip: rect(85px, 550px, 140px, 0);
+  animation: glitch-anim 0.4s infinite linear alternate-reverse;
+}
+
+@keyframes glitchTextAnim {
+  0% { transform: translate(0) }
+  20% { transform: translate(-2px, 1px) }
+  40% { transform: translate(-1px, -1px) }
+  60% { transform: translate(2px, 1px) }
+  80% { transform: translate(1px, -1px) }
+  100% { transform: translate(0) }
+}
+
+@keyframes glitch-anim {
+  0% { clip: rect(10px, 9999px, 83px, 0); }
+  20% { clip: rect(31px, 9999px, 15px, 0); }
+  40% { clip: rect(59px, 9999px, 95px, 0); }
+  60% { clip: rect(25px, 9999px, 66px, 0); }
+  80% { clip: rect(98px, 9999px, 7px, 0); }
+  100% { clip: rect(16px, 9999px, 87px, 0); }
+}
+
+@keyframes glitch-anim-2 {
+  0% { clip: rect(65px, 9999px, 91px, 0); }
+  20% { clip: rect(14px, 9999px, 71px, 0); }
+  40% { clip: rect(89px, 9999px, 34px, 0); }
+  60% { clip: rect(4px, 9999px, 55px, 0); }
+  80% { clip: rect(48px, 9999px, 19px, 0); }
+  100% { clip: rect(22px, 9999px, 99px, 0); }
+}

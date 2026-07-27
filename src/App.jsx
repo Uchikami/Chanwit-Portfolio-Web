@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import HackerPortfolio from './HackerPortfolio';
-import ProfessionalPortfolio from './ProfessionalPortfolio';
+import HackerPortfolio from './pages/HackerPortfolio';
+import ProfessionalPortfolio from './pages/ProfessionalPortfolio';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
 
@@ -9,7 +9,6 @@ function App() {
     const saved = localStorage.getItem('theme');
     return saved ? saved === 'dark' : false;
   });
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
@@ -38,8 +37,8 @@ function App() {
   }, []);
 
   return isDark
-    ? <HackerPortfolio onToggleTheme={() => { setIsDark(false); setIsInitialLoad(false); }} />
-    : <ProfessionalPortfolio onToggleTheme={() => { setIsDark(true); setIsInitialLoad(false); }} />;
+    ? <HackerPortfolio onToggleTheme={() => { setIsDark(false); }} />
+    : <ProfessionalPortfolio onToggleTheme={() => { setIsDark(true); }} />;
 }
 
 export default App;
