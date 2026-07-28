@@ -115,19 +115,23 @@
 .node-info {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .node-id {
   font-family: 'Fira Code', monospace;
-  font-size: 0.7rem;
+  font-size: clamp(0.55rem, 2.5vw, 0.7rem);
   color: var(--text-muted);
   margin-bottom: 0.25rem;
+  white-space: nowrap;
 }
 
 .node-val {
   font-weight: 600;
   color: var(--text-primary);
-  font-size: 0.95rem;
+  /* Allow font to shrink proportionally to fit on one line even on extremely small screens like Galaxy Fold */
+  font-size: clamp(0.45rem, 3vw, 0.95rem);
+  white-space: nowrap;
 }
 
 /* Right Panel - Form */

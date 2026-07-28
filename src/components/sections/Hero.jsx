@@ -118,14 +118,16 @@ const Hero = ({ isDark, isLoggingOut }) => {
               const audio = new Audio('/assets/sound/comm_btn.mp3');
               audio.volume = 0.5;
               audio.play().catch(err => console.log(err));
-              document.getElementById('projects').scrollIntoView({ behavior: 'smooth' }); 
+              if (window.lenis) window.lenis.scrollTo('#projects');
+              else document.getElementById('projects').scrollIntoView({ behavior: 'smooth' }); 
             }} className="btn btn-primary">View Projects</a>
             <a href="#contact" onClick={(e) => { 
               e.preventDefault(); 
               const audio = new Audio('/assets/sound/comm_btn.mp3');
               audio.volume = 0.5;
               audio.play().catch(err => console.log(err));
-              document.getElementById('contact').scrollIntoView({ behavior: 'smooth' }); 
+              if (window.lenis) window.lenis.scrollTo('#contact');
+              else document.getElementById('contact').scrollIntoView({ behavior: 'smooth' }); 
             }} className="btn btn-outline">Contact Me</a>
           </div>
         </div>
@@ -146,7 +148,11 @@ const Hero = ({ isDark, isLoggingOut }) => {
 
       </div>
 
-      <a href="#about" onClick={(e) => { e.preventDefault(); document.getElementById('about').scrollIntoView({ behavior: 'smooth' }); }} className="scroll-hint">
+      <a href="#about" onClick={(e) => { 
+        e.preventDefault(); 
+        if (window.lenis) window.lenis.scrollTo('#about');
+        else document.getElementById('about').scrollIntoView({ behavior: 'smooth' }); 
+      }} className="scroll-hint">
         <ArrowDown size={16} />
         <span>Scroll down</span>
       </a>
