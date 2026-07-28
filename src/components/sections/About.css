@@ -34,8 +34,8 @@
 }
 
 .about-section-title h3 {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.25rem;
+  font-weight: 700;
 }
 
 .about-section-title svg {
@@ -57,8 +57,8 @@
 
 .timeline-period {
   flex-shrink: 0;
-  width: 140px;
-  font-size: 0.78rem;
+  width: 160px;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--accent);
   padding-top: 2px;
@@ -72,18 +72,18 @@
 }
 
 .timeline-title {
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-size: 1.15rem;
+  font-weight: 700;
   color: var(--text-primary);
 }
 
 .timeline-sub {
-  font-size: 0.85rem;
+  font-size: 1rem;
   color: var(--text-secondary);
 }
 
 .timeline-detail {
-  font-size: 0.825rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   margin-top: 0.25rem;
   line-height: 1.5;

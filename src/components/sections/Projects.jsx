@@ -161,8 +161,52 @@ const Projects = ({ isDark = true }) => {
           <div className="section-divider" />
         </div>
 
-        <div className="projects-tree-container">
-          {!effectivelyBreached ? (
+        {!isDark ? (
+          <div className="projects-light-grid">
+            {projects.map((proj) => (
+              <div key={proj.id} className="project-light-card">
+                <img src={proj.image} alt={proj.title} className="light-card-image" />
+                <div className="light-card-content">
+                  <div>
+                    <div className="light-card-header">
+                      <span className="light-card-type">{proj.type}</span>
+                      {proj.status && <span className="light-card-status">{proj.status}</span>}
+                    </div>
+                    <h3 className="light-card-title">{proj.title}</h3>
+                  </div>
+                  
+                  <p className="light-card-desc">{proj.description}</p>
+                  
+                  <div className="light-card-role">Role: {proj.role}</div>
+                  
+                  <div className="light-card-tech">
+                    <span className="light-card-subtitle">Tech Stack:</span>
+                    <div className="light-card-tags">
+                      {proj.tags.map((tag, i) => (
+                        <span key={i} className="light-card-tag">{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="light-card-actions">
+                    {proj.githubUrl && (
+                      <a href={proj.githubUrl} target="_blank" rel="noopener noreferrer" className="light-action-btn">
+                        <FaGithub size={16} /> Source
+                      </a>
+                    )}
+                    {proj.liveUrl && (
+                      <a href={proj.liveUrl} target="_blank" rel="noopener noreferrer" className="light-action-btn">
+                        <ExternalLink size={16} /> View Work
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="projects-tree-container">
+            {!effectivelyBreached ? (
             <div 
               className={`encrypted-archive card ${isBreaching ? 'breaching' : ''}`} 
               data-title="root@chanwit:~# ./crack_archive" 
@@ -338,11 +382,12 @@ const Projects = ({ isDark = true }) => {
               )}
             </div>
           )}
-        </div>
+          </div>
+        )}
       </div>
       
       {/* Mobile Portal for Side Panel */}
-      {isMobile && selectedProject && createPortal(
+      {isDark && isMobile && selectedProject && createPortal(
         <div className="mobile-modal-overlay" onClick={handleClosePanel}>
           <div className={`project-side-panel card ${isClosingPanel ? 'closing' : ''}`} key={selectedProject.id} onClick={(e) => e.stopPropagation()}>
             <div className="panel-header">

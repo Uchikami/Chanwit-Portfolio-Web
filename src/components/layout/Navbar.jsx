@@ -19,7 +19,7 @@ const Navbar = ({ isDark, onToggleTheme, isLoggingOut, setIsLoggingOut }) => {
   const [isGlitching, setIsGlitching] = useState(false);
   const [isHackingIn, setIsHackingIn] = useState(false);
   const navRef = useRef(null);
-  const [cursorStyle, setCursorStyle] = useState({ opacity: 0 });
+  const [cursorStyle, setCursorStyle] = useState({ opacity: 0, visibility: 'hidden' });
 
   const handleToggle = () => {
     if (!isDark) {
@@ -88,7 +88,7 @@ const Navbar = ({ isDark, onToggleTheme, isLoggingOut, setIsLoggingOut }) => {
         }))
         .filter((item) => item.element);
 
-      let currentActive = '';
+      let currentActive = '#home';
       // Offset by a third of the window height
       const scrollPosition = window.scrollY + window.innerHeight / 3;
 
@@ -102,9 +102,7 @@ const Navbar = ({ isDark, onToggleTheme, isLoggingOut, setIsLoggingOut }) => {
         }
       }
 
-      if (currentActive) {
-        setActiveSection(currentActive);
-      }
+      setActiveSection(currentActive);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -120,8 +118,13 @@ const Navbar = ({ isDark, onToggleTheme, isLoggingOut, setIsLoggingOut }) => {
           setCursorStyle({
             left: `${activeLink.offsetLeft}px`,
             width: `${activeLink.offsetWidth}px`,
-            opacity: 1
+            opacity: 1,
+            visibility: 'visible'
           });
+        } else {
+          // If no link is active (e.g. we are at #home), hide the cursor completely
+          // using visibility to bypass CSS animation overriding opacity
+          setCursorStyle(prev => ({ ...prev, opacity: 0, visibility: 'hidden' }));
         }
       }
     };

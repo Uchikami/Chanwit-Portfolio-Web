@@ -16,23 +16,11 @@
 /* Light Mode Terminal Boxes (Corporate) */
 .professional-layout .card {
   background-color: #FFFFFF !important;
-  border-radius: 4px !important;
+  border-radius: 12px !important;
   border: 1px solid #CBD5E1 !important; /* Soft border */
-  border-top: 28px solid #1E293B !important; /* Deep Navy Header */
   position: relative;
-  margin-top: 15px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
-}
-
-.professional-layout .card::after {
-  content: attr(data-light-title);
-  position: absolute;
-  top: -24px;
-  left: 12px;
-  font-family: 'Fira Code', 'Courier New', Courier, monospace;
-  font-size: 0.90rem;
-  font-weight: 600;
-  color: #FFFFFF !important; /* White text on Navy header */
+  overflow: hidden !important;
 }
 
 /* Override accent colors in Light Mode */

@@ -144,7 +144,7 @@ const Activities = ({ isDark = true }) => {
         <div className="timeline-container" ref={timelineRef}>
           <div className="timeline-traceroute"></div>
           
-          {activities.map((act, index) => {
+          {[...activities].sort((a, b) => parseInt(b.date) - parseInt(a.date)).map((act, index) => {
             const isVisible = visibleItems.has(act.id);
             const side = index % 2 === 0 ? 'left' : 'right';
 
@@ -164,7 +164,7 @@ const Activities = ({ isDark = true }) => {
                 {/* Content Block */}
                 <div className="timeline-content card">
                   <div className="log-header">
-                    <span className="log-id">OP_ID: {act.id.toString().padStart(2, '0')}</span>
+                    <span className="log-id">OP_ID: {(index + 1).toString().padStart(2, '0')}</span>
                     <span className="log-date">[{act.date}]</span>
                   </div>
                   

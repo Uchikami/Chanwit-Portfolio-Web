@@ -1,68 +1,177 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import './HackerTransition.css';
 
-const HackerTransition = ({ onComplete }) => {
-  const [phase, setPhase] = useState(1);
+// ─── Web Audio API Setup ──────────────────────────────────────────────────────
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const audioBuffers = {};
+
+const SOUNDS = {
+  alert:     { url: '/assets/sound/red_alert.mp3',   volume: 0.5 },
+  snap:      { url: '/assets/sound/thanos_snap.mp3', volume: 0.8 },
+  hackscene: { url: '/assets/sound/hackscene.mp3',   volume: 0.4 },
+  access:    { url: "/assets/sound/i'm_in.mp3",      volume: 0.7 },
+};
+
+// HTMLAudio fallback objects — always ready regardless of AudioContext state
+const htmlFallbacks = {};
+Object.entries(SOUNDS).forEach(([key, { url, volume }]) => {
+  const a = new Audio(url);
+  a.preload = 'auto';
+  a.volume = volume;
+  htmlFallbacks[key] = a;
+});
+
+const fetchAndDecode = async (key) => {
+  try {
+    const res = await fetch(SOUNDS[key].url);
+    const buf = await res.arrayBuffer();
+    audioBuffers[key] = await audioCtx.decodeAudioData(buf);
+  } catch (e) {
+    console.warn(`[Audio] Failed to preload ${key}:`, e);
+  }
+};
+
+// Start decoding all sounds immediately on module load
+Object.keys(SOUNDS).forEach(fetchAndDecode);
+
+// Resume AudioContext + ensure buffers loaded on FIRST user interaction
+let warmedUp = false;
+const warmup = () => {
+  if (warmedUp) return;
+  warmedUp = true;
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  // Re-fetch any buffers that didn't finish loading yet
+  Object.keys(SOUNDS).forEach((key) => {
+    if (!audioBuffers[key]) fetchAndDecode(key);
+  });
+};
+
+// Attach to every possible first-interaction event
+['mousedown', 'touchstart', 'keydown', 'scroll'].forEach((evt) =>
+  document.addEventListener(evt, warmup, { once: true, passive: true })
+);
+
+// ─── Play / Stop helpers ──────────────────────────────────────────────────────
+const playSound = (key, onended = null) => {
+  const { volume } = SOUNDS[key];
+
+  // Use Web Audio API if buffer is ready and context is running
+  if (audioBuffers[key] && audioCtx.state === 'running') {
+    const source   = audioCtx.createBufferSource();
+    const gainNode = audioCtx.createGain();
+    gainNode.gain.value = volume;
+    source.buffer = audioBuffers[key];
+    source.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    if (onended) source.onended = onended;
+    source.start(0);
+    return { type: 'webaudio', source, gainNode };
+  }
+
+  // Fallback: HTMLAudio
+  const fb = htmlFallbacks[key];
+  fb.currentTime = 0;
+  if (onended) fb.addEventListener('ended', onended, { once: true });
+  fb.play().catch(() => {});
+  return { type: 'html', audio: fb };
+};
+
+const stopSound = (node) => {
+  if (!node) return;
+  if (node.type === 'webaudio') {
+    try {
+      node.gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+      node.source.stop();
+    } catch (e) { /* already stopped */ }
+  } else if (node.type === 'html') {
+    node.audio.pause();
+    node.audio.currentTime = 0;
+  }
+};
+
+// ─── Export for instant play from onClick (same user-gesture frame) ──────────
+let alertNode = null; // store so HackerTransition can attach onended
+export const playAlertImmediate = () => {
+  alertNode = playSound('alert');
+  return alertNode;
+};
+
+// ─── Component ────────────────────────────────────────────────────────────────
+const HackerTransition = ({ onComplete, skipAlert = false }) => {
+  const [phase, setPhase] = useState(0);
   const [lines, setLines] = useState(0);
 
-  useEffect(() => {
-    const sfxAlert = new Audio('/assets/sound/red_alert.mp3');
-    const sfxSnap = new Audio('/assets/sound/thanos_snap.mp3');
-    const sfxHackscene = new Audio('/assets/sound/hackscene.mp3');
-    const sfxAccess = new Audio("/assets/sound/i'm_in.mp3");
-    
-    sfxAlert.volume = 0.5;
-    sfxSnap.volume = 0.8;
-    sfxHackscene.volume = 0.4;
-    sfxAccess.volume = 0.7;
+  // Store onComplete in a ref so it doesn't trigger effect re-runs if its identity changes
+  const onCompleteRef = useRef(onComplete);
+  useLayoutEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
-    const playSound = (audioObj) => {
-      audioObj.currentTime = 0;
-      audioObj.play().catch(() => {});
+  // Get actual audio duration for CSS animation (fallback 2s)
+  const alertDurationMs = audioBuffers['alert']
+    ? Math.round(audioBuffers['alert'].duration * 1000)
+    : 2000;
+
+  useLayoutEffect(() => {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+
+    let isCancelled = false;
+    let t2, t3, t4, t5, t5_5, t6;
+    let nodeSnap, nodeHackscene;
+
+    // Called exactly when red_alert sound ends — perfectly synced
+    const onAlertEnded = () => {
+      if (isCancelled) return;
+      setPhase(2);
+      nodeSnap = playSound('snap');
+
+      t2 = setTimeout(() => {
+        if (isCancelled) return;
+        setPhase(3);
+        nodeHackscene = playSound('hackscene');
+      }, 1000);
+
+      t3 = setTimeout(() => !isCancelled && setLines(1), 1000);
+      t4 = setTimeout(() => !isCancelled && setLines(2), 1600);
+      t5 = setTimeout(() => !isCancelled && setLines(3), 2200);
+      t5_5 = setTimeout(() => { if (!isCancelled) playSound('access'); }, 2850);
+      t6 = setTimeout(() => {
+        if (!isCancelled && onCompleteRef.current) onCompleteRef.current();
+      }, 3000);
     };
 
-    playSound(sfxAlert);
+    setPhase(1);
 
-    const t1 = setTimeout(() => {
-      setPhase(2);
-      sfxAlert.pause(); // Sync redalert stop with phase end
-      playSound(sfxSnap);
-    }, 1500);
-
-    const t2 = setTimeout(() => {
-      setPhase(3);
-      playSound(sfxHackscene);
-    }, 2500);
-
-    const t3 = setTimeout(() => setLines(1), 2500);
-    const t4 = setTimeout(() => setLines(2), 3100);
-    const t5 = setTimeout(() => setLines(3), 3700);
-    const t5_5 = setTimeout(() => playSound(sfxAccess), 4350); // Play voice exactly 150ms before entry glitch
-    const t6 = setTimeout(() => onComplete(), 4500);
+    if (skipAlert && alertNode) {
+      // Sound already playing from onClick — attach onended to existing node
+      if (alertNode.type === 'webaudio') {
+        alertNode.source.onended = onAlertEnded;
+      } else if (alertNode.type === 'html') {
+        alertNode.audio.addEventListener('ended', onAlertEnded, { once: true });
+      }
+    } else {
+      // Play alert here and listen for end
+      playSound('alert', onAlertEnded);
+    }
 
     return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
-      clearTimeout(t4);
-      clearTimeout(t5);
-      clearTimeout(t5_5);
-      clearTimeout(t6);
-
-      sfxAlert.pause();
-      sfxSnap.pause();
-      sfxHackscene.pause();
+      isCancelled = true;
+      clearTimeout(t2); clearTimeout(t3);
+      clearTimeout(t4); clearTimeout(t5); clearTimeout(t5_5); clearTimeout(t6);
+      stopSound(nodeSnap);
+      stopSound(nodeHackscene);
+      // Intentionally NOT stopping 'access'
     };
-  }, [onComplete]);
+  }, []); // Remove onComplete from dependencies, we use the ref now
 
   // Apply dusting class to the root app element
   useEffect(() => {
     const root = document.getElementById('root');
     const originalBodyBg = document.body.style.backgroundColor;
-    
+
     if (phase >= 2) {
-      document.body.style.backgroundColor = '#000'; // Make background black so it dusts into darkness
+      document.body.style.backgroundColor = '#000';
       if (root) root.classList.add('page-dusting');
     }
 
@@ -74,8 +183,7 @@ const HackerTransition = ({ onComplete }) => {
 
   const overlayContent = (
     <div className={`hacker-transition-overlay ${phase === 1 ? 'phase-red-alert' : phase === 2 ? 'phase-glitch' : 'phase-terminal'}`}>
-      
-      {/* SVG filter always rendered so the DOM has it ready for Phase 2 */}
+
       <svg style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}>
         <filter id="thanos-dust" x="-20%" y="-20%" width="140%" height="140%">
           <feTurbulence type="fractalNoise" baseFrequency="0.15" numOctaves="2" result="noise" />
@@ -88,15 +196,13 @@ const HackerTransition = ({ onComplete }) => {
           <div className="breach-title">[ WARNING: UNAUTHORIZED ACCESS DETECTED ]</div>
           <div className="text-sm">Initiating countermeasures...</div>
           <div className="progress-container">
-            <div className="progress-bar"></div>
+            {/* Duration driven by actual audio length */}
+            <div className="progress-bar" style={{ animationDuration: `${alertDurationMs}ms` }}></div>
           </div>
         </div>
       )}
 
-      {/* Phase 2 overlay is now transparent to show the page dusting underneath */}
-      {phase === 2 && (
-        <div style={{ width: '100%', height: '100%' }}></div>
-      )}
+      {phase === 2 && <div style={{ width: '100%', height: '100%' }}></div>}
 
       {phase === 3 && (
         <div className="terminal-text-container">

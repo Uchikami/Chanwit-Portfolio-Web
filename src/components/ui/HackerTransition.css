@@ -58,7 +58,10 @@
   height: 100%;
   background-color: #ef4444;
   width: 0%;
-  animation: progressFill 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-name: progressFill;
+  /* animation-duration intentionally NOT set here — controlled by JS inline style */
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
 }
 
 /* Phase 2: Transparent overlay so we can see the root page dusting */
@@ -119,10 +122,8 @@
 }
 
 @keyframes progressFill {
-  0% { width: 0%; }
-  30% { width: 40%; }
-  50% { width: 40%; }
-  100% { width: 100%; }
+  from { width: 0%; }
+  to   { width: 100%; }
 }
 
 @keyframes typing {

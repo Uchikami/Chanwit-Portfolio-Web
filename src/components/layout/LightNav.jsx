@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
-import HackerTransition from '../ui/HackerTransition';
+import HackerTransition, { playAlertImmediate } from '../ui/HackerTransition';
 
 const LightNav = ({ onToggleTheme }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -18,12 +18,14 @@ const LightNav = ({ onToggleTheme }) => {
 
   useEffect(() => {
     const currentElement = navRefs.current[activeSection];
-    if (currentElement) {
+    if (currentElement && activeSection !== 'home') {
       setIndicatorStyle({
         left: currentElement.offsetLeft,
         width: currentElement.offsetWidth,
         opacity: 1
       });
+    } else {
+      setIndicatorStyle(prev => ({ ...prev, opacity: 0 }));
     }
   }, [activeSection, isScrolled]);
 
@@ -31,7 +33,7 @@ const LightNav = ({ onToggleTheme }) => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
       
-      const sections = ['home', 'about', 'skills', 'projects', 'activities', 'certifications'];
+      const sections = ['about', 'skills', 'projects', 'activities', 'certifications'];
       let current = 'home';
       
       for (const section of sections) {
@@ -94,6 +96,8 @@ const LightNav = ({ onToggleTheme }) => {
                 audioBtnRef.current.currentTime = 0;
                 audioBtnRef.current.play().catch(e => console.log(e));
               }
+              // Play red_alert HERE (same user gesture, no render-cycle delay)
+              playAlertImmediate();
               setIsTransitioning(true);
             }}
             className="relative p-2 mr-3 text-slate-500 rounded-lg hover:bg-emerald-50 hover:text-emerald-600 transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-emerald-100 group"
@@ -142,7 +146,7 @@ const LightNav = ({ onToggleTheme }) => {
               className="absolute bottom-0 h-0.5 bg-sky-600 transition-all duration-300 ease-out hidden md:block"
               style={{ left: indicatorStyle.left, width: indicatorStyle.width, opacity: indicatorStyle.opacity }}
             />
-            {['home', 'about', 'skills', 'projects', 'activities', 'certifications'].map((section) => (
+            {['about', 'skills', 'projects', 'activities', 'certifications'].map((section) => (
               <li key={section} ref={el => navRefs.current[section] = el}>
                 <button 
                   onClick={() => scrollToSection(section)}
@@ -158,6 +162,7 @@ const LightNav = ({ onToggleTheme }) => {
       </div>
           {isTransitioning && (
         <HackerTransition 
+          skipAlert={true}
           onComplete={() => {
             setIsTransitioning(false);
             onToggleTheme();
