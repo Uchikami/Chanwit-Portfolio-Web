@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { ExternalLink, X, Unlock, ShieldAlert, Folder, FileCode2, Terminal } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
+import { playAudio, stopAudio } from '../../utils/audioManager';
 import './Projects.css';
 
 const projects = [
@@ -62,12 +63,14 @@ const Projects = ({ isDark = true }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Group projects by type
-  const groupedProjects = projects.reduce((acc, proj) => {
-    if (!acc[proj.type]) acc[proj.type] = [];
-    acc[proj.type].push(proj);
-    return acc;
-  }, {});
+  // Group projects by type (Memoized to prevent unnecessary recalculations on re-renders)
+  const groupedProjects = useMemo(() => {
+    return projects.reduce((acc, proj) => {
+      if (!acc[proj.type]) acc[proj.type] = [];
+      acc[proj.type].push(proj);
+      return acc;
+    }, {});
+  }, []);
 
   // Handle body scroll lock on mobile when modal is open
   useEffect(() => {
@@ -81,14 +84,22 @@ const Projects = ({ isDark = true }) => {
     };
   }, [selectedProject]);
 
+  const breachAudioRef = useRef(null);
+  const breachIntervalRef = useRef(null);
+
+  // Cleanup breach audio and interval on unmount
+  useEffect(() => {
+    return () => {
+      if (breachIntervalRef.current) clearInterval(breachIntervalRef.current);
+      if (breachAudioRef.current) stopAudio(breachAudioRef.current);
+    };
+  }, []);
+
   const handleBreach = () => {
     setIsBreaching(true);
     
-    const audioBreaching = new Audio('/assets/sound/breaching.mp3');
-    audioBreaching.volume = 0.5;
-    
     if (isDark) {
-      audioBreaching.play().catch(e => console.log(e));
+      breachAudioRef.current = playAudio('/assets/sound/breaching.mp3', 0.5);
     }
 
     const logs = [
@@ -99,18 +110,11 @@ const Projects = ({ isDark = true }) => {
       "> ACCESS GRANTED."
     ];
     let logIndex = 0;
-    let fallbackProgress = 0;
+    let currentProgress = 0;
 
-    const interval = setInterval(() => {
-      let currentProgress = 0;
+    breachIntervalRef.current = setInterval(() => {
+      currentProgress += (50 / 2500) * 100; // Simulate 2.5s duration since Web Audio doesn't expose currentTime easily
       
-      if (audioBreaching.duration) {
-        currentProgress = (audioBreaching.currentTime / audioBreaching.duration) * 100;
-      } else {
-        fallbackProgress += 1;
-        currentProgress = fallbackProgress;
-      }
-
       if (currentProgress >= 100) currentProgress = 100;
 
       setBreachProgress(currentProgress);
@@ -120,17 +124,15 @@ const Projects = ({ isDark = true }) => {
         logIndex++;
       }
 
-      if (audioBreaching.ended || currentProgress >= 100) {
-        clearInterval(interval);
+      if (currentProgress >= 100) {
+        clearInterval(breachIntervalRef.current);
+        breachIntervalRef.current = null;
+        if (breachAudioRef.current) stopAudio(breachAudioRef.current);
+        breachAudioRef.current = null;
+
         setBreachProgress(100);
         setTimeout(() => {
-          audioBreaching.pause();
-          const audioDone = new Audio('/assets/sound/breaching_done.mp3');
-          audioDone.volume = 0.6;
-          
-          if (isDark) {
-            audioDone.play().catch(e => console.log(e));
-          }
+          if (isDark) playAudio('/assets/sound/breaching_done.mp3', 0.6);
           setIsBreaching(false);
           setIsBreached(true);
         }, 100);
@@ -139,11 +141,7 @@ const Projects = ({ isDark = true }) => {
   };
 
   const handleClosePanel = () => {
-    if (isDark) {
-      const audioClose = new Audio('/assets/sound/windows_close.mp3');
-      audioClose.volume = 0.5;
-      audioClose.play().catch(e => console.log(e));
-    }
+    if (isDark) playAudio('/assets/sound/windows_close.mp3', 0.5);
 
     setIsClosingPanel(true);
     setTimeout(() => {
@@ -165,7 +163,7 @@ const Projects = ({ isDark = true }) => {
           <div className="projects-light-grid">
             {projects.map((proj) => (
               <div key={proj.id} className="project-light-card">
-                <img src={proj.image} alt={proj.title} className="light-card-image" />
+                <img src={proj.image} alt={proj.title} className="light-card-image" loading="lazy" />
                 <div className="light-card-content">
                   <div>
                     <div className="light-card-header">
@@ -212,18 +210,10 @@ const Projects = ({ isDark = true }) => {
               data-title="root@chanwit:~# ./crack_archive" 
               data-light-title="root@chanwit:~# ./crack_archive"
               onMouseEnter={() => {
-                if (isDark) {
-                  const audioHover = new Audio('/assets/sound/breach_hover_on.mp3');
-                  audioHover.volume = 0.5;
-                  audioHover.play().catch(e => console.log(e));
-                }
+                if (isDark) playAudio('/assets/sound/breach_hover_on.mp3', 0.5);
               }}
               onMouseLeave={() => {
-                if (isDark) {
-                  const audioOut = new Audio('/assets/sound/breach_hover_out.mp3');
-                  audioOut.volume = 0.5;
-                  audioOut.play().catch(e => console.log(e));
-                }
+                if (isDark) playAudio('/assets/sound/breach_hover_out.mp3', 0.5);
               }}
             >
               <div className="archive-inner">
@@ -278,16 +268,21 @@ const Projects = ({ isDark = true }) => {
                           const isSelected = selectedProject?.id === proj.id;
 
                           return (
-                            <div
-                              key={proj.id}
+                            <div 
+                              key={proj.id} 
                               className={`tree-node file-node ${isSelected ? 'selected' : ''}`}
-                              onClick={() => {
-                                if (isDark) {
-                                  const audioPop = new Audio('/assets/sound/windows_pop.mp3');
-                                  audioPop.volume = 0.5;
-                                  audioPop.play().catch(e => console.log(e));
+                              role="button"
+                              tabIndex={0}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                  e.preventDefault();
+                                  if (isDark) playAudio('/assets/sound/windows_pop.mp3', 0.4);
+                                  setIsClosingPanel(false);
+                                  setSelectedProject(proj);
                                 }
-
+                              }}
+                              onClick={() => {
+                                if (isDark) playAudio('/assets/sound/windows_pop.mp3', 0.4);
                                 setIsClosingPanel(false);
                                 setSelectedProject(proj);
                               }}
@@ -320,7 +315,7 @@ const Projects = ({ isDark = true }) => {
                   <div className="panel-content">
                     <div className="panel-image-wrapper">
                       <div className="panel-image-container">
-                        <img src={selectedProject.image} alt={selectedProject.title} className="panel-image" />
+                        <img src={selectedProject.image} alt={selectedProject.title} className="panel-image" loading="lazy" />
                       </div>
                     </div>
 
@@ -400,7 +395,7 @@ const Projects = ({ isDark = true }) => {
             <div className="panel-content">
               <div className="panel-image-wrapper">
                 <div className="panel-image-container">
-                  <img src={selectedProject.image} alt={selectedProject.title} className="panel-image" />
+                  <img src={selectedProject.image} alt={selectedProject.title} className="panel-image" loading="lazy" />
                 </div>
               </div>
 

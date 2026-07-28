@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { Mail, MapPin, Send, Terminal } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import './Contact.css';
+import { playAudio } from '../../utils/audioManager';
 
-const Contact = () => {
+const Contact = ({ isDark }) => {
   const [isEncrypting, setIsEncrypting] = useState(false);
   const [formData, setFormData] = useState({
     alias: '',
@@ -37,9 +38,7 @@ const Contact = () => {
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
       if (isDark) {
-        const audioError = new Audio('/assets/sound/error.mp3');
-        audioError.volume = 0.5;
-        audioError.play().catch(err => console.log(err));
+        playAudio('/assets/sound/error.mp3', 0.5);
       }
       return;
     }
@@ -47,9 +46,7 @@ const Contact = () => {
     setIsEncrypting(true);
     
     if (isDark) {
-      const audio = new Audio('/assets/sound/comm_btn.mp3');
-      audio.volume = 0.5;
-      audio.play().catch(err => console.log(err));
+      playAudio('/assets/sound/comm_btn.mp3', 0.5);
     }
 
     // Simulate encryption / transmit delay
@@ -107,11 +104,7 @@ const Contact = () => {
                 </div>
 
                 <a href="https://github.com/Uchikami" target="_blank" rel="noopener noreferrer" className="node-item" onClick={() => {
-                  if (isDark) {
-                    const audio = new Audio('/assets/sound/comm_btn.mp3');
-                    audio.volume = 0.5;
-                    audio.play().catch(e => console.log(e));
-                  }
+                  if (isDark) playAudio('/assets/sound/comm_btn.mp3', 0.5);
                 }}>
                   <div className="node-icon"><FaGithub size={20} /></div>
                   <div className="node-info">
@@ -121,11 +114,7 @@ const Contact = () => {
                 </a>
 
                 <a href="https://www.linkedin.com/in/chanwit-loeyos-b54a202a0/" target="_blank" rel="noopener noreferrer" className="node-item" onClick={() => {
-                  if (isDark) {
-                    const audio = new Audio('/assets/sound/comm_btn.mp3');
-                    audio.volume = 0.5;
-                    audio.play().catch(e => console.log(e));
-                  }
+                  if (isDark) playAudio('/assets/sound/comm_btn.mp3', 0.5);
                 }}>
                   <div className="node-icon"><FaLinkedin size={20} /></div>
                   <div className="node-info">

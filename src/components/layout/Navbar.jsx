@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Briefcase, Moon, Menu, X } from 'lucide-react';
+import { playAudio, stopAudio } from '../../utils/audioManager';
 import './Navbar.css';
 
 const navLinks = [
@@ -21,6 +22,16 @@ const Navbar = ({ isDark, onToggleTheme, isLoggingOut, setIsLoggingOut }) => {
   const navRef = useRef(null);
   const [cursorStyle, setCursorStyle] = useState({ opacity: 0, visibility: 'hidden' });
 
+  const timeoutsRef = useRef([]);
+  const activeAudioRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      timeoutsRef.current.forEach(clearTimeout);
+      if (activeAudioRef.current) stopAudio(activeAudioRef.current);
+    };
+  }, []);
+
   const handleToggle = () => {
     if (!isDark) {
       setIsGlitching(true);
@@ -32,7 +43,7 @@ const Navbar = ({ isDark, onToggleTheme, isLoggingOut, setIsLoggingOut }) => {
         for(let i=0; i<4; i++) text += chars[Math.floor(Math.random() * chars.length)];
         setDecryptText(text);
         iterations++;
-        if (iterations > 30) { // Last for ~900ms
+        if (iterations > 30) {
           clearInterval(interval);
           setDecryptText(null);
           setIsGlitching(false);
@@ -40,39 +51,34 @@ const Navbar = ({ isDark, onToggleTheme, isLoggingOut, setIsLoggingOut }) => {
           onToggleTheme();
         }
       }, 30);
+      timeoutsRef.current.push(interval);
     } else {
-      const audioBtn = new Audio('/assets/sound/darkmode_btn.mp3');
-      audioBtn.volume = 0.5;
-      audioBtn.play().catch(e => console.log(e));
+      playAudio('/assets/sound/darkmode_btn.mp3', 0.5);
 
       setDecryptText("EXIT");
       
-      const textRmAudio = new Audio("/assets/sound/darkmode_btn_text_rm.mp3");
-      textRmAudio.volume = 0.5;
-      textRmAudio.play().catch(e => console.log(e));
+      activeAudioRef.current = playAudio("/assets/sound/darkmode_btn_text_rm.mp3", 0.5);
 
-      setTimeout(() => setDecryptText("EXI"), 200);
-      setTimeout(() => setDecryptText("EX"), 350);
-      setTimeout(() => setDecryptText("E"), 500);
+      timeoutsRef.current.push(setTimeout(() => setDecryptText("EXI"), 200));
+      timeoutsRef.current.push(setTimeout(() => setDecryptText("EX"), 350));
+      timeoutsRef.current.push(setTimeout(() => setDecryptText("E"), 500));
       
-      setTimeout(() => { 
+      timeoutsRef.current.push(setTimeout(() => { 
         setDecryptText(""); 
-        textRmAudio.pause(); 
-      }, 650);
+        if (activeAudioRef.current) stopAudio(activeAudioRef.current);
+      }, 650));
 
-      setTimeout(() => {
+      timeoutsRef.current.push(setTimeout(() => {
         setDecryptText(null);
         setIsLoggingOut(true);
         
-        const audioOut = new Audio("/assets/sound/i'm_out.mp3");
-        audioOut.volume = 0.6;
-        audioOut.play().catch(e => console.log(e));
-      }, 650);
+        playAudio("/assets/sound/i'm_out.mp3", 0.6);
+      }, 650));
 
-      setTimeout(() => {
+      timeoutsRef.current.push(setTimeout(() => {
         setIsLoggingOut(false);
         onToggleTheme();
-      }, 1150);
+      }, 1150));
     }
   };
 

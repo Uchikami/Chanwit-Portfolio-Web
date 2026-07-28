@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { Crosshair, ExternalLink, X } from 'lucide-react';
+import { playAudio } from '../../utils/audioManager';
 import './Activities.css';
 
 const activities = [
@@ -83,7 +84,11 @@ const Activities = ({ isDark = true }) => {
   const [visibleItems, setVisibleItems] = useState(new Set());
   const [selectedImage, setSelectedImage] = useState(null);
   const [isClosingModal, setIsClosingModal] = useState(false);
-  const timelineRef = useRef(null);
+  const nodeRefs = useRef([]);
+
+  const setRef = useCallback((el, index) => {
+    nodeRefs.current[index] = el;
+  }, []);
 
   const handleOpenImage = (img) => {
     setSelectedImage(img);
@@ -109,11 +114,8 @@ const Activities = ({ isDark = true }) => {
 
               // Play fade-in sound with random pitch in dark mode
               if (isDark) {
-                const audio = new Audio('/assets/sound/activis_fade-in.mp3');
-                audio.volume = 0.5;
-                audio.playbackRate = 0.85 + Math.random() * 0.3; // Random pitch between 0.85 and 1.15
-                audio.preservesPitch = false; // Ensures playbackRate changes pitch in modern browsers
-                audio.play().catch(e => console.log(e));
+                const randomPitch = 0.85 + Math.random() * 0.3;
+                playAudio('/assets/sound/activis_fade-in.mp3', 0.5, null, false, randomPitch);
               }
 
               const newSet = new Set(prev);
@@ -126,10 +128,13 @@ const Activities = ({ isDark = true }) => {
       { threshold: 0.2, rootMargin: '0px 0px -50px 0px' }
     );
 
-    const elements = document.querySelectorAll('.timeline-node');
+    const elements = nodeRefs.current.filter(Boolean);
     elements.forEach(el => observer.observe(el));
 
-    return () => elements.forEach(el => observer.unobserve(el));
+    return () => {
+      elements.forEach(el => observer.unobserve(el));
+      observer.disconnect();
+    };
   }, [isDark]);
 
   return (
@@ -141,7 +146,7 @@ const Activities = ({ isDark = true }) => {
           <div className="section-divider" />
         </div>
 
-        <div className="timeline-container" ref={timelineRef}>
+        <div className="timeline-container">
           <div className="timeline-traceroute"></div>
           
           {[...activities].sort((a, b) => parseInt(b.date) - parseInt(a.date)).map((act, index) => {
@@ -151,6 +156,7 @@ const Activities = ({ isDark = true }) => {
             return (
               <div 
                 key={act.id} 
+                ref={(el) => setRef(el, index)}
                 data-id={act.id}
                 className={`timeline-node ${side} ${isVisible ? 'visible' : ''}`}
               >
@@ -169,7 +175,7 @@ const Activities = ({ isDark = true }) => {
                   </div>
                   
                   <div className="log-image-wrapper" onClick={() => handleOpenImage(act.image)}>
-                    <img src={act.image} alt={act.title} className="log-image" />
+                    <img src={act.image} alt={act.title} className="log-image" loading="lazy" />
                     <div className="scanline-overlay"></div>
                   </div>
 
