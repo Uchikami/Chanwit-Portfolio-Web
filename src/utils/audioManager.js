@@ -50,9 +50,10 @@ if (typeof window !== 'undefined') {
  * @param {function} onended - Callback when the audio ends.
  * @param {boolean} loop - Whether to loop the audio.
  * @param {number} playbackRate - Playback rate multiplier (default 1).
+ * @param {number} fadeInMs - Milliseconds to fade in.
  * @returns {object} The audio node object for stopping later.
  */
-export const playAudio = (url, volume = 1, onended = null, loop = false, playbackRate = 1.0) => {
+export const playAudio = (url, volume = 1, onended = null, loop = false, playbackRate = 1.0, fadeInMs = 0) => {
   // Ensure it's tracked/preloaded
   if (!htmlFallbacks[url]) {
     preloadAudio(url, volume);
@@ -62,8 +63,13 @@ export const playAudio = (url, volume = 1, onended = null, loop = false, playbac
   if (audioBuffers[url] && audioCtx.state === 'running') {
     const source = audioCtx.createBufferSource();
     const gainNode = audioCtx.createGain();
+    if (fadeInMs > 0) {
+      gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+      gainNode.gain.linearRampToValueAtTime(volume, audioCtx.currentTime + fadeInMs / 1000);
+    } else {
+      gainNode.gain.value = volume;
+    }
     
-    gainNode.gain.value = volume;
     source.buffer = audioBuffers[url];
     source.loop = loop;
     source.playbackRate.value = playbackRate;
@@ -90,6 +96,22 @@ export const playAudio = (url, volume = 1, onended = null, loop = false, playbac
   fb.loop = loop;
   fb.playbackRate = playbackRate;
   fb.preservesPitch = false;
+  if (fb._fadeInterval) clearInterval(fb._fadeInterval);
+  
+  if (fadeInMs > 0) {
+    fb.volume = 0;
+    const step = volume / (fadeInMs / 50);
+    fb._fadeInterval = setInterval(() => {
+      if (fb.volume + step >= volume) {
+        fb.volume = volume;
+        clearInterval(fb._fadeInterval);
+      } else {
+        fb.volume += step;
+      }
+    }, 50);
+  } else {
+    fb.volume = volume;
+  }
   
   if (onended) {
     // Need a wrapper to remove listener if it's the same node reused
@@ -104,16 +126,129 @@ export const playAudio = (url, volume = 1, onended = null, loop = false, playbac
   return { type: 'html', audio: fb, url };
 };
 
-export const stopAudio = (node) => {
+/**
+ * Plays an ambient track with crossfade looping.
+ * @param {string} url - The URL to the audio file.
+ * @param {number} volume - Volume from 0 to 1.
+ * @param {number} crossfadeSec - Seconds to crossfade at the end of the track.
+ * @returns {object} The audio node object for stopping later.
+ */
+export const playAmbientLoop = (url, volume = 0.5, crossfadeSec = 5) => {
+  if (!htmlFallbacks[url]) preloadAudio(url, volume);
+  
+  const handle = { stopped: false, timeout: null, nodes: [] };
+  
+  const startLoop = async () => {
+    // Wait for buffer to be decoded
+    while (!audioBuffers[url] && !handle.stopped) {
+      await new Promise(r => setTimeout(r, 200));
+    }
+    if (handle.stopped || audioCtx.state !== 'running') return;
+    
+    const buffer = audioBuffers[url];
+    const duration = buffer.duration;
+    const loopInterval = duration - crossfadeSec;
+    
+    let nextStartTime = audioCtx.currentTime;
+    
+    const scheduleNext = (isFirst) => {
+      if (handle.stopped) return;
+      
+      const source = audioCtx.createBufferSource();
+      const gainNode = audioCtx.createGain();
+      source.buffer = buffer;
+      source.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      
+      // Fade in (shorter initial fade-in, full crossfade for subsequent)
+      gainNode.gain.setValueAtTime(0, nextStartTime);
+      gainNode.gain.linearRampToValueAtTime(volume, nextStartTime + (isFirst ? 2 : crossfadeSec));
+      
+      // Fade out at the end
+      gainNode.gain.setValueAtTime(volume, Math.max(nextStartTime, nextStartTime + duration - crossfadeSec));
+      gainNode.gain.linearRampToValueAtTime(0, nextStartTime + duration);
+      
+      source.start(nextStartTime);
+      source.stop(nextStartTime + duration);
+      
+      handle.nodes.push({ source, gainNode });
+      // Cleanup old nodes to prevent memory leak
+      handle.nodes = handle.nodes.filter(n => audioCtx.currentTime < nextStartTime + duration);
+      
+      nextStartTime += loopInterval;
+      
+      // Schedule the next loop roughly 2 seconds before the current one finishes its interval
+      const timeToNextScheduleMs = (loopInterval - 2) * 1000; 
+      handle.timeout = setTimeout(() => scheduleNext(false), Math.max(0, timeToNextScheduleMs));
+    };
+    
+    scheduleNext(true);
+  };
+  
+  startLoop();
+  return { type: 'ambientLoop', handle };
+};
+
+/**
+ * Stops an audio node.
+ * @param {object} node - The audio node returned by playAudio.
+ * @param {number} fadeOutMs - Milliseconds to fade out.
+ */
+export const stopAudio = (node, fadeOutMs = 0) => {
   if (!node) return;
+  
+  if (node.type === 'ambientLoop') {
+    node.handle.stopped = true;
+    if (node.handle.timeout) clearTimeout(node.handle.timeout);
+    node.handle.nodes.forEach(n => {
+      try {
+        if (fadeOutMs > 0) {
+          const currTime = audioCtx.currentTime;
+          n.gainNode.gain.cancelScheduledValues(currTime);
+          n.gainNode.gain.setValueAtTime(n.gainNode.gain.value, currTime);
+          n.gainNode.gain.linearRampToValueAtTime(0, currTime + fadeOutMs / 1000);
+          setTimeout(() => { try { n.source.stop(); } catch(e){} }, fadeOutMs);
+        } else {
+          n.gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+          n.source.stop();
+        }
+      } catch (e) {}
+    });
+    return;
+  }
+
   if (node.type === 'webaudio') {
     try {
-      node.gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-      node.source.stop();
-      node.source.onended = null;
-    } catch (e) {}
+      if (fadeOutMs > 0) {
+        const currTime = audioCtx.currentTime;
+        node.gainNode.gain.cancelScheduledValues(currTime);
+        node.gainNode.gain.setValueAtTime(node.gainNode.gain.value, currTime);
+        node.gainNode.gain.linearRampToValueAtTime(0, currTime + fadeOutMs / 1000);
+        setTimeout(() => {
+          try { node.source.stop(); } catch (e) {}
+        }, fadeOutMs);
+      } else {
+        node.gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+        node.source.stop();
+      }
+    } catch (e) { /* already stopped */ }
   } else if (node.type === 'html') {
-    node.audio.pause();
-    node.audio.currentTime = 0;
+    if (node.audio._fadeInterval) clearInterval(node.audio._fadeInterval);
+    if (fadeOutMs > 0) {
+      const step = node.audio.volume / (fadeOutMs / 50);
+      node.audio._fadeInterval = setInterval(() => {
+        if (node.audio.volume - step <= 0) {
+          node.audio.volume = 0;
+          node.audio.pause();
+          node.audio.currentTime = 0;
+          clearInterval(node.audio._fadeInterval);
+        } else {
+          node.audio.volume -= step;
+        }
+      }, 50);
+    } else {
+      node.audio.pause();
+      node.audio.currentTime = 0;
+    }
   }
 };

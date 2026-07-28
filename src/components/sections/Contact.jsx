@@ -1,8 +1,53 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Mail, MapPin, Send, Terminal } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import './Contact.css';
 import { playAudio } from '../../utils/audioManager';
+
+const CyberInputOverlay = ({ value, isDark }) => {
+  const [animations, setAnimations] = useState({});
+  const prevValue = useRef(value);
+
+  useEffect(() => {
+    const prev = prevValue.current || '';
+    const curr = value || '';
+    
+    if (curr.length > prev.length) {
+      let diffIndex = -1;
+      for (let i = 0; i < curr.length; i++) {
+        if (curr[i] !== prev[i]) {
+          diffIndex = i;
+          break;
+        }
+      }
+      
+      if (diffIndex !== -1) {
+        setAnimations(a => ({ ...a, [diffIndex]: true }));
+        setTimeout(() => {
+          setAnimations(a => {
+            const next = { ...a };
+            delete next[diffIndex];
+            return next;
+          });
+        }, 250);
+      }
+    } else if (curr.length < prev.length) {
+      setAnimations({});
+    }
+    prevValue.current = curr;
+  }, [value]);
+
+  if (!isDark || !value) return null;
+  return (
+    <div className="cyber-input-overlay" aria-hidden="true">
+      {value.split('').map((char, index) => (
+        <span key={index} className={animations[index] ? "pop-char" : ""}>
+          {char === ' ' ? '\u00A0' : char}
+        </span>
+      ))}
+    </div>
+  );
+};
 
 const Contact = ({ isDark }) => {
   const [isEncrypting, setIsEncrypting] = useState(false);
@@ -136,48 +181,60 @@ const Contact = ({ isDark }) => {
               <form onSubmit={handleSubmit} className="cyber-form" noValidate>
 
                 <div className={`form-group ${formErrors.alias ? 'has-error' : ''}`}>
-                  <label htmlFor="alias">&gt; ENTER_SENDER_ALIAS:</label>
-                  <input
-                    type="text"
-                    id="alias"
-                    name="alias"
-                    required
-                    autoComplete="off"
-                    value={formData.alias}
-                    onChange={handleChange}
-                    placeholder="e.g. Neo"
-                  />
+                  <label htmlFor="alias">&gt; TARGET_ALIAS:</label>
+                  <div className="cyber-input-container">
+                    <input
+                      type="text"
+                      id="alias"
+                      name="alias"
+                      required
+                      autoComplete="off"
+                      value={formData.alias}
+                      onChange={handleChange}
+                      placeholder="e.g. Neo"
+                      className={isDark && formData.alias ? 'hide-text' : ''}
+                    />
+                    <CyberInputOverlay value={formData.alias} isDark={isDark} />
+                  </div>
                   <div className="input-line"></div>
                   {formErrors.alias && <span className="cyber-error-text">&gt; {formErrors.alias}</span>}
                 </div>
 
                 <div className={`form-group ${formErrors.address ? 'has-error' : ''}`}>
                   <label htmlFor="address">&gt; ENTER_RETURN_ADDRESS:</label>
-                  <input
-                    type="email"
-                    id="address"
-                    name="address"
-                    required
-                    autoComplete="off"
-                    value={formData.address}
-                    onChange={handleChange}
-                    placeholder="e.g. neo@matrix.com"
-                  />
+                  <div className="cyber-input-container">
+                    <input
+                      type="email"
+                      id="address"
+                      name="address"
+                      required
+                      autoComplete="off"
+                      value={formData.address}
+                      onChange={handleChange}
+                      placeholder="e.g. neo@matrix.com"
+                      className={isDark && formData.address ? 'hide-text' : ''}
+                    />
+                    <CyberInputOverlay value={formData.address} isDark={isDark} />
+                  </div>
                   <div className="input-line"></div>
                   {formErrors.address && <span className="cyber-error-text">&gt; {formErrors.address}</span>}
                 </div>
 
                 <div className={`form-group ${formErrors.payload ? 'has-error' : ''}`}>
                   <label htmlFor="payload">&gt; INPUT_PAYLOAD:</label>
-                  <textarea
-                    id="payload"
-                    name="payload"
-                    rows="5"
-                    required
-                    value={formData.payload}
-                    onChange={handleChange}
-                    placeholder="Enter your message..."
-                  ></textarea>
+                  <div className="cyber-input-container">
+                    <textarea
+                      id="payload"
+                      name="payload"
+                      rows="5"
+                      required
+                      value={formData.payload}
+                      onChange={handleChange}
+                      placeholder="Enter your message..."
+                      className={isDark && formData.payload ? 'hide-text' : ''}
+                    ></textarea>
+                    <CyberInputOverlay value={formData.payload} isDark={isDark} />
+                  </div>
                   <div className="input-line"></div>
                   {formErrors.payload && <span className="cyber-error-text">&gt; {formErrors.payload}</span>}
                 </div>
