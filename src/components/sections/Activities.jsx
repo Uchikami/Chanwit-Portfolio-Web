@@ -75,7 +75,7 @@ const activities = [
     date: '2026',
     status: 'COMPLETED',
     description: 'Participated in an intensive digital forensics workshop, learning how to analyze cyber incidents, acquire evidence, and trace malicious activities.',
-    image: '/certs/Cyber Security Forensics (Online + Workshop).jpg'
+    image: '/certs/cyber-security-forensics.jpg'
   }
 ];
 
