@@ -40,7 +40,19 @@ const skillData = [
   {
     category: 'Language',
     items: [
+      { name: 'Thai', level: 'Native' },
       { name: 'English (B1 SPEXX)', level: 'Intermediate' },
+    ],
+  },
+  {
+    category: 'Soft Skills',
+    items: [
+      { name: 'Problem Solving' },
+      { name: 'Critical Thinking' },
+      { name: 'Teamwork' },
+      { name: 'Planning' },
+      { name: 'Communication' },
+      { name: 'Persistence' },
     ],
   },
 ];
@@ -182,14 +194,14 @@ const SkillItem = ({ skill, isDark, isRevealed }) => {
         {displayText}
       </span>
       <span className="ts-dots"></span>
-      <span className={`ts-badge ts-${skill.level.toLowerCase()} ${isHovered && isDark && !isSecured && !isBreaking ? 'ts-glitch' : ''}`}>
+      <span className={`ts-badge ${skill.level ? 'ts-' + skill.level.toLowerCase() : ''} ${isHovered && isDark && !isSecured && !isBreaking ? 'ts-glitch' : ''}`}>
         {isBreaking ? (
           <span className="badge-secured-anim">[PATCHED]</span>
         ) : isHovered && isDark && !isSecured ? (
           '[VULNERABLE]'
-        ) : (
+        ) : skill.level ? (
           `[${skill.level.toUpperCase()}]`
-        )}
+        ) : null}
       </span>
     </div>
   );

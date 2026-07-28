@@ -4,9 +4,15 @@ import './About.css';
 const About = ({ isDark }) => {
   const education = [
     {
+      degree: 'Science-Mathematics',
+      school: 'Pua School',
+      period: '2020 - 2023',
+      detail: 'GPA: 3.32',
+    },
+    {
       degree: 'B.S. in Computer Science',
       school: 'Bangkok University (School of Information Technology and Innovation)',
-      period: 'Expected Graduation: 2027',
+      period: '2023 - Present (Expected Graduation: 2027)',
       detail: 'Current GPA: 3.91',
     },
   ];
