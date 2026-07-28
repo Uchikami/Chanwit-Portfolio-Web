@@ -12,7 +12,7 @@ const projects = [
     description:
       'Conducted comprehensive penetration testing on three Offensive Security (OffSec) vulnerable machines: BBSCute, SunsetNoontide, and Blogger. The project involved deep enumeration, vulnerability assessment, exploitation, and privilege escalation. Documented the entire cyber kill chain—from initial access to root compromise—along with actionable remediation recommendations in a professional penetration testing report.',
     tags: ['Nmap', 'Burp Suite', 'Metasploit', 'Nessus', 'Privilege Escalation', 'Report Writing'],
-    role: 'Penetration Tester and document.',
+    role: 'Penetration Tester and Documentation',
     githubUrl: null,
     liveUrl: 'https://drive.google.com/file/d/11-z53PYcdhGCRaq2h0yzqlhFl6aD4_7o/view?usp=sharing',
     type: 'Cybersecurity',

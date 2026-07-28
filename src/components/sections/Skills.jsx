@@ -193,14 +193,12 @@ const SkillItem = ({ skill, isDark, isRevealed }) => {
       <span className={`ts-name ${isHovered && isDark && !isSecured && !isBreaking ? 'ts-name-glitch' : ''}`}>
         {displayText}
       </span>
-      <span className="ts-dots"></span>
-      <span className={`ts-badge ${skill.level ? 'ts-' + skill.level.toLowerCase() : ''} ${isHovered && isDark && !isSecured && !isBreaking ? 'ts-glitch' : ''}`}>
+      {isDark && <span className="ts-dots"></span>}
+      <span className={`ts-badge ${isHovered && isDark && !isSecured && !isBreaking ? 'ts-glitch' : ''}`}>
         {isBreaking ? (
           <span className="badge-secured-anim">[PATCHED]</span>
         ) : isHovered && isDark && !isSecured ? (
           '[VULNERABLE]'
-        ) : skill.level ? (
-          `[${skill.level.toUpperCase()}]`
         ) : null}
       </span>
     </div>
