@@ -136,14 +136,35 @@ export const playAudio = (url, volume = 1, onended = null, loop = false, playbac
 export const playAmbientLoop = (url, volume = 0.5, crossfadeSec = 5) => {
   if (!htmlFallbacks[url]) preloadAudio(url, volume);
   
-  const handle = { stopped: false, timeout: null, nodes: [] };
+  const handle = { stopped: false, timeout: null, nodes: [], fallback: null };
   
   const startLoop = async () => {
-    // Wait for buffer to be decoded
-    while (!audioBuffers[url] && !handle.stopped) {
+    let attempts = 0;
+    // Wait for buffer to be decoded or fail after 5 seconds
+    while (audioBuffers[url] === undefined && !handle.stopped && attempts < 25) {
       await new Promise(r => setTimeout(r, 200));
+      attempts++;
     }
-    if (handle.stopped || audioCtx.state !== 'running') return;
+    
+    if (handle.stopped) return;
+
+    if (audioCtx.state === 'suspended') {
+      try { await audioCtx.resume(); } catch (e) {}
+    }
+    
+    // If Web Audio failed to load or is not running, fallback to basic HTML Audio loop
+    if (!audioBuffers[url] || audioCtx.state !== 'running') {
+      console.warn('[Audio] WebAudio unavailable or buffer failed. Falling back to HTML Audio for ambient loop.');
+      const fallback = htmlFallbacks[url];
+      const fb = fallback ? fallback.audio : new Audio(url);
+      fb.currentTime = 0;
+      fb.volume = volume;
+      fb.loop = true;
+      fb.preservesPitch = false;
+      fb.play().catch(() => {});
+      handle.fallback = fb;
+      return;
+    }
     
     const buffer = audioBuffers[url];
     const duration = buffer.duration;
@@ -200,6 +221,28 @@ export const stopAudio = (node, fadeOutMs = 0) => {
   if (node.type === 'ambientLoop') {
     node.handle.stopped = true;
     if (node.handle.timeout) clearTimeout(node.handle.timeout);
+    
+    if (node.handle.fallback) {
+      const fb = node.handle.fallback;
+      if (fb._fadeInterval) clearInterval(fb._fadeInterval);
+      if (fadeOutMs > 0) {
+        const step = fb.volume / (fadeOutMs / 50);
+        fb._fadeInterval = setInterval(() => {
+          if (fb.volume - step <= 0) {
+            fb.volume = 0;
+            fb.pause();
+            fb.currentTime = 0;
+            clearInterval(fb._fadeInterval);
+          } else {
+            fb.volume -= step;
+          }
+        }, 50);
+      } else {
+        fb.pause();
+        fb.currentTime = 0;
+      }
+    }
+    
     node.handle.nodes.forEach(n => {
       try {
         if (fadeOutMs > 0) {
